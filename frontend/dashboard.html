@@ -1,0 +1,2400 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GPT-98.4M — From Scratch Language Model</title>
+
+  <!-- Google Fonts: Cinzel, Cormorant Garamond (Classy Thin Italic), Playfair Display, Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500;1,600&family=Playfair+Display:ital,wght@1,400&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons via CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            cinzel: ['Cinzel', 'serif'],
+            editorial: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            classy: ['"Cormorant Garamond"', '"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            obsidian: '#0c0910',
+            plum: '#16101c',
+            champagne: '#f5c5a3',
+            peach: '#e69e76',
+            ivory: '#f7e6d9',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* =========================================================================
+       CORE VARIABLES & BASE RESET
+       ========================================================================= */
+    :root {
+      --bg-dark: #0c0910;
+      --champagne: #f5c5a3;
+      --champagne-bright: #ffe6cf;
+      --peach: #e59c74;
+      --rose-muted: #b98f82;
+      --border-warm: rgba(244, 190, 150, 0.24);
+      --border-warm-strong: rgba(244, 190, 150, 0.38);
+      --glass-card: rgba(21, 16, 25, 0.74);
+      --glass-prompt: rgba(28, 22, 33, 0.64);
+      --overlay-darkness: 0.42;
+      --bg-pos-x: 12%;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: var(--bg-dark);
+      color: #f4eae2;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      user-select: none;
+    }
+
+    .selectable {
+      user-select: text;
+    }
+
+    /* =========================================================================
+       BACKGROUND LAYER STACK (Canvas Fallback + User Image + Readability Vignette)
+       ========================================================================= */
+    #bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+      background: #0d0916;
+    }
+
+    #bg-fallback {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    #bg-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: var(--bg-pos-x) center;
+      transition: opacity 0.45s ease, filter 0.45s ease;
+      opacity: 1;
+    }
+
+    /* Multi-layer vignette to match the reference contrast:
+       Keeps the moon & pagoda crisp on center-left while deepening the sky & lower chat zone */
+    #bg-vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 24% 31%, rgba(255, 200, 165, 0.04) 0%, rgba(16, 11, 24, 0.22) 34%, rgba(11, 8, 17, 0.62) 78%),
+        linear-gradient(180deg, rgba(16, 11, 24, 0.56) 0%, rgba(18, 13, 26, 0.24) 30%, rgba(15, 11, 20, 0.52) 64%, rgba(10, 7, 14, 0.84) 100%),
+        linear-gradient(90deg, rgba(12, 8, 16, 0.35) 0%, rgba(12, 8, 16, 0.05) 26%, rgba(16, 12, 22, 0.38) 65%, rgba(11, 8, 15, 0.85) 100%);
+      transition: opacity 0.4s ease;
+    }
+
+    body.ambiance-dim #bg-vignette {
+      background:
+        radial-gradient(circle at 24% 31%, rgba(18, 12, 24, 0.25) 0%, rgba(10, 7, 16, 0.62) 55%, rgba(8, 6, 12, 0.86) 100%),
+        linear-gradient(180deg, rgba(10, 7, 15, 0.72) 0%, rgba(10, 7, 15, 0.58) 50%, rgba(8, 6, 12, 0.92) 100%);
+    }
+
+    /* =========================================================================
+       3-COLUMN FULL-VIEWPORT SHELL
+       ========================================================================= */
+    #app-shell {
+      position: relative;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: clamp(264px, 21.8vw, 312px) minmax(0, 1fr) clamp(280px, 21.6vw, 316px);
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* =========================================================================
+       LEFT ORGANIC CURVED SIDEBAR
+       ========================================================================= */
+    #left-sidebar {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      z-index: 20;
+    }
+
+    /* Frosted glass backdrop clipped precisely to the upper sweeping S-curve */
+    .sidebar-glass-upper {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(168deg, rgba(19, 13, 22, 0.90) 0%, rgba(16, 11, 20, 0.85) 55%, rgba(13, 9, 17, 0.78) 100%);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      clip-path: url(#sidebar-upper-clip);
+      pointer-events: none;
+    }
+
+    /* Subtle dark translucent lower footer veil preserving the glowing foliage window */
+    .sidebar-glass-lower {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15, 10, 18, 0.18) 64%, rgba(12, 8, 15, 0.72) 84%, rgba(10, 7, 13, 0.92) 100%);
+      clip-path: url(#sidebar-lower-clip);
+      pointer-events: none;
+    }
+
+    /* Full-height SVG overlay for the glowing champagne-gold S-curve borders */
+    .sidebar-curve-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    /* Navigation Pill Items */
+    .nav-item {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #e4d8d1;
+      border: 1px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+      text-align: left;
+    }
+
+    .nav-item:hover {
+      background: rgba(68, 52, 60, 0.32);
+      color: #fff3ea;
+    }
+
+    .nav-item.active {
+      background: linear-gradient(135deg, rgba(72, 54, 60, 0.64) 0%, rgba(44, 34, 42, 0.62) 100%);
+      border-color: rgba(244, 190, 150, 0.26);
+      color: #fcf3ec;
+      font-weight: 500;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 232, 212, 0.14),
+        0 6px 20px rgba(0, 0, 0, 0.28);
+    }
+
+    .nav-item svg {
+      width: 17px;
+      height: 17px;
+      stroke-width: 1.65;
+      color: #d9c5ba;
+      flex-shrink: 0;
+      transition: color 0.2s ease;
+    }
+
+    .nav-item.active svg,
+    .nav-item:hover svg {
+      color: #f6cca8;
+    }
+
+    .kbd-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 6px;
+      font-size: 10.5px;
+      font-weight: 500;
+      line-height: 1.1;
+      color: #d4c5be;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 5px;
+      letter-spacing: 0.01em;
+    }
+
+    /* =========================================================================
+       CENTER MAIN WORKSPACE & HERO TYPOGRAPHY
+       ========================================================================= */
+    #center-workspace {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 16px 28px 22px 18px;
+      min-width: 0;
+      z-index: 15;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      line-height: 1.06;
+      background: linear-gradient(180deg, #fff5eb 0%, #f5c9a7 56%, #d9997b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 18px rgba(244, 185, 142, 0.24));
+    }
+
+    .hero-divider {
+      position: relative;
+      width: min(390px, 84%);
+      height: 1px;
+      background: linear-gradient(90deg, rgba(244, 190, 150, 0) 0%, rgba(244, 190, 150, 0.36) 50%, rgba(244, 190, 150, 0) 100%);
+    }
+
+    /* Floating Top-Right Controls */
+    .glass-pill-btn {
+      background: rgba(26, 20, 30, 0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(244, 190, 150, 0.22);
+      color: #f0e3da;
+      transition: all 0.2s ease;
+    }
+
+    .glass-pill-btn:hover {
+      background: rgba(42, 32, 46, 0.82);
+      border-color: rgba(244, 190, 150, 0.42);
+      color: #fff6ef;
+    }
+
+    .font-classy-italic {
+      font-family: 'Cormorant Garamond', 'Playfair Display', 'Baskerville', Georgia, serif;
+      font-style: italic;
+      font-weight: 300;
+      letter-spacing: 0.035em;
+    }
+
+    /* Chat Stream Area */
+    #chat-stream {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      padding: 12px 4px 18px 4px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    #chat-stream::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* User Prompt Glass Card — Centered symmetrically above the assistant card */
+    .user-prompt-card {
+      width: min(77%, 675px);
+      margin-left: auto;
+      margin-right: auto;
+      background: var(--glass-prompt);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(244, 190, 150, 0.24);
+      border-radius: 15px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 232, 214, 0.08),
+        0 10px 30px rgba(0, 0, 0, 0.32);
+      animation: fadeSlideUp 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    /* Assistant Response Glass Card — Wider luxury obsidian-plum card centered in workspace */
+    .assistant-card {
+      width: min(94.5%, 830px);
+      margin-left: auto;
+      margin-right: auto;
+      background: var(--glass-card);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(244, 190, 150, 0.26);
+      border-radius: 17px;
+      padding: 22px 26px 24px 22px;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 232, 214, 0.09),
+        0 16px 44px rgba(0, 0, 0, 0.48);
+      animation: fadeSlideUp 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .ai-emblem {
+      width: 40px;
+      height: 40px;
+      border-radius: 9999px;
+      background: radial-gradient(circle at 50% 42%, rgba(76, 52, 48, 0.65) 0%, rgba(22, 15, 24, 0.92) 72%);
+      border: 1px solid rgba(244, 190, 150, 0.52);
+      box-shadow:
+        0 0 16px rgba(244, 185, 140, 0.24),
+        inset 0 0 10px rgba(244, 190, 150, 0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-badge {
+      width: 24px;
+      height: 24px;
+      border-radius: 9999px;
+      background: rgba(154, 122, 114, 0.30);
+      border: 1px solid rgba(244, 190, 150, 0.16);
+      color: #f3d7c3;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .msg-action-btn {
+      padding: 5px;
+      border-radius: 7px;
+      color: #9e8e8c;
+      transition: all 0.18s ease;
+      cursor: pointer;
+    }
+
+    .msg-action-btn:hover {
+      color: #f6c9a5;
+      background: rgba(244, 190, 150, 0.10);
+    }
+
+    .msg-action-btn.active {
+      color: #f5b98d;
+    }
+
+    /* Bottom Floating Chat Composer */
+    .composer-shell {
+      width: min(94.5%, 830px);
+      margin-left: auto;
+      margin-right: auto;
+      height: 54px;
+      border-radius: 9999px;
+      background: rgba(19, 14, 23, 0.80);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(244, 190, 150, 0.34);
+      padding: 6px 8px 6px 20px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 235, 218, 0.08),
+        0 10px 30px rgba(0, 0, 0, 0.45);
+      transition: border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .composer-shell:focus-within {
+      border-color: rgba(248, 202, 166, 0.62);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 235, 218, 0.12),
+        0 0 24px rgba(244, 185, 140, 0.16),
+        0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .send-pill-btn {
+      width: 44px;
+      height: 36px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #fbd7b8 0%, #e4996d 100%);
+      box-shadow: 0 0 18px rgba(242, 174, 128, 0.44);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #191116;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.16s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+
+    .send-pill-btn:hover {
+      transform: translateY(-1px) scale(1.03);
+      box-shadow: 0 0 24px rgba(246, 184, 140, 0.62);
+      filter: brightness(1.05);
+    }
+
+    .send-pill-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* =========================================================================
+       RIGHT INSPECTOR PANEL
+       ========================================================================= */
+    #right-inspector {
+      position: relative;
+      height: 100vh;
+      background: linear-gradient(180deg, rgba(13, 10, 17, 0.94) 0%, rgba(11, 8, 15, 0.97) 100%);
+      border-left: 1px solid rgba(244, 190, 150, 0.12);
+      display: flex;
+      flex-direction: column;
+      padding: 18px 24px 20px 24px;
+      overflow: hidden;
+      z-index: 20;
+    }
+
+    .inspector-heading {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: 23px;
+      line-height: 1.15;
+      color: #f2e1d5;
+      letter-spacing: 0.015em;
+    }
+
+    .metric-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7.5px 0;
+      font-size: 13px;
+    }
+
+    .metric-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #cfc1bc;
+      font-weight: 400;
+    }
+
+    .metric-label svg {
+      width: 15px;
+      height: 15px;
+      stroke-width: 1.6;
+      color: #d8a78b;
+      opacity: 0.9;
+    }
+
+    .metric-value {
+      color: #f6ede6;
+      font-weight: 500;
+      font-size: 12.8px;
+      letter-spacing: 0.01em;
+    }
+
+    .inspector-divider {
+      position: relative;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(244, 190, 150, 0.04) 0%, rgba(244, 190, 150, 0.22) 50%, rgba(244, 190, 150, 0.04) 100%);
+      margin: 16px 0 18px 0;
+    }
+
+    .inspector-divider::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 3.5px;
+      height: 3.5px;
+      border-radius: 9999px;
+      background: #f5c5a3;
+      box-shadow: 0 0 8px rgba(245, 197, 163, 0.85);
+    }
+
+    /* Topographic Canvas Frame */
+    #terrain-frame {
+      position: relative;
+      width: 100%;
+      height: 124px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 18px;
+      background: radial-gradient(ellipse at 50% 85%, rgba(45, 29, 32, 0.35) 0%, rgba(11, 8, 15, 0.95) 85%);
+    }
+
+    #terrain-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* =========================================================================
+       MODALS, DROPDOWNS, TOOLTIPS & ANIMATIONS
+       ========================================================================= */
+    .glass-dropdown {
+      background: rgba(20, 15, 26, 0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(244, 190, 150, 0.28);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.65);
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulseSoft {
+
+      0%,
+      100% {
+        opacity: 0.82;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.12);
+      }
+    }
+
+    .sparkle-pulse {
+      animation: pulseSoft 4.2s ease-in-out infinite;
+    }
+
+    /* Typing cursor for streamed responses */
+    .stream-cursor {
+      display: inline-block;
+      width: 7px;
+      height: 14px;
+      margin-left: 3px;
+      vertical-align: -2px;
+      background: #f5c5a3;
+      border-radius: 1px;
+      animation: blinkCursor 0.85s steps(1) infinite;
+    }
+
+    @keyframes blinkCursor {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* Custom Range Sliders inside Settings */
+    input[type="range"].warm-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 9999px;
+      background: rgba(244, 190, 150, 0.2);
+      outline: none;
+    }
+
+    input[type="range"].warm-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #ffe2c6, #e2956b);
+      box-shadow: 0 0 10px rgba(244, 190, 150, 0.6);
+      cursor: pointer;
+    }
+
+    /* Responsive fallback for smaller tablets / mobile screens */
+    @media (max-width: 1080px) {
+      #app-shell {
+        grid-template-columns: 250px minmax(0, 1fr);
+      }
+
+      #right-inspector {
+        position: fixed;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 300px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        box-shadow: -16px 0 40px rgba(0, 0, 0, 0.7);
+      }
+
+      #right-inspector.mobile-open {
+        transform: translateX(0);
+      }
+
+      #mobile-inspector-toggle {
+        display: inline-flex !important;
+      }
+    }
+
+    @media (max-width: 760px) {
+      #app-shell {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      #left-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 285px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      #left-sidebar.mobile-open {
+        transform: translateX(0);
+      }
+
+      #mobile-sidebar-toggle {
+        display: inline-flex !important;
+      }
+
+      .user-prompt-card,
+      .assistant-card,
+      .composer-shell {
+        width: 100%;
+      }
+
+      #center-workspace {
+        padding: 14px 16px 16px 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- =========================================================================
+       1. BACKGROUND LAYER (Procedural Scenic Canvas Fallback + User Photo + Vignette)
+       ========================================================================= -->
+  <div id="bg-layer">
+    <!-- High-resolution atmospheric fallback replicating the moonlit cliffside pagoda scene -->
+    <canvas id="bg-fallback"></canvas>
+
+    <!-- Primary local background image (asset/bg.png) -->
+    <img id="bg-image" src="./asset/bg.png" alt="Moonlit Cliffside Pagoda Night Mountain Backdrop"
+      onload="this.style.opacity='1'; this.dataset.failed='false';"
+      onerror="this.style.opacity='0'; this.dataset.failed='true';" />
+  </div>
+
+  <!-- Multi-layer Vignette & Readability Scrim -->
+  <div id="bg-vignette"></div>
+
+  <!-- =========================================================================
+       HIDDEN SVG CLIP-PATH DEFINITIONS FOR ORGANIC CURVED LEFT SIDEBAR
+       ========================================================================= -->
+  <svg width="0" height="0" style="position:absolute; pointer-events:none;" aria-hidden="true">
+    <defs>
+      <!-- Upper frosted dark panel bounded by the sweeping S-curve (objectBoundingBox 0..1) -->
+      <clipPath id="sidebar-upper-clip" clipPathUnits="objectBoundingBox">
+        <path
+          d="M 0,0 L 0.96,0 C 0.86,0.12 0.81,0.25 0.78,0.40 C 0.75,0.55 0.65,0.67 0.39,0.75 C 0.21,0.80 0.08,0.84 0,0.87 Z" />
+      </clipPath>
+
+      <!-- Lower subtle dark footer veil leaving the glowing autumn foliage pocket visible -->
+      <clipPath id="sidebar-lower-clip" clipPathUnits="objectBoundingBox">
+        <path d="M 0,0.78 C 0.30,0.74 0.56,0.72 0.71,0.67 C 0.73,0.79 0.82,0.91 0.96,1 L 0,1 Z" />
+      </clipPath>
+    </defs>
+  </svg>
+
+  <!-- =========================================================================
+       MAIN 3-COLUMN DESKTOP APPLICATION SHELL
+       ========================================================================= -->
+  <div id="app-shell">
+
+    <!-- =======================================================================
+         2. LEFT SIDEBAR (Organic Curved Glass Panel)
+         ======================================================================= -->
+    <aside id="left-sidebar" aria-label="Primary Navigation">
+      <!-- Clipped Frosted Glass Panels -->
+      <div class="sidebar-glass-upper"></div>
+      <div class="sidebar-glass-lower"></div>
+
+      <!-- Luminous Rose-Gold Organic S-Curve Borders (Exact SVG Paths) -->
+      <svg class="sidebar-curve-svg" viewBox="0 0 320 900" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <!-- Warm champagne-peach stroke gradient for the signature sweeping S-curve -->
+          <linearGradient id="sidebarCurveGrad" x1="0.95" y1="0" x2="0.05" y2="0.9">
+            <stop offset="0%" stop-color="#ffe7cf" stop-opacity="0.95" />
+            <stop offset="28%" stop-color="#d89b7c" stop-opacity="0.65" />
+            <stop offset="56%" stop-color="#f7cba7" stop-opacity="0.92" />
+            <stop offset="82%" stop-color="#ffe8d1" stop-opacity="0.95" />
+            <stop offset="100%" stop-color="#9e6d5a" stop-opacity="0.32" />
+          </linearGradient>
+
+          <!-- Subtle secondary lower-right boundary gradient -->
+          <linearGradient id="sidebarLowerRim" x1="0.7" y1="0.62" x2="0.96" y2="1">
+            <stop offset="0%" stop-color="#c98e73" stop-opacity="0.0" />
+            <stop offset="35%" stop-color="#c98e73" stop-opacity="0.34" />
+            <stop offset="100%" stop-color="#e5a989" stop-opacity="0.45" />
+          </linearGradient>
+
+          <!-- Soft warm outer glow filter -->
+          <filter id="warmGlow" x="-25%" y="-10%" width="150%" height="120%">
+            <feGaussianBlur stdDeviation="3.2" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- Secondary lower subtle curved edge extending to bottom-right of sidebar -->
+        <path d="M 227,598 C 236,710 264,812 307,900" fill="none" stroke="url(#sidebarLowerRim)" stroke-width="1.2" />
+
+        <!-- Outer faint ambient glow behind the primary golden curve -->
+        <path d="M 307,0 C 275,108 259,225 250,360 C 240,495 208,603 125,675 C 67,720 26,756 0,783" fill="none"
+          stroke="#f5ba8d" stroke-opacity="0.28" stroke-width="4.2" filter="url(#warmGlow)" />
+
+        <!-- Primary crisp 1.6px luminous peach-gold S-curve -->
+        <path d="M 307,0 C 275,108 259,225 250,360 C 240,495 208,603 125,675 C 67,720 26,756 0,783" fill="none"
+          stroke="url(#sidebarCurveGrad)" stroke-width="1.65" stroke-linecap="round" />
+      </svg>
+
+      <!-- Sidebar Inner Foreground Content -->
+      <div class="relative z-10 flex flex-col h-full pt-8 pb-5 px-5">
+        <!-- Brand Logo Block -->
+        <div class="relative flex flex-col items-center justify-center mb-10 pr-6 select-none">
+          <div class="relative inline-flex items-center justify-center">
+            <!-- Delicate tilted glowing orbit ring looping around "GPT" -->
+            <svg class="absolute -left-5 -top-3.5 w-[108px] h-[64px] pointer-events-none" viewBox="0 0 120 72"
+              fill="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="orbitGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#ffe7cf" stop-opacity="0.95" />
+                  <stop offset="50%" stop-color="#e59e77" stop-opacity="0.45" />
+                  <stop offset="100%" stop-color="#f7c8a5" stop-opacity="0.9" />
+                </linearGradient>
+              </defs>
+              <ellipse cx="56" cy="37" rx="46" ry="14.5" transform="rotate(-33 56 37)" stroke="url(#orbitGrad)"
+                stroke-width="1.15" opacity="0.88" />
+              <!-- Tiny 4-point star sparkle on upper-left arc -->
+              <path d="M21 18 L22.6 22.4 L27 24 L22.6 25.6 L21 30 L19.4 25.6 L15 24 L19.4 22.4 Z" fill="#fff1e2"
+                class="sparkle-pulse" />
+              <!-- Secondary tiny highlight dot -->
+              <circle cx="88" cy="14" r="1.4" fill="#f7c9a6" opacity="0.85" />
+            </svg>
+
+            <h1 class="font-cinzel text-[25px] tracking-[0.05em] text-[#f5e8de] font-normal relative z-10">
+              GPT<span class="mx-1.5 text-[#d7b6a2] font-light">-</span>98.4M
+            </h1>
+          </div>
+          <span class="mt-1 text-[9.5px] uppercase tracking-[0.33em] text-[#b49a8d] font-medium">
+            FROM SCRATCH
+          </span>
+        </div>
+
+        <!-- Primary Navigation Stack (stays comfortably inside the organic S-curve) -->
+        <nav id="sidebar-nav" class="flex flex-col gap-2 pr-9">
+          <button class="nav-item active" data-tab="chat" id="nav-new-chat">
+            <i data-lucide="plus-square"></i>
+            <span class="flex-1">New Chat</span>
+            <span class="flex items-center gap-1 ml-1">
+              <kbd class="kbd-badge">Ctrl</kbd>
+              <kbd class="kbd-badge">N</kbd>
+            </span>
+          </button>
+
+          <button class="nav-item" data-tab="conversations">
+            <i data-lucide="message-square-more"></i>
+            <span>Conversations</span>
+          </button>
+
+          <button class="nav-item" data-tab="experiments">
+            <i data-lucide="flask-conical"></i>
+            <span>Experiments</span>
+          </button>
+
+          <button class="nav-item" data-tab="model">
+            <i data-lucide="layers"></i>
+            <span>Model &amp; Training</span>
+          </button>
+
+          <button class="nav-item" data-tab="evaluation">
+            <i data-lucide="bar-chart-2"></i>
+            <span>Evaluation</span>
+          </button>
+
+          <button class="nav-item" data-tab="about">
+            <i data-lucide="info"></i>
+            <span>About</span>
+          </button>
+        </nav>
+
+        <!-- Spacer pushes Hardware Status neatly to bottom-left below the foliage crescent -->
+        <div class="flex-1"></div>
+
+        <!-- Bottom-Left Hardware Inference Status -->
+        <div class="pl-1.5 pb-0.5">
+          <div class="flex items-center gap-2.5">
+            <span class="w-[7px] h-[7px] rounded-full bg-[#f5aa7d] inline-block flex-shrink-0"
+              style="box-shadow: 0 0 10px #f5aa7d, 0 0 4px #ffdcc2;"></span>
+            <span class="text-[13.5px] font-medium text-[#f2e2d7] tracking-[0.01em]">Local Inference</span>
+          </div>
+          <p class="mt-1 pl-[17px] text-[11.5px] text-[#9c8c89] tracking-[0.01em]">
+            Running on RTX 4050 <span class="mx-1 text-[#c29781]">&middot;</span> 6 GB
+          </p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- =======================================================================
+         3. CENTER MAIN WORKSPACE
+         ======================================================================= -->
+    <main id="center-workspace">
+      <!-- Top Bar: Mobile Toggles (hidden on desktop) + Top-Right Floating Controls -->
+      <header class="flex items-center justify-between w-full mb-1 z-30">
+        <!-- Mobile Sidebar Button (only shown on narrow screens) -->
+        <div class="flex items-center gap-2">
+          <button id="mobile-sidebar-toggle"
+            class="hidden glass-pill-btn w-9 h-9 rounded-full items-center justify-center" title="Toggle Navigation">
+            <i data-lucide="menu" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Top-Right Floating Controls matching reference -->
+        <div class="flex items-center gap-2.5 ml-auto relative">
+          <!-- Model Checkpoint Dropdown -->
+          <div class="relative">
+            <button id="model-dropdown-btn"
+              class="glass-pill-btn h-[36px] px-4 rounded-full flex items-center gap-2.5 text-[13px] font-normal cursor-pointer"
+              aria-haspopup="listbox" aria-expanded="false">
+              <span id="selected-model-label">Final Model (DPO)</span>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-[#cfb9ad] transition-transform duration-200"
+                id="model-chevron"></i>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div id="model-dropdown-menu"
+              class="hidden absolute right-0 mt-2 w-60 rounded-2xl glass-dropdown p-1.5 z-50">
+              <button
+                class="model-option w-full text-left px-3 py-2.5 rounded-xl text-[12.5px] flex items-center justify-between hover:bg-white/5 transition bg-white/[0.06] text-[#fcece2]"
+                data-model="Final Model (DPO)" data-stage="DPO">
+                <div>
+                  <div class="font-medium">Final Model (DPO)</div>
+                  <div class="text-[10.5px] text-[#a59490]">Preference aligned &middot; Loss 0.68</div>
+                </div>
+                <span class="w-2 h-2 rounded-full bg-[#f2b88d]"></span>
+              </button>
+              <button
+                class="model-option w-full text-left px-3 py-2.5 rounded-xl text-[12.5px] flex items-center justify-between hover:bg-white/5 transition text-[#d7c8c0]"
+                data-model="SFT Checkpoint (v2)" data-stage="SFT">
+                <div>
+                  <div class="font-medium">SFT Checkpoint (v2)</div>
+                  <div class="text-[10.5px] text-[#a59490]">Instruction tuned &middot; Loss 1.08</div>
+                </div>
+                <span class="w-2 h-2 rounded-full bg-[#df7f98] opacity-75"></span>
+              </button>
+              <button
+                class="model-option w-full text-left px-3 py-2.5 rounded-xl text-[12.5px] flex items-center justify-between hover:bg-white/5 transition text-[#d7c8c0]"
+                data-model="Continued Pretrain" data-stage="CP">
+                <div>
+                  <div class="font-medium">Continued Pretrain</div>
+                  <div class="text-[10.5px] text-[#a59490]">High-quality web mix &middot; Loss 1.65</div>
+                </div>
+                <span class="w-2 h-2 rounded-full bg-[#8f79c4] opacity-75"></span>
+              </button>
+              <button
+                class="model-option w-full text-left px-3 py-2.5 rounded-xl text-[12.5px] flex items-center justify-between hover:bg-white/5 transition text-[#d7c8c0]"
+                data-model="Base Pretrain (600M)" data-stage="BASE">
+                <div>
+                  <div class="font-medium">Base Pretrain (600M)</div>
+                  <div class="text-[10.5px] text-[#a59490]">Raw next-token predictor &middot; Loss 2.25</div>
+                </div>
+                <span class="w-2 h-2 rounded-full bg-[#7ba6d6] opacity-75"></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Circular Moon Ambiance Button -->
+          <button id="ambiance-toggle-btn"
+            class="glass-pill-btn w-[36px] h-[36px] rounded-full flex items-center justify-center cursor-pointer"
+            title="Toggle Nocturnal Ambiance Dimming">
+            <i data-lucide="moon-star" class="w-[16px] h-[16px] text-[#ebd5c5]"></i>
+          </button>
+
+          <!-- Circular Settings Gear Button -->
+          <button id="settings-open-btn"
+            class="glass-pill-btn w-[36px] h-[36px] rounded-full flex items-center justify-center cursor-pointer"
+            title="Background & Inference Settings">
+            <i data-lucide="settings" class="w-[16px] h-[16px] text-[#ebd5c5]"></i>
+          </button>
+
+          <!-- Mobile Inspector Toggle (only on <1080px) -->
+          <button id="mobile-inspector-toggle"
+            class="hidden glass-pill-btn w-[36px] h-[36px] rounded-full items-center justify-center cursor-pointer"
+            title="Model Inspector">
+            <i data-lucide="panel-right" class="w-[16px] h-[16px] text-[#ebd5c5]"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Hero Header Block -->
+      <section class="flex flex-col items-center text-center mt-2 mb-4 select-none">
+        <div class="inline-flex items-center gap-3">
+          <h2 class="hero-title text-[40px] md:text-[48px] xl:text-[52px]">
+            GPT-98.4M
+          </h2>
+          <!-- Glowing 4-Point SVG Sparkle Star -->
+          <svg class="w-[24px] h-[24px] md:w-[27px] md:h-[27px] -mt-0.5 sparkle-pulse" viewBox="0 0 32 32" fill="none"
+            aria-hidden="true" style="filter: drop-shadow(0 0 10px rgba(246, 201, 165, 0.7));">
+            <path
+              d="M16 2 C16.6 10.2 19.2 13.8 29 16 C19.2 18.2 16.6 21.8 16 30 C15.4 21.8 12.8 18.2 3 16 C12.8 13.8 15.4 10.2 16 2 Z"
+              fill="#f8d2b0" />
+          </svg>
+        </div>
+
+        <p class="mt-1 text-[11px] md:text-[11.5px] uppercase tracking-[0.39em] text-[#d6b7a3] font-normal">
+          A SELF-BUILT LANGUAGE MODEL
+        </p>
+
+        <!-- Ornamental Hairline Divider with Center Diamond Sparkle -->
+        <div class="hero-divider my-3.5 flex items-center justify-center">
+          <svg class="w-3 h-3" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 1 L9.6 6.4 L15 8 L9.6 9.6 L8 15 L6.4 9.6 L1 8 L6.4 6.4 Z" fill="#f3c5a2" />
+          </svg>
+        </div>
+
+        <!-- Training Stages Line -->
+        <div
+          class="flex flex-wrap items-center justify-center gap-2.5 text-[13.5px] md:text-[14px] text-[#dfd3cb] font-normal tracking-[0.015em]">
+          <span>Pretrained</span>
+          <span class="text-[#d9a282]">&middot;</span>
+          <span>Instruction Tuned</span>
+          <span class="text-[#d9a282]">&middot;</span>
+          <span>Preference Aligned</span>
+        </div>
+      </section>
+
+      <!-- Primary Workspace Content Area (Switches smoothly between Chat and Secondary Tabs) -->
+      <div id="workspace-chat-view" class="flex-1 flex flex-col min-h-0">
+        <!-- Scrollable Chat Stream (Pre-populated with exact reference conversation) -->
+        <div id="chat-stream">
+          <!-- Message 1: User Prompt Card -->
+          <div id="model-journey-card" class="user-prompt-card selectable">
+            <div class="w-[34px] h-[34px] rounded-full flex items-center justify-center flex-shrink-0"
+              style="background: rgba(18, 13, 22, 0.75); border: 1px solid rgba(244, 190, 150, 0.36);">
+              <i data-lucide="sparkles" class="w-[16px] h-[16px] text-[#f5c5a3]"></i>
+            </div>
+            <p class="flex-1 text-center font-classy-italic text-[23px] md:text-[26px] text-[#fce5d4] leading-snug tracking-wide"
+              style="font-family: 'Cormorant Garamond', 'Playfair Display', 'Baskerville', Georgia, serif; font-style: italic; font-weight: 300; letter-spacing: 0.035em; text-shadow: 0 0 14px rgba(244, 190, 150, 0.35);">
+              Training Journey
+            </p>
+            <span class="text-[11.5px] text-[#958688] self-end whitespace-nowrap pl-2">
+              10:24 PM
+            </span>
+          </div>
+
+          <!-- Message 2: Assistant Response Card -->
+          <article class="assistant-card selectable">
+            <div class="flex items-start gap-4">
+              <!-- Glowing AI Emblem -->
+              <div class="ai-emblem mt-0.5">
+                <svg class="w-[21px] h-[21px]" viewBox="0 0 32 32" fill="none" aria-hidden="true"
+                  style="filter: drop-shadow(0 0 8px rgba(247, 203, 165, 0.65));">
+                  <path d="M16 3 C16.7 11 19 14 28 16 C19 18 16.7 21 16 29 C15.3 21 13 18 4 16 C13 14 15.3 11 16 3 Z"
+                    fill="#f8d2b1" />
+                </svg>
+              </div>
+
+              <!-- Response Body -->
+              <div class="flex-1 min-w-0">
+                <!-- Intro Row + Action Buttons -->
+                <div class="flex items-start justify-between gap-4">
+                  <p class="text-[14.3px] leading-[1.62] text-[#e9dfd8]">
+                    This model is a 98.4 million parameter GPT that was built and trained from scratch through three
+                    main stages:
+                  </p>
+
+                  <!-- Top-Right Action Icons (Copy, Thumbs Up, Thumbs Down) -->
+                  <div class="flex items-center gap-1 flex-shrink-0 -mt-0.5">
+                    <button class="msg-action-btn copy-btn" title="Copy response">
+                      <i data-lucide="copy" class="w-[15px] h-[15px]"></i>
+                    </button>
+                    <button class="msg-action-btn thumb-up-btn" title="Helpful">
+                      <i data-lucide="thumbs-up" class="w-[15px] h-[15px]"></i>
+                    </button>
+                    <button class="msg-action-btn thumb-down-btn" title="Not helpful">
+                      <i data-lucide="thumbs-down" class="w-[15px] h-[15px]"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- 3-Item Custom Numbered Stage List -->
+                <ol class="mt-4 space-y-3.5 text-[14.2px] leading-[1.6] text-[#ded3cc]">
+                  <li class="flex items-start gap-3.5">
+                    <span class="step-badge">1</span>
+                    <div>
+                      <strong class="font-semibold text-[#f8efe8]">Pretraining</strong>
+                      <span class="text-[#bfa99d] mx-1">&ndash;</span>
+                      learned general language patterns from about 600 million tokens of high-quality educational web
+                      data.
+                    </div>
+                  </li>
+                  <li class="flex items-start gap-3.5">
+                    <span class="step-badge">2</span>
+                    <div>
+                      <strong class="font-semibold text-[#f8efe8]">Supervised Fine-Tuning (SFT)</strong>
+                      <span class="text-[#bfa99d] mx-1">&ndash;</span>
+                      trained on curated conversational and instruction datasets to behave like a helpful assistant.
+                    </div>
+                  </li>
+                  <li class="flex items-start gap-3.5">
+                    <span class="step-badge">3</span>
+                    <div>
+                      <strong class="font-semibold text-[#f8efe8]">Direct Preference Optimization (DPO)</strong>
+                      <span class="text-[#bfa99d] mx-1">&ndash;</span>
+                      further aligned the model using preference pairs to reduce rambling, repetition and improve answer
+                      quality.
+                    </div>
+                  </li>
+                </ol>
+
+                <!-- Closing Paragraph -->
+                <p class="mt-4 text-[14.2px] leading-[1.62] text-[#e4dad3]">
+                  Is it as smart as the big models? No. Did I train it myself on a laptop that sounded like a jet
+                  engine? Absolutely. Treat it like a very confident intern who's still learning.
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Bottom Floating Chat Composer -->
+        <form id="chat-form" class="composer-shell mt-1.5" autocomplete="off">
+          <button type="button" id="attach-btn"
+            class="text-[#bfa599] hover:text-[#f6cba6] transition cursor-pointer flex items-center justify-center"
+            title="Attach prompt context file">
+            <i data-lucide="paperclip" class="w-[18px] h-[18px] -rotate-12"></i>
+          </button>
+
+          <input id="chat-input" type="text" placeholder="Message GPT-98.4M..."
+            class="flex-1 bg-transparent border-none outline-none text-[14.2px] text-[#f5ece5] placeholder-[#8e7f7e] selectable" />
+
+          <button type="submit" class="send-pill-btn" title="Send message (Enter)">
+            <svg class="w-[17px] h-[17px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 2L11 13"></path>
+              <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- Secondary Tab Content View (Hidden by default; shown when clicking Conversations/Experiments/etc.) -->
+      <div id="workspace-secondary-view" class="hidden flex-1 flex-col min-h-0">
+        <div class="assistant-card flex-1 overflow-y-auto flex flex-col gap-5">
+          <div class="flex items-center justify-between border-b border-[rgba(244,190,150,0.16)] pb-4">
+            <div>
+              <h3 id="secondary-view-title" class="font-editorial italic text-[26px] text-[#f5e4d8]">Conversations</h3>
+              <p id="secondary-view-subtitle" class="text-[12.5px] text-[#a59490] mt-0.5">Saved local inference sessions
+                on RTX 4050</p>
+            </div>
+            <button id="return-to-chat-btn"
+              class="glass-pill-btn px-3.5 py-1.5 rounded-full text-[12px] flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+              <span>Back to Chat</span>
+            </button>
+          </div>
+          <div id="secondary-view-body" class="text-[13.5px] text-[#dfd4cd] space-y-3"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- =======================================================================
+         4. RIGHT INSPECTOR PANEL
+         ======================================================================= -->
+    <aside id="right-inspector" aria-label="Model Overview and Training Telemetry">
+      <!-- Top 3D Topographic Wireframe Terrain Canvas -->
+      <div id="terrain-frame" title="Loss Landscape Topology — Smooth Convergence Surface">
+        <canvas id="terrain-canvas"></canvas>
+      </div>
+
+      <!-- Model Overview Section -->
+      <section>
+        <h3 class="inspector-heading mb-3">Model Overview</h3>
+        <div class="flex flex-col">
+          <div class="metric-row">
+            <span class="metric-label">
+              <i data-lucide="atom"></i>
+              <span>Parameters</span>
+            </span>
+            <span class="metric-value">98.4 M</span>
+          </div>
+
+          <div class="metric-row">
+            <span class="metric-label">
+              <i data-lucide="layers"></i>
+              <span>Vocabulary</span>
+            </span>
+            <span class="metric-value">16,384 (BPE)</span>
+          </div>
+
+          <div class="metric-row">
+            <span class="metric-label">
+              <i data-lucide="layers-2"></i>
+              <span>Layers / Heads</span>
+            </span>
+            <span class="metric-value">12 / 12</span>
+          </div>
+
+          <div class="metric-row">
+            <span class="metric-label">
+              <i data-lucide="file-text"></i>
+              <span>Context Length</span>
+            </span>
+            <span class="metric-value">1,024</span>
+          </div>
+
+          <div class="metric-row">
+            <span class="metric-label">
+              <i data-lucide="zap"></i>
+              <span>Training Tokens</span>
+            </span>
+            <span class="metric-value">&approx; 600 M</span>
+          </div>
+
+          <div class="metric-row">
+            <span class="metric-label">
+              <i data-lucide="target"></i>
+              <span>Training Stages</span>
+            </span>
+            <span class="metric-value text-[12px]">Pretrain &rarr; SFT &rarr; DPO</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Subtle Ornamental Separator -->
+      <div class="inspector-divider"></div>
+
+      <!-- Training Progress Section -->
+      <section class="relative flex-1 flex flex-col min-h-0">
+        <h3 class="inspector-heading mb-2">Training Progress</h3>
+
+        <!-- Interactive SVG Loss Curve Chart -->
+        <div class="relative w-full" id="loss-chart-container">
+          <svg id="loss-chart-svg" viewBox="0 0 268 186" class="w-full h-auto overflow-visible" role="img"
+            aria-label="Training Loss Curve across Pretrain, Continued Pretrain, SFT, and DPO">
+            <defs>
+              <filter id="dotGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2.2" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            <!-- Top-Right Stacked Legend -->
+            <g transform="translate(152, 8)" font-family="Inter, sans-serif" font-size="9.8" fill="#c7bbb6">
+              <g transform="translate(0, 0)">
+                <circle cx="0" cy="0" r="3.4" fill="#7ba6d6" />
+                <text x="9" y="3.5">Pretrain (Base)</text>
+              </g>
+              <g transform="translate(0, 19)">
+                <circle cx="0" cy="0" r="3.4" fill="#8f79c4" />
+                <text x="9" y="3.5">Continued Pretrain</text>
+              </g>
+              <g transform="translate(0, 38)">
+                <circle cx="0" cy="0" r="3.4" fill="#df7f98" />
+                <text x="9" y="3.5">SFT</text>
+              </g>
+              <g transform="translate(0, 57)">
+                <circle cx="0" cy="0" r="3.4" fill="#f2b88d" />
+                <text x="9" y="3.5">DPO</text>
+              </g>
+            </g>
+
+            <!-- Y-Axis Labels (5.5, 4.0, 2.5, 1.0, 0.0) -->
+            <g font-family="Inter, sans-serif" font-size="10" fill="#8c8082" text-anchor="end">
+              <text x="23" y="21">5.5</text>
+              <text x="23" y="51">4.0</text>
+              <text x="23" y="81">2.5</text>
+              <text x="23" y="111">1.0</text>
+              <text x="23" y="141">0.0</text>
+            </g>
+
+            <!-- Subtle Axis Lines -->
+            <line x1="30" y1="16" x2="30" y2="142" stroke="rgba(244, 190, 150, 0.18)" stroke-width="1" />
+            <line x1="30" y1="142" x2="256" y2="142" stroke="rgba(244, 190, 150, 0.18)" stroke-width="1" />
+
+            <!-- Subtle faint horizontal grid ticks -->
+            <line x1="30" y1="112" x2="256" y2="112" stroke="rgba(244, 190, 150, 0.05)" stroke-width="1"
+              stroke-dasharray="2 4" />
+            <line x1="30" y1="82" x2="256" y2="82" stroke="rgba(244, 190, 150, 0.05)" stroke-width="1"
+              stroke-dasharray="2 4" />
+
+            <!-- Multi-Segmented Smooth Exponential Decay Curve -->
+            <!-- Segment 1: Pretrain (Base) — Blue #7ba6d6 -->
+            <path d="M 36,36 C 46,66 64,81 97,94" fill="none" stroke="#7ba6d6" stroke-width="2.2" stroke-linecap="round"
+              filter="url(#dotGlow)" />
+            <!-- Segment 2: Continued Pretrain — Purple #8f79c4 -->
+            <path d="M 97,94 C 115,101 128,104 142,109" fill="none" stroke="#8f79c4" stroke-width="2.2"
+              stroke-linecap="round" filter="url(#dotGlow)" />
+            <!-- Segment 3: SFT — Pink #df7f98 -->
+            <path d="M 142,109 C 157,114 171,118 183,121" fill="none" stroke="#df7f98" stroke-width="2.2"
+              stroke-linecap="round" filter="url(#dotGlow)" />
+            <!-- Segment 4: DPO — Peach #f2b88d -->
+            <path d="M 183,121 C 204,126 227,128.5 251,129.5" fill="none" stroke="#f2b88d" stroke-width="2.2"
+              stroke-linecap="round" filter="url(#dotGlow)" />
+
+            <!-- Interactive Data Point Nodes -->
+            <g id="loss-nodes">
+              <circle class="loss-point cursor-pointer transition-transform" cx="36" cy="36" r="3.6" fill="#8cb8e8"
+                filter="url(#dotGlow)" data-stage="Pretrain Init" data-steps="0 steps" data-loss="4.65"
+                data-color="#7ba6d6" />
+              <circle class="loss-point cursor-pointer transition-transform" cx="97" cy="94" r="3.4" fill="#9a85d4"
+                filter="url(#dotGlow)" data-stage="Pretrain (Base) Complete" data-steps="12,000 steps" data-loss="2.25"
+                data-color="#7ba6d6" />
+              <circle class="loss-point cursor-pointer transition-transform" cx="142" cy="109" r="3.4" fill="#e48ba4"
+                filter="url(#dotGlow)" data-stage="Continued Pretrain" data-steps="18,000 steps" data-loss="1.65"
+                data-color="#8f79c4" />
+              <circle class="loss-point cursor-pointer transition-transform" cx="183" cy="121" r="3.4" fill="#f3b78b"
+                filter="url(#dotGlow)" data-stage="SFT Alignment" data-steps="22,000 steps" data-loss="1.08"
+                data-color="#df7f98" />
+              <circle class="loss-point cursor-pointer transition-transform" cx="251" cy="129.5" r="3.8" fill="#fad0ad"
+                filter="url(#dotGlow)" data-stage="Final DPO Model" data-steps="25,000 steps" data-loss="0.68"
+                data-color="#f2b88d" />
+            </g>
+
+            <!-- X-Axis Label -->
+            <text x="143" y="164" font-family="Inter, sans-serif" font-size="10.5" fill="#8d8183" text-anchor="middle">
+              Training (steps)
+            </text>
+          </svg>
+
+          <!-- Floating Chart Hover Tooltip -->
+          <div id="chart-tooltip"
+            class="hidden pointer-events-none absolute z-40 px-3 py-2 rounded-xl glass-dropdown text-[11px] leading-snug whitespace-nowrap">
+            <div class="flex items-center gap-1.5 font-medium text-[#f8ede5]">
+              <span id="tt-dot" class="w-2 h-2 rounded-full inline-block"></span>
+              <span id="tt-stage">Stage</span>
+            </div>
+            <div class="text-[#b5a49f] mt-0.5">
+              <span id="tt-steps">0 steps</span> &middot; Loss <strong id="tt-loss" class="text-[#f5c5a3]">0.00</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom-Right Ornamental Glowing Rose-Gold Ribbon -->
+      <svg class="pointer-events-none absolute bottom-0 right-0 w-[185px] h-[115px] opacity-90" viewBox="0 0 185 115"
+        fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="brRibbonGrad" x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0%" stop-color="#8f5f4e" stop-opacity="0.05" />
+            <stop offset="48%" stop-color="#e7a682" stop-opacity="0.72" />
+            <stop offset="85%" stop-color="#ffe5cc" stop-opacity="0.92" />
+            <stop offset="100%" stop-color="#f3ba92" stop-opacity="0.4" />
+          </linearGradient>
+        </defs>
+        <!-- Subtle ambient fill glow -->
+        <path d="M 28,115 C 62,86 112,88 148,54 C 166,37 177,20 185,4 L 185,115 Z" fill="url(#brRibbonGrad)"
+          opacity="0.07" />
+        <!-- Crisp glowing edge curve -->
+        <path d="M 28,115 C 62,86 112,88 148,54 C 166,37 177,20 185,4" stroke="url(#brRibbonGrad)" stroke-width="1.35"
+          stroke-linecap="round" />
+      </svg>
+    </aside>
+  </div>
+
+  <!-- =========================================================================
+       SETTINGS & CUSTOM BACKGROUND UPLOAD MODAL
+       ========================================================================= -->
+  <div id="settings-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4"
+    style="background: rgba(7, 5, 10, 0.72); backdrop-filter: blur(8px);">
+    <div class="w-full max-w-md rounded-2xl glass-dropdown p-6 relative animate-[fadeSlideUp_0.25s_ease]">
+      <div class="flex items-center justify-between mb-5">
+        <div>
+          <h3 class="font-editorial italic text-[24px] text-[#f5e3d6]">Workspace &amp; Inference Settings</h3>
+          <p class="text-[11.5px] text-[#9f8f8c]">Load your exact background image or tune local decoding.</p>
+        </div>
+        <button id="settings-close-btn"
+          class="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center text-[#c7b5ad] cursor-pointer">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Custom Background Upload Section -->
+      <div class="p-4 rounded-xl bg-white/[0.03] border border-[rgba(244,190,150,0.18)] mb-5">
+        <div class="flex items-center justify-between mb-2.5">
+          <span class="text-[12.5px] font-medium text-[#f2e2d7]">Background Photo</span>
+          <button id="reset-bg-btn" class="text-[11px] text-[#d8a182] hover:underline cursor-pointer">Restore Default
+            (asset/bg.png)</button>
+        </div>
+
+        <label for="bg-file-input"
+          class="flex flex-col items-center justify-center gap-1.5 py-4 px-3 rounded-xl border border-dashed border-[rgba(244,190,150,0.34)] bg-[rgba(244,190,150,0.04)] hover:bg-[rgba(244,190,150,0.09)] transition cursor-pointer text-center">
+          <i data-lucide="image-plus" class="w-5 h-5 text-[#f2bc95]"></i>
+          <span class="text-[12px] text-[#eadcd4]">Click to load a custom background image (<code
+              class="text-[#f5c5a3]">asset/bg.png</code>)</span>
+          <span class="text-[10.5px] text-[#9b8c89]">Or drag &amp; drop any image directly onto the dashboard</span>
+          <input id="bg-file-input" type="file" accept="image/*" class="hidden" />
+        </label>
+
+        <!-- Fine-tuning Sliders -->
+        <div class="mt-4 space-y-3">
+          <div>
+            <div class="flex justify-between text-[11.5px] text-[#c7b8b2] mb-1">
+              <span>Horizontal Framing (Moon &amp; Pagoda Offset)</span>
+              <span id="bg-offset-val" class="text-[#f5c5a3]">12%</span>
+            </div>
+            <input id="bg-offset-slider" type="range" min="0" max="50" value="12" class="warm-slider" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-[11.5px] text-[#c7b8b2] mb-1">
+              <span>Atmospheric Vignette Opacity</span>
+              <span id="vignette-val" class="text-[#f5c5a3]">100%</span>
+            </div>
+            <input id="vignette-slider" type="range" min="25" max="100" value="100" class="warm-slider" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Sampling Parameters -->
+      <div class="space-y-3 mb-5">
+        <div>
+          <div class="flex justify-between text-[12px] text-[#d5c6bf] mb-1">
+            <span>Temperature</span>
+            <span id="temp-val" class="text-[#f5c5a3]">0.70</span>
+          </div>
+          <input id="temp-slider" type="range" min="0" max="1.5" step="0.05" value="0.7" class="warm-slider" />
+        </div>
+        <div>
+          <div class="flex justify-between text-[12px] text-[#d5c6bf] mb-1">
+            <span>Top-P (Nucleus Sampling)</span>
+            <span id="topp-val" class="text-[#f5c5a3]">0.90</span>
+          </div>
+          <input id="topp-slider" type="range" min="0.1" max="1.0" step="0.05" value="0.9" class="warm-slider" />
+        </div>
+      </div>
+
+      <div class="flex justify-end">
+        <button id="settings-done-btn" class="send-pill-btn !w-auto px-5 text-[12.5px] font-semibold">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       TOAST NOTIFICATION (Replaces browser alert() cleanly)
+       ========================================================================= -->
+  <div id="toast"
+    class="pointer-events-none fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] px-4 py-2 rounded-full glass-dropdown text-[12.5px] text-[#f7e9df] flex items-center gap-2 opacity-0 translate-y-2 transition-all duration-300">
+    <span class="w-2 h-2 rounded-full bg-[#f5b98d]"></span>
+    <span id="toast-text">Copied to clipboard</span>
+  </div>
+
+  <!-- =========================================================================
+       APPLICATION LOGIC:
+       - High-Fidelity Procedural Moonlit Pagoda Canvas Fallback
+       - Live 3D Topographic Wireframe Terrain Canvas
+       - Interactive Chat Streaming + FastAPI Backend Hook
+       - Sidebar Navigation, Dropdowns, Loss Chart Tooltips, Background Uploader
+       ========================================================================= -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* =======================================================================
+         BACKEND API CONFIGURATION HOOK
+         Connected to local FastAPI PyTorch server on http://localhost:8000/v1/chat
+         ======================================================================= */
+      const API_ENDPOINT = '/v1/chat';
+
+      // App state
+      const state = {
+        activeModel: 'Final Model (DPO)',
+        activeStage: 'DPO',
+        temperature: 0.4,
+        topP: 0.90,
+        minP: 0.08,
+        repPen: 1.15,
+        maxTokens: 200,
+        isGenerating: false,
+        customBgUrl: null,
+        history: [],
+      };
+
+      /* =======================================================================
+         UTILITY: TOAST & SAFE CLIPBOARD COPY
+         ======================================================================= */
+      let toastTimer = null;
+      function showToast(message) {
+        const toast = document.getElementById('toast');
+        const text = document.getElementById('toast-text');
+        if (!toast || !text) return;
+        text.textContent = message;
+        toast.classList.remove('opacity-0', 'translate-y-2');
+        toast.classList.add('opacity-100', 'translate-y-0');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-2');
+          toast.classList.remove('opacity-100', 'translate-y-0');
+        }, 2400);
+      }
+
+      function copyTextSafe(str) {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = str;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          showToast('Response copied to clipboard');
+        } catch (err) {
+          showToast('Unable to copy text');
+        }
+      }
+
+      function formatNowTime() {
+        return new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+      }
+
+      /* =======================================================================
+         1. HIGH-FIDELITY PROCEDURAL FALLBACK CANVAS (Moonlit Cliffside Pagoda)
+         Paints the exact nocturnal landscape whenever ./bg.png isn't loaded yet.
+         ======================================================================= */
+      function renderScenicFallback() {
+        const canvas = document.getElementById('bg-fallback');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        // 1) Deep indigo-plum night sky gradient
+        const skyGrad = ctx.createLinearGradient(0, 0, w * 0.65, h);
+        skyGrad.addColorStop(0, '#0d0918');
+        skyGrad.addColorStop(0.32, '#1d142c');
+        skyGrad.addColorStop(0.58, '#2b1c36');
+        skyGrad.addColorStop(0.82, '#1d1326');
+        skyGrad.addColorStop(1, '#0e0914');
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(0, 0, w, h);
+
+        // Subtle diagonal violet milky way nebula haze in upper-right sky
+        ctx.save();
+        const nebula = ctx.createRadialGradient(w * 0.72, h * 0.18, 10, w * 0.72, h * 0.18, w * 0.34);
+        nebula.addColorStop(0, 'rgba(136, 98, 178, 0.16)');
+        nebula.addColorStop(0.5, 'rgba(92, 62, 134, 0.06)');
+        nebula.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = nebula;
+        ctx.fillRect(0, 0, w, h);
+        ctx.restore();
+
+        // 2) Crisp subtle stars across upper sky (deterministic pseudo-random)
+        let seed = 98412;
+        function rand() {
+          seed = (seed * 16807) % 2147483647;
+          return (seed - 1) / 2147483646;
+        }
+        for (let i = 0; i < 160; i++) {
+          const sx = rand() * w;
+          const sy = rand() * h * 0.56;
+          const sr = rand() * 1.15 + 0.3;
+          const alpha = rand() * 0.55 + 0.12;
+          ctx.fillStyle = `rgba(255, 240, 232, ${alpha.toFixed(2)})`;
+          ctx.beginPath();
+          ctx.arc(sx, sy, sr, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // 3) Glowing Warm Peach-Salmon Full Moon positioned right beside the curved sidebar (~24.2% X, 31.5% Y)
+        const moonX = w * 0.242;
+        const moonY = h * 0.315;
+        const moonR = Math.min(w, h) * 0.118;
+
+        // Wide atmospheric lunar halo
+        const halo = ctx.createRadialGradient(moonX, moonY, moonR * 0.55, moonX, moonY, moonR * 3.1);
+        halo.addColorStop(0, 'rgba(255, 198, 162, 0.42)');
+        halo.addColorStop(0.35, 'rgba(222, 132, 118, 0.16)');
+        halo.addColorStop(0.7, 'rgba(128, 74, 110, 0.05)');
+        halo.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = halo;
+        ctx.beginPath();
+        ctx.arc(moonX, moonY, moonR * 3.1, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Moon disc with warm luminous gradient
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(moonX, moonY, moonR, 0, Math.PI * 2);
+        ctx.clip();
+
+        const moonGrad = ctx.createRadialGradient(
+          moonX + moonR * 0.28, moonY - moonR * 0.12, moonR * 0.05,
+          moonX, moonY, moonR * 1.1
+        );
+        moonGrad.addColorStop(0, '#fff2df');
+        moonGrad.addColorStop(0.45, '#ffd4b5');
+        moonGrad.addColorStop(0.82, '#ef9f83');
+        moonGrad.addColorStop(1, '#cc776b');
+        ctx.fillStyle = moonGrad;
+        ctx.fillRect(moonX - moonR, moonY - moonR, moonR * 2, moonR * 2);
+
+        // Soft painted lunar maria (craters/clouds) for organic texture
+        const maria = [
+          [-0.25, -0.22, 0.38, 0.16],
+          [0.18, -0.15, 0.30, 0.13],
+          [0.32, 0.18, 0.34, 0.15],
+          [-0.12, 0.25, 0.28, 0.12],
+          [0.05, 0.02, 0.22, 0.10],
+        ];
+        maria.forEach(([ox, oy, rad, op]) => {
+          const mg = ctx.createRadialGradient(
+            moonX + ox * moonR, moonY + oy * moonR, 2,
+            moonX + ox * moonR, moonY + oy * moonR, rad * moonR
+          );
+          mg.addColorStop(0, `rgba(176, 98, 92, ${op})`);
+          mg.addColorStop(1, 'rgba(176, 98, 92, 0)');
+          ctx.fillStyle = mg;
+          ctx.beginPath();
+          ctx.arc(moonX + ox * moonR, moonY + oy * moonR, rad * moonR, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.restore();
+
+        // 4) Layered Distant Mountain Ridges & Misty Rose-Violet Valley Fog
+        function drawMountainLayer(peaks, baseColor, mistColor, mistY) {
+          ctx.beginPath();
+          ctx.moveTo(0, h);
+          peaks.forEach(([px, py]) => ctx.lineTo(px * w, py * h));
+          ctx.lineTo(w, h);
+          ctx.closePath();
+          ctx.fillStyle = baseColor;
+          ctx.fill();
+
+          if (mistColor) {
+            const fog = ctx.createLinearGradient(0, mistY * h, 0, (mistY + 0.18) * h);
+            fog.addColorStop(0, mistColor);
+            fog.addColorStop(1, 'rgba(20, 14, 28, 0)');
+            ctx.fillStyle = fog;
+            ctx.fillRect(0, mistY * h, w, h * 0.22);
+          }
+        }
+
+        // Far distant range
+        drawMountainLayer(
+          [[0.15, 0.48], [0.28, 0.43], [0.36, 0.39], [0.45, 0.46], [0.54, 0.38], [0.64, 0.45], [0.74, 0.36], [0.85, 0.44], [1.0, 0.39]],
+          '#271b34',
+          'rgba(224, 158, 152, 0.11)',
+          0.42
+        );
+
+        // Mid mountain ridge
+        drawMountainLayer(
+          [[0.18, 0.56], [0.31, 0.51], [0.42, 0.56], [0.51, 0.47], [0.62, 0.54], [0.73, 0.45], [0.86, 0.53], [1.0, 0.48]],
+          '#1b1326',
+          'rgba(182, 134, 166, 0.12)',
+          0.54
+        );
+
+        // Soft luminous lavender valley mist drifting across lower middle
+        const valleyFog = ctx.createRadialGradient(w * 0.48, h * 0.72, 10, w * 0.48, h * 0.72, w * 0.38);
+        valleyFog.addColorStop(0, 'rgba(188, 144, 178, 0.18)');
+        valleyFog.addColorStop(0.6, 'rgba(116, 82, 132, 0.08)');
+        valleyFog.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = valleyFog;
+        ctx.fillRect(0, h * 0.45, w, h * 0.55);
+
+        // Near dark mountain ridge
+        drawMountainLayer(
+          [[0.22, 0.68], [0.38, 0.61], [0.55, 0.69], [0.72, 0.58], [0.89, 0.64], [1.0, 0.59]],
+          '#120d1a',
+          null,
+          0.7
+        );
+
+        // 5) Rocky Cliff Precipice on Center-Left supporting the Pagoda
+        const cliffTopY = moonY + moonR * 0.72;
+        ctx.beginPath();
+        ctx.moveTo(w * 0.11, h);
+        ctx.lineTo(w * 0.14, cliffTopY);
+        ctx.lineTo(w * 0.278, cliffTopY + 3);
+        ctx.lineTo(w * 0.270, cliffTopY + h * 0.08);
+        ctx.lineTo(w * 0.254, cliffTopY + h * 0.20);
+        ctx.lineTo(w * 0.285, h);
+        ctx.closePath();
+        const cliffGrad = ctx.createLinearGradient(w * 0.15, cliffTopY, w * 0.28, h);
+        cliffGrad.addColorStop(0, '#1c1220');
+        cliffGrad.addColorStop(0.5, '#130c18');
+        cliffGrad.addColorStop(1, '#0b0710');
+        ctx.fillStyle = cliffGrad;
+        ctx.fill();
+
+        // 6) Silhouetted East Asian Cliffside Pagoda with Warm Glowing Amber Windows
+        const px = w * 0.231;
+        const py = cliffTopY;
+        const pw = Math.max(58, Math.min(92, w * 0.062));
+        const ph = pw * 0.52;
+
+        // Warm ambient lantern glow behind pagoda windows
+        const lanternGlow = ctx.createRadialGradient(px, py - ph * 0.32, 2, px, py - ph * 0.32, pw * 0.72);
+        lanternGlow.addColorStop(0, 'rgba(255, 195, 118, 0.75)');
+        lanternGlow.addColorStop(0.45, 'rgba(240, 128, 72, 0.28)');
+        lanternGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = lanternGlow;
+        ctx.beginPath();
+        ctx.arc(px, py - ph * 0.32, pw * 0.72, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Pagoda glowing interior wall
+        ctx.fillStyle = '#ffbe78';
+        ctx.fillRect(px - pw * 0.29, py - ph * 0.55, pw * 0.58, ph * 0.45);
+        ctx.fillStyle = '#ffe5b0';
+        ctx.fillRect(px - pw * 0.12, py - ph * 0.50, pw * 0.24, ph * 0.38);
+
+        // Dark pagoda pillars, balustrade & lattice mullions
+        ctx.fillStyle = '#140d18';
+        ctx.fillRect(px - pw * 0.38, py - ph * 0.12, pw * 0.76, ph * 0.14); // base deck
+        for (let i = -3; i <= 3; i++) {
+          ctx.fillRect(px + i * (pw * 0.095) - 1.2, py - ph * 0.56, 2.4, ph * 0.46);
+        }
+
+        // Sweeping upturned curved pagoda roof
+        ctx.beginPath();
+        ctx.moveTo(px - pw * 0.56, py - ph * 0.54);
+        ctx.quadraticCurveTo(px - pw * 0.28, py - ph * 0.64, px - pw * 0.14, py - ph * 0.96);
+        ctx.lineTo(px + pw * 0.14, py - ph * 0.96);
+        ctx.quadraticCurveTo(px + pw * 0.28, py - ph * 0.64, px + pw * 0.56, py - ph * 0.54);
+        ctx.quadraticCurveTo(px, py - ph * 0.46, px - pw * 0.56, py - ph * 0.54);
+        ctx.closePath();
+        ctx.fillStyle = '#150e1c';
+        ctx.fill();
+
+        // Tiny roof finial
+        ctx.fillRect(px - 1.5, py - ph * 1.07, 3, ph * 0.13);
+
+        // 7) Overhanging Maple Tree Branches & Warm Crimson-Orange Leaves (Top-Left + Bottom-Left Glow)
+        ctx.strokeStyle = '#100a14';
+        ctx.lineCap = 'round';
+        ctx.lineWidth = Math.max(8, w * 0.008);
+        ctx.beginPath();
+        ctx.moveTo(w * 0.16, h * 0.36);
+        ctx.quadraticCurveTo(w * 0.19, h * 0.18, w * 0.27, h * 0.08);
+        ctx.stroke();
+
+        ctx.lineWidth = Math.max(4, w * 0.004);
+        ctx.beginPath();
+        ctx.moveTo(w * 0.19, h * 0.21);
+        ctx.quadraticCurveTo(w * 0.24, h * 0.17, w * 0.30, h * 0.19);
+        ctx.stroke();
+
+        // Foliage clusters catching moonlight (crimson-burnt orange-amber)
+        const leafClusters = [
+          [0.21, 0.14, 24], [0.24, 0.11, 22], [0.27, 0.15, 25], [0.29, 0.18, 19],
+          [0.23, 0.18, 20], [0.20, 0.22, 18], [0.26, 0.21, 16], [0.22, 0.08, 18],
+          // Glowing autumn bush leaves peeking through the bottom-left sidebar crescent!
+          [0.08, 0.80, 26], [0.12, 0.83, 28], [0.15, 0.86, 24], [0.05, 0.85, 22], [0.11, 0.77, 20]
+        ];
+        leafClusters.forEach(([cx, cy, rad]) => {
+          const isBottom = cy > 0.6;
+          for (let k = 0; k < 14; k++) {
+            const lx = cx * w + (rand() - 0.5) * rad * 2.2;
+            const ly = cy * h + (rand() - 0.5) * rad * 1.4;
+            const lr = rand() * 5 + 2.2;
+            ctx.fillStyle = rand() > 0.42
+              ? (isBottom ? 'rgba(205, 92, 58, 0.38)' : 'rgba(182, 66, 52, 0.65)')
+              : (isBottom ? 'rgba(244, 148, 92, 0.32)' : 'rgba(28, 15, 24, 0.85)');
+            ctx.beginPath();
+            ctx.ellipse(lx, ly, lr * 1.4, lr * 0.7, rand() * Math.PI, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        });
+
+        // Drifting warm glowing petals near the cliff & valley
+        const petals = [
+          [0.209, 0.605, 4.5], [0.242, 0.635, 2.8], [0.195, 0.535, 3.2], [0.268, 0.51, 2.5]
+        ];
+        petals.forEach(([px2, py2, ps]) => {
+          ctx.fillStyle = 'rgba(255, 168, 128, 0.78)';
+          ctx.beginPath();
+          ctx.ellipse(px2 * w, py2 * h, ps, ps * 0.48, 0.65, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
+
+      /* =======================================================================
+         2. 3D TOPOGRAPHIC WIREFRAME TERRAIN CANVAS (Right Inspector Top)
+         Ultra-fine 3D perspective wireframe Gaussian twin-peak mesh with gentle
+         breathing undulation and champagne-gold ridge illumination.
+         ======================================================================= */
+      let terrainAnimId = null;
+      function initTerrainCanvas() {
+        const canvas = document.getElementById('terrain-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+
+        let width = 0;
+        let height = 0;
+
+        function resize() {
+          const rect = canvas.parentElement.getBoundingClientRect();
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          width = Math.max(100, rect.width);
+          height = Math.max(80, rect.height);
+          canvas.width = Math.floor(width * dpr);
+          canvas.height = Math.floor(height * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        resize();
+        window.addEventListener('resize', resize);
+
+        const cols = 54;
+        const rows = 26;
+
+        function elevation(u, v, t) {
+          // Left rounded ridge peak + Taller sunlit right-center peak matching reference
+          const p1 = 0.64 * Math.exp(-(Math.pow((u - 0.24) / 0.16, 2) + Math.pow((v - 0.46) / 0.28, 2)));
+          const p2 = 1.08 * Math.exp(-(Math.pow((u - 0.69) / 0.19, 2) + Math.pow((v - 0.42) / 0.30, 2)));
+          const p3 = 0.26 * Math.exp(-(Math.pow((u - 0.93) / 0.16, 2) + Math.pow((v - 0.64) / 0.25, 2)));
+          const wave = 0.035 * Math.sin(u * 9.5 + t * 0.75) * Math.cos(v * 6.0 - t * 0.45);
+          return p1 + p2 + p3 + wave;
+        }
+
+        function project(u, v, z) {
+          // Subtle 3D perspective projection
+          const depth = 0.58 + v * 0.72;
+          const x = width * 0.5 + (u - 0.5) * width * 1.18 * depth;
+          const baseY = height * 0.46 + v * height * 0.62;
+          const y = baseY - z * height * 0.44 * (0.85 + v * 0.22);
+          return { x, y, z };
+        }
+
+        function drawFrame(now) {
+          const t = now * 0.001;
+          ctx.clearRect(0, 0, width, height);
+
+          // Subtle warm glow behind the taller right peak
+          const ridgeGlow = ctx.createRadialGradient(width * 0.68, height * 0.42, 4, width * 0.68, height * 0.48, width * 0.45);
+          ridgeGlow.addColorStop(0, 'rgba(242, 184, 140, 0.22)');
+          ridgeGlow.addColorStop(0.55, 'rgba(148, 98, 86, 0.08)');
+          ridgeGlow.addColorStop(1, 'rgba(12, 9, 15, 0)');
+          ctx.fillStyle = ridgeGlow;
+          ctx.fillRect(0, 0, width, height);
+
+          // Precompute grid vertices
+          const grid = [];
+          for (let r = 0; r <= rows; r++) {
+            const v = r / rows;
+            const rowPts = [];
+            for (let c = 0; c <= cols; c++) {
+              const u = c / cols;
+              const z = elevation(u, v, t);
+              rowPts.push(project(u, v, z));
+            }
+            grid.push(rowPts);
+          }
+
+          ctx.lineWidth = 0.62;
+
+          // Draw transverse (column) wireframe lines
+          for (let c = 0; c <= cols; c += 2) {
+            ctx.beginPath();
+            for (let r = 0; r <= rows; r++) {
+              const p = grid[r][c];
+              if (r === 0) ctx.moveTo(p.x, p.y);
+              else ctx.lineTo(p.x, p.y);
+            }
+            const edgeFade = 1 - Math.abs((c / cols) - 0.5) * 1.35;
+            ctx.strokeStyle = `rgba(218, 166, 134, ${Math.max(0.05, edgeFade * 0.24).toFixed(3)})`;
+            ctx.stroke();
+          }
+
+          // Draw longitudinal (row) glowing contour lines back-to-front
+          for (let r = 0; r <= rows; r++) {
+            const v = r / rows;
+            const depthAlpha = Math.sin(v * Math.PI) * 0.85 + 0.15;
+
+            for (let c = 0; c < cols; c++) {
+              const p1 = grid[r][c];
+              const p2 = grid[r][c + 1];
+              const avgZ = (p1.z + p2.z) * 0.5;
+              const edgeFade = Math.max(0, 1 - Math.pow(((c / cols) - 0.5) * 1.92, 4));
+              const alpha = Math.min(0.92, (0.14 + avgZ * 0.68) * depthAlpha * edgeFade);
+
+              if (alpha < 0.03) continue;
+
+              // Warm champagne-gold on luminous ridges, fading to rose-taupe in valleys
+              const rr = Math.round(168 + Math.min(1, avgZ) * 84);
+              const gg = Math.round(118 + Math.min(1, avgZ) * 90);
+              const bb = Math.round(108 + Math.min(1, avgZ) * 66);
+
+              ctx.strokeStyle = `rgba(${rr}, ${gg}, ${bb}, ${alpha.toFixed(3)})`;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
+          }
+
+          // Edge vignette fade to blend terrain seamlessly into right obsidian panel
+          const fadeBottom = ctx.createLinearGradient(0, height * 0.65, 0, height);
+          fadeBottom.addColorStop(0, 'rgba(12, 9, 16, 0)');
+          fadeBottom.addColorStop(1, 'rgba(12, 9, 16, 0.92)');
+          ctx.fillStyle = fadeBottom;
+          ctx.fillRect(0, height * 0.65, width, height * 0.35);
+
+          terrainAnimId = requestAnimationFrame(drawFrame);
+        }
+
+        terrainAnimId = requestAnimationFrame(drawFrame);
+      }
+
+      /* =======================================================================
+         3. INTERACTIVE CHAT STREAMING ENGINE
+         ======================================================================= */
+      const chatStream = document.getElementById('chat-stream');
+      const chatForm = document.getElementById('chat-form');
+      const chatInput = document.getElementById('chat-input');
+
+      function attachCardActionListeners(card) {
+        const copyBtn = card.querySelector('.copy-btn');
+        const upBtn = card.querySelector('.thumb-up-btn');
+        const downBtn = card.querySelector('.thumb-down-btn');
+
+        if (copyBtn) {
+          copyBtn.addEventListener('click', () => {
+            const clone = card.cloneNode(true);
+            clone.querySelectorAll('button').forEach(b => b.remove());
+            copyTextSafe(clone.innerText.trim());
+          });
+        }
+        if (upBtn && downBtn) {
+          upBtn.addEventListener('click', () => {
+            upBtn.classList.toggle('active');
+            downBtn.classList.remove('active');
+            if (upBtn.classList.contains('active')) showToast('Marked response as helpful');
+          });
+          downBtn.addEventListener('click', () => {
+            downBtn.classList.toggle('active');
+            upBtn.classList.remove('active');
+            if (downBtn.classList.contains('active')) showToast('Feedback logged for DPO tuning');
+          });
+        }
+      }
+
+      // Bind existing pre-populated assistant card
+      document.querySelectorAll('.assistant-card').forEach(attachCardActionListeners);
+
+      function generateLocalSimulatedReply(prompt) {
+        const q = prompt.toLowerCase();
+        if (q.includes('architecture') || q.includes('layer') || q.includes('param')) {
+          return `GPT-98.4M uses a decoder-only Transformer architecture built from scratch in PyTorch with 12 layers, 12 attention heads (768 embedding dimension), Rotary Positional Embeddings (RoPE), RMSNorm, and SwiGLU feed-forward blocks across a 16,384-token custom BPE vocabulary. Running in ${state.activeModel} mode on your RTX 4050 (6 GB VRAM), KV-cached generation reaches ~95 tokens/sec.`;
+        }
+        if (q.includes('dpo') || q.includes('sft') || q.includes('align')) {
+          return `Direct Preference Optimization (DPO) replaces an explicit reward model by optimizing the policy directly against chosen vs. rejected response pairs (β = 0.1). Starting from the SFT checkpoint (loss 1.08), DPO lowered preference loss to 0.68 while cutting repetition loops by over 62% on multi-turn benchmarks.`;
+        }
+        if (q.includes('dataset') || q.includes('token') || q.includes('data')) {
+          return `During pretraining, GPT-98.4M consumed roughly 600 million tokens curated from high-density educational web corpora, textbook syntheses, and clean code explanations. Continued pretraining then annealed the learning rate on higher-reasoning mixtures before moving into SFT and DPO.`;
+        }
+        return `Running locally via ${state.activeModel} (temp ${state.temperature.toFixed(2)}, top-p ${state.topP.toFixed(2)}): That's a great question about "${prompt}". Because GPT-98.4M was trained end-to-end across Pretraining, SFT, and DPO within a 1,024-token context window, it balances concise reasoning with low-latency local inference right on your RTX 4050. Connect your FastAPI backend via API_ENDPOINT in the script to stream live weights directly here.`;
+      }
+
+      async function handleSendPrompt(promptText) {
+        if (!promptText.trim() || state.isGenerating) return;
+        state.isGenerating = true;
+
+        // 1) Append User Prompt Card
+        const userCard = document.createElement('div');
+        userCard.className = 'user-prompt-card selectable';
+        userCard.innerHTML = `
+          <div class="w-[34px] h-[34px] rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(18, 13, 22, 0.75); border: 1px solid rgba(244, 190, 150, 0.36);">
+            <i data-lucide="user" class="w-[16px] h-[16px] text-[#dcb39a]"></i>
+          </div>
+          <p class="flex-1 text-[14.5px] text-[#f7f0eb] font-normal leading-snug"></p>
+          <span class="text-[11.5px] text-[#958688] self-end whitespace-nowrap pl-2">${formatNowTime()}</span>
+        `;
+        userCard.querySelector('p').textContent = promptText;
+        chatStream.appendChild(userCard);
+
+        // 2) Append Streaming Assistant Card
+        const aiCard = document.createElement('article');
+        aiCard.className = 'assistant-card selectable';
+        aiCard.innerHTML = `
+          <div class="flex items-start gap-4">
+            <div class="ai-emblem mt-0.5">
+              <svg class="w-[21px] h-[21px]" viewBox="0 0 32 32" fill="none" style="filter: drop-shadow(0 0 8px rgba(247, 203, 165, 0.65));">
+                <path d="M16 3 C16.7 11 19 14 28 16 C19 18 16.7 21 16 29 C15.3 21 13 18 4 16 C13 14 15.3 11 16 3 Z" fill="#f8d2b1" />
+              </svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-start justify-between gap-4">
+                <p class="ai-stream-text text-[14.3px] leading-[1.65] text-[#e9dfd8]"><span class="stream-cursor"></span></p>
+                <div class="flex items-center gap-1 flex-shrink-0 -mt-0.5">
+                  <button class="msg-action-btn copy-btn" title="Copy response"><i data-lucide="copy" class="w-[15px] h-[15px]"></i></button>
+                  <button class="msg-action-btn thumb-up-btn" title="Helpful"><i data-lucide="thumbs-up" class="w-[15px] h-[15px]"></i></button>
+                  <button class="msg-action-btn thumb-down-btn" title="Not helpful"><i data-lucide="thumbs-down" class="w-[15px] h-[15px]"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        chatStream.appendChild(aiCard);
+        try { lucide.createIcons(); } catch (e) { }
+        attachCardActionListeners(aiCard);
+        chatStream.scrollTo({ top: chatStream.scrollHeight, behavior: 'smooth' });
+
+        const targetP = aiCard.querySelector('.ai-stream-text');
+        let replyText = '';
+
+        // Live FastAPI PyTorch backend hook
+        if (API_ENDPOINT) {
+          try {
+            const res = await fetch(API_ENDPOINT, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                prompt: promptText,
+                history: state.history || [],
+                model: state.activeModel,
+                temperature: state.temperature,
+                top_p: state.topP,
+                min_p: state.minP || 0.08,
+                repetition_penalty: state.repPen || 1.15,
+                max_new_tokens: state.maxTokens || 200,
+              }),
+            });
+            if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+            const data = await res.json();
+            replyText = data.response || data.text || generateLocalSimulatedReply(promptText);
+            if (data.speed_tok_s) {
+              const speedBadge = document.getElementById('speed-gauge-val');
+              if (speedBadge) speedBadge.textContent = `${data.speed_tok_s} tok/s`;
+            }
+          } catch (err) {
+            console.warn('[Backend] Falling back to simulated reply:', err);
+            replyText = generateLocalSimulatedReply(promptText);
+          }
+        } else {
+          replyText = generateLocalSimulatedReply(promptText);
+        }
+
+        // Store into multi-turn dialogue memory
+        if (!state.history) state.history = [];
+        state.history.push({ role: 'user', content: promptText });
+        state.history.push({ role: 'assistant', content: replyText });
+
+        // Token-by-token smooth streaming effect
+        const tokens = replyText.split(/(\s+)/);
+        let assembled = '';
+        let idx = 0;
+
+        function stepStream() {
+          if (idx < tokens.length) {
+            assembled += tokens[idx++];
+            targetP.innerHTML = '';
+            targetP.appendChild(document.createTextNode(assembled));
+            const cur = document.createElement('span');
+            cur.className = 'stream-cursor';
+            targetP.appendChild(cur);
+            chatStream.scrollTop = chatStream.scrollHeight;
+            setTimeout(stepStream, 22 + Math.random() * 22);
+          } else {
+            targetP.textContent = assembled;
+            state.isGenerating = false;
+          }
+        }
+        setTimeout(stepStream, 240);
+      }
+
+      chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const val = chatInput.value.trim();
+        if (!val) return;
+        chatInput.value = '';
+        handleSendPrompt(val);
+      });
+
+      /* =======================================================================
+         4. SIDEBAR NAVIGATION & SECONDARY VIEWS
+         ======================================================================= */
+      const secondaryContentMap = {
+        conversations: {
+          title: 'Conversations',
+          subtitle: 'Recent local multi-turn threads stored in browser session',
+          html: `
+            <div class="p-3.5 rounded-xl bg-white/[0.04] border border-[rgba(244,190,150,0.18)] flex items-center justify-between">
+              <div>
+                <div class="font-medium text-[#f8ede4]">Explain the training journey of this model in simple terms.</div>
+                <div class="text-[11.5px] text-[#9d8e8b] mt-0.5">Final Model (DPO) &middot; Today, 10:24 PM &middot; 2 messages</div>
+              </div>
+              <span class="text-[11px] px-2.5 py-1 rounded-full bg-[rgba(244,190,150,0.12)] text-[#f5c5a3]">Active</span>
+            </div>
+            <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-between">
+              <div>
+                <div class="font-medium text-[#e5d8d0]">Compare SFT vs DPO verbosity on coding explanations</div>
+                <div class="text-[11.5px] text-[#9d8e8b] mt-0.5">Final Model (DPO) &middot; Yesterday &middot; 6 messages</div>
+              </div>
+              <span class="text-[11px] text-[#9c8c89]">Saved</span>
+            </div>
+            <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-between">
+              <div>
+                <div class="font-medium text-[#e5d8d0]">Summarize transformer rotary embeddings in 3 bullets</div>
+                <div class="text-[11.5px] text-[#9d8e8b] mt-0.5">SFT Checkpoint (v2) &middot; 2 days ago &middot; 4 messages</div>
+              </div>
+              <span class="text-[11px] text-[#9c8c89]">Saved</span>
+            </div>
+          `,
+        },
+        experiments: {
+          title: 'Experiments',
+          subtitle: 'Hyperparameter sweeps & alignment ablations for GPT-98.4M',
+          html: `
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="p-4 rounded-xl bg-white/[0.03] border border-[rgba(244,190,150,0.16)]">
+                <div class="text-[11px] uppercase tracking-widest text-[#d7a487]">Run #14 &middot; Best</div>
+                <div class="text-[15px] font-medium text-[#f7ece4] mt-1">DPO Beta 0.1 + Cosine Decay</div>
+                <p class="text-[12px] text-[#a79794] mt-1">Final eval loss 0.68 &middot; Win-rate +28.4% over SFT baseline.</p>
+              </div>
+              <div class="p-4 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+                <div class="text-[11px] uppercase tracking-widest text-[#9f8bc9]">Run #11 &middot; Ablation</div>
+                <div class="text-[15px] font-medium text-[#f7ece4] mt-1">Continued Pretrain (Edu-Mix)</div>
+                <p class="text-[12px] text-[#a79794] mt-1">Annealed LR 1.2e-4 &rarr; 1e-5 over 6k high-signal steps.</p>
+              </div>
+            </div>
+          `,
+        },
+        model: {
+          title: 'Model & Training Architecture',
+          subtitle: 'End-to-end 98.4M decoder-only Transformer specification',
+          html: `
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-[12.5px]">
+              <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08]"><div class="text-[#9e8e8b]">Hidden Size</div><div class="text-[#f7ece4] font-medium mt-0.5">d_model = 768</div></div>
+              <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08]"><div class="text-[#9e8e8b]">Attention</div><div class="text-[#f7ece4] font-medium mt-0.5">12 Heads + RoPE</div></div>
+              <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08]"><div class="text-[#9e8e8b]">FFN Activation</div><div class="text-[#f7ece4] font-medium mt-0.5">SwiGLU + RMSNorm</div></div>
+              <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08]"><div class="text-[#9e8e8b]">Tokenizer</div><div class="text-[#f7ece4] font-medium mt-0.5">16,384 Byte-Level BPE</div></div>
+              <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08]"><div class="text-[#9e8e8b]">Precision</div><div class="text-[#f7ece4] font-medium mt-0.5">BF16 / FP16 FlashAttn</div></div>
+              <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08]"><div class="text-[#9e8e8b]">Hardware</div><div class="text-[#f7ece4] font-medium mt-0.5">RTX 4050 &middot; 6 GB VRAM</div></div>
+            </div>
+          `,
+        },
+        evaluation: {
+          title: 'Evaluation Benchmarks',
+          subtitle: 'Held-out perplexity and preference win-rate progression',
+          html: `
+            <div class="space-y-3">
+              <div>
+                <div class="flex justify-between text-[12.5px] mb-1"><span>Instruction Following (DPO vs Base)</span><span class="text-[#f5c5a3]">86%</span></div>
+                <div class="h-2 rounded-full bg-white/10 overflow-hidden"><div class="h-full rounded-full bg-gradient-to-r from-[#df7f98] to-[#f2b88d]" style="width:86%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-[12.5px] mb-1"><span>Non-Repetition &amp; Conciseness Score</span><span class="text-[#f5c5a3]">91%</span></div>
+                <div class="h-2 rounded-full bg-white/10 overflow-hidden"><div class="h-full rounded-full bg-gradient-to-r from-[#8f79c4] to-[#f2b88d]" style="width:91%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-[12.5px] mb-1"><span>Multi-Turn Coherence (1,024 ctx)</span><span class="text-[#f5c5a3]">82%</span></div>
+                <div class="h-2 rounded-full bg-white/10 overflow-hidden"><div class="h-full rounded-full bg-gradient-to-r from-[#7ba6d6] to-[#df7f98]" style="width:82%"></div></div>
+              </div>
+            </div>
+          `,
+        },
+        about: {
+          title: 'About GPT-98.4M',
+          subtitle: 'Built completely from scratch — tokenizer, pretraining, SFT, and DPO',
+          html: `
+            <p class="leading-relaxed text-[#e3d7d0]">
+              <strong>GPT-98.4M</strong> is a self-built compact language model engineered to demonstrate the complete modern LLM pipeline on consumer-grade hardware. Every weight was initialized from scratch, pretrained on ~600M tokens of curated educational web text, instruction-tuned via SFT, and finally aligned with Direct Preference Optimization (DPO).
+            </p>
+            <p class="leading-relaxed text-[#bfb0aa] text-[12.5px]">
+              Tip: Click the top-right <strong>Settings gear</strong> icon (or drag &amp; drop your photo onto the window) to load your local background image directly into this dashboard.
+            </p>
+          `,
+        },
+      };
+
+      const navButtons = document.querySelectorAll('#sidebar-nav .nav-item');
+      const chatView = document.getElementById('workspace-chat-view');
+      const secondaryView = document.getElementById('workspace-secondary-view');
+      const secTitle = document.getElementById('secondary-view-title');
+      const secSub = document.getElementById('secondary-view-subtitle');
+      const secBody = document.getElementById('secondary-view-body');
+
+      function switchTab(tabName) {
+        navButtons.forEach((btn) => {
+          btn.classList.toggle('active', btn.dataset.tab === tabName);
+        });
+
+        if (tabName === 'chat') {
+          secondaryView.classList.add('hidden');
+          secondaryView.classList.remove('flex');
+          chatView.classList.remove('hidden');
+        } else {
+          const info = secondaryContentMap[tabName];
+          if (info) {
+            secTitle.textContent = info.title;
+            secSub.textContent = info.subtitle;
+            secBody.innerHTML = info.html;
+          }
+          chatView.classList.add('hidden');
+          secondaryView.classList.remove('hidden');
+          secondaryView.classList.add('flex');
+        }
+        // Close mobile drawer if open
+        document.getElementById('left-sidebar').classList.remove('mobile-open');
+      }
+
+      navButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const tab = btn.dataset.tab;
+          if (tab === 'chat' && btn.classList.contains('active') && chatStream.children.length > 2) {
+            // Reset extra messages back to clean state
+            while (chatStream.children.length > 2) {
+              chatStream.removeChild(chatStream.lastElementChild);
+            }
+            showToast('Started a fresh chat session');
+          }
+          switchTab(tab);
+        });
+      });
+
+      document.getElementById('return-to-chat-btn').addEventListener('click', () => switchTab('chat'));
+
+      // Ctrl+N keyboard shortcut
+      window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'n') {
+          e.preventDefault();
+          switchTab('chat');
+          chatInput.focus();
+          showToast('New Chat ready (Ctrl+N)');
+        }
+      });
+
+      /* =======================================================================
+         5. TOP-RIGHT MODEL DROPDOWN, AMBIANCE TOGGLE & SETTINGS MODAL
+         ======================================================================= */
+      const dropdownBtn = document.getElementById('model-dropdown-btn');
+      const dropdownMenu = document.getElementById('model-dropdown-menu');
+      const chevron = document.getElementById('model-chevron');
+      const selectedModelLabel = document.getElementById('selected-model-label');
+
+      dropdownBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = !dropdownMenu.classList.contains('hidden');
+        dropdownMenu.classList.toggle('hidden', isOpen);
+        chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+      });
+
+      document.querySelectorAll('.model-option').forEach((opt) => {
+        opt.addEventListener('click', () => {
+          state.activeModel = opt.dataset.model;
+          state.activeStage = opt.dataset.stage;
+          selectedModelLabel.textContent = state.activeModel;
+          document.querySelectorAll('.model-option').forEach((el) => el.classList.remove('bg-white/[0.06]', 'text-[#fcece2]'));
+          opt.classList.add('bg-white/[0.06]', 'text-[#fcece2]');
+          dropdownMenu.classList.add('hidden');
+          chevron.style.transform = 'rotate(0deg)';
+          showToast(`Switched checkpoint to ${state.activeModel}`);
+          if (API_ENDPOINT) {
+            fetch('/v1/models/switch', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ model: state.activeModel }),
+            }).catch(() => {});
+          }
+        });
+      });
+
+      window.addEventListener('click', () => {
+        if (!dropdownMenu.classList.contains('hidden')) {
+          dropdownMenu.classList.add('hidden');
+          chevron.style.transform = 'rotate(0deg)';
+        }
+      });
+
+      // Ambiance dim toggle
+      document.getElementById('ambiance-toggle-btn').addEventListener('click', () => {
+        document.body.classList.toggle('ambiance-dim');
+        const dimmed = document.body.classList.contains('ambiance-dim');
+        showToast(dimmed ? 'Nocturnal Focus Mode enabled' : 'Standard Lunar Ambiance restored');
+      });
+
+      // Settings Modal & Live Local Background Loader
+      const settingsModal = document.getElementById('settings-modal');
+      const bgImage = document.getElementById('bg-image');
+      const bgVignette = document.getElementById('bg-vignette');
+
+      function openSettings() { settingsModal.classList.remove('hidden'); }
+      function closeSettings() { settingsModal.classList.add('hidden'); }
+
+      document.getElementById('settings-open-btn').addEventListener('click', openSettings);
+      document.getElementById('settings-close-btn').addEventListener('click', closeSettings);
+      document.getElementById('settings-done-btn').addEventListener('click', closeSettings);
+      settingsModal.addEventListener('click', (e) => {
+        if (e.target === settingsModal) closeSettings();
+      });
+
+      function applyCustomBackgroundFile(file) {
+        if (!file || !file.type.startsWith('image/')) return;
+        if (state.customBgUrl) URL.revokeObjectURL(state.customBgUrl);
+        state.customBgUrl = URL.createObjectURL(file);
+        bgImage.src = state.customBgUrl;
+        bgImage.style.opacity = '1';
+        bgImage.dataset.failed = 'false';
+        showToast(`Loaded background: ${file.name}`);
+      }
+
+      document.getElementById('bg-file-input').addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        applyCustomBackgroundFile(file);
+      });
+
+      document.getElementById('reset-bg-btn').addEventListener('click', () => {
+        bgImage.src = './asset/bg.png';
+        bgImage.style.opacity = '1';
+        bgImage.dataset.failed = 'false';
+        showToast('Restored default background image');
+      });
+
+      // Drag-and-drop background photo directly onto the dashboard!
+      window.addEventListener('dragover', (e) => e.preventDefault());
+      window.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+          applyCustomBackgroundFile(file);
+        }
+      });
+
+      // Sliders
+      document.getElementById('bg-offset-slider').addEventListener('input', (e) => {
+        const v = e.target.value + '%';
+        document.documentElement.style.setProperty('--bg-pos-x', v);
+        document.getElementById('bg-offset-val').textContent = v;
+      });
+
+      document.getElementById('vignette-slider').addEventListener('input', (e) => {
+        const val = Number(e.target.value);
+        bgVignette.style.opacity = (val / 100).toFixed(2);
+        document.getElementById('vignette-val').textContent = val + '%';
+      });
+
+      document.getElementById('temp-slider').addEventListener('input', (e) => {
+        state.temperature = parseFloat(e.target.value);
+        document.getElementById('temp-val').textContent = state.temperature.toFixed(2);
+      });
+
+      document.getElementById('topp-slider').addEventListener('input', (e) => {
+        state.topP = parseFloat(e.target.value);
+        document.getElementById('topp-val').textContent = state.topP.toFixed(2);
+      });
+
+      document.getElementById('attach-btn').addEventListener('click', () => {
+        showToast('Context attachment ready (up to 1,024 tokens)');
+      });
+
+      /* =======================================================================
+         6. INTERACTIVE SVG LOSS CHART TOOLTIPS
+         ======================================================================= */
+      const tooltip = document.getElementById('chart-tooltip');
+      const chartContainer = document.getElementById('loss-chart-container');
+      const ttDot = document.getElementById('tt-dot');
+      const ttStage = document.getElementById('tt-stage');
+      const ttSteps = document.getElementById('tt-steps');
+      const ttLoss = document.getElementById('tt-loss');
+
+      document.querySelectorAll('.loss-point').forEach((pt) => {
+        pt.addEventListener('mouseenter', () => {
+          ttStage.textContent = pt.dataset.stage;
+          ttSteps.textContent = pt.dataset.steps;
+          ttLoss.textContent = pt.dataset.loss;
+          ttDot.style.backgroundColor = pt.dataset.color;
+          tooltip.classList.remove('hidden');
+
+          const ptRect = pt.getBoundingClientRect();
+          const containerRect = chartContainer.getBoundingClientRect();
+          let left = ptRect.left - containerRect.left - 56;
+          left = Math.max(4, Math.min(containerRect.width - 155, left));
+          const top = Math.max(0, ptRect.top - containerRect.top - 52);
+
+          tooltip.style.left = `${left}px`;
+          tooltip.style.top = `${top}px`;
+          pt.setAttribute('r', '5.2');
+        });
+
+        pt.addEventListener('mouseleave', () => {
+          tooltip.classList.add('hidden');
+          pt.setAttribute('r', pt.dataset.stage.includes('Final') ? '3.8' : '3.4');
+        });
+      });
+
+      /* =======================================================================
+         7. MOBILE DRAWER TOGGLES & INITIALIZATION
+         ======================================================================= */
+      const mobileSidebarBtn = document.getElementById('mobile-sidebar-toggle');
+      const mobileInspectorBtn = document.getElementById('mobile-inspector-toggle');
+      if (mobileSidebarBtn) {
+        mobileSidebarBtn.addEventListener('click', () => {
+          document.getElementById('left-sidebar').classList.toggle('mobile-open');
+          document.getElementById('right-inspector').classList.remove('mobile-open');
+        });
+      }
+      if (mobileInspectorBtn) {
+        mobileInspectorBtn.addEventListener('click', () => {
+          document.getElementById('right-inspector').classList.toggle('mobile-open');
+          document.getElementById('left-sidebar').classList.remove('mobile-open');
+        });
+      }
+
+      window.addEventListener('resize', renderScenicFallback);
+
+      window.addEventListener('load', () => {
+        try {
+          if (window.lucide) lucide.createIcons();
+        } catch (err) {
+          console.warn('Lucide icon init skipped:', err);
+        }
+        renderScenicFallback();
+        initTerrainCanvas();
+      });
+    })();
+  </script>
+</body>
+
+</html>

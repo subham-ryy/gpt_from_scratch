@@ -1,0 +1,1298 @@
+{
+  "timestamp": "2026-11-06 14:33:21",
+  "models_evaluated": {
+    "Model 1 (Phase 6 Base)": {
+      "checkpoint_path": "D:\\pytorch\\gpt_pretraining\\experiments\\20261104_211024_gpt_pretrain\\checkpoints\\best.pt",
+      "step": 1200,
+      "phase": "Base Pretraining",
+      "dataset": "5k Docs (~5.7M tok)",
+      "val_loss": 5.2793,
+      "ppl": 196.23,
+      "param_count": 98425344,
+      "load_time_sec": 2.88
+    },
+    "Model 2 (Track A Pretrain)": {
+      "checkpoint_path": "D:\\pytorch\\gpt_pretraining\\experiments\\20261106_032904_gpt_continued_pretrain\\checkpoints\\best.pt",
+      "step": 9000,
+      "phase": "Continued Pretraining",
+      "dataset": "100k Docs Packed (289.5M valid tok)",
+      "val_loss": 3.7055,
+      "ppl": 40.67,
+      "param_count": 98425344,
+      "load_time_sec": 6.5
+    },
+    "Model 3 (Phase 8 SFT)": {
+      "checkpoint_path": "D:\\pytorch\\gpt_pretraining\\experiments\\20261106_115736_gpt_sft\\checkpoints\\best.pt",
+      "step": 4000,
+      "phase": "Supervised Fine-Tuning",
+      "dataset": "65k Q&A Pairs (Alpaca, SciQ, Dolly)",
+      "val_loss": 2.6224,
+      "ppl": 13.77,
+      "param_count": 98425344,
+      "load_time_sec": 6.23
+    }
+  },
+  "benchmarks": {
+    "b7_mathematics": {
+      "Model 1 (Phase 6 Base)": [
+        {
+          "id": "math_1",
+          "question": "What is 17 multiplied by 24?",
+          "expected": "408",
+          "output": "- What is a good?\n- If you have the same way, you can't need to do.\n- You may be able to use your doctor.\n- Do you want to know what you are doing.\n- How do you think about the problem?\n- Have you have to get a lot of your child's.\n- If your child's not a child's a",
+          "is_correct": false,
+          "score": 0,
+          "speed": 72.1
+        },
+        {
+          "id": "math_2",
+          "question": "A product costs \u20b9800 and receives a 15% discount. What is its final price?",
+          "expected": "680",
+          "output": "- If you want to use the same time, you can't have to get a good way.\n- You can't need to do this.\n- If your computer is a new, you're going to be able to get it.\n- Have a lot of your computer, or you'll have to find a good idea.\n- How do you don't know what you've got",
+          "is_correct": false,
+          "score": 0,
+          "speed": 122.2
+        },
+        {
+          "id": "math_3",
+          "question": "Solve for x: 3x + 7 = 25.",
+          "expected": "6",
+          "output": "- \"The first way of the same way to be used in a new way, but it's not just like this.\nI'm going to get a good thing that I have to do so I think about what I've got my hand.\nYou can't know if you're doing.\n- You'll find out what you're looking at the time.\n- If you are using",
+          "is_correct": false,
+          "score": 0,
+          "speed": 117.5
+        },
+        {
+          "id": "math_4",
+          "question": "A train travels 180 km in 3 hours. What is its average speed in km/h?",
+          "expected": "60",
+          "output": "- The first time of the top of the sun's a few years ago, which is the most important thing that it is not a lot of the same.\n- If you're looking at least one of the same way to get your own.\n- You can't have a good idea that you can't be able to do so much more than the same. It's a little bit of",
+          "is_correct": false,
+          "score": 0,
+          "speed": 117.0
+        },
+        {
+          "id": "math_5",
+          "question": "If a number is doubled, increased by 12, and the result is 40, what was the original number?",
+          "expected": "14",
+          "output": "- If you have to use it.\n- You can't want to do this way to get your own.\n- Do you need to find out of your own. You may be able to make sure that you're going to do with your doctor.\n- What's the first thing you are some people who don't know if you've got on the same time.\n- The most",
+          "is_correct": false,
+          "score": 0,
+          "speed": 116.5
+        }
+      ],
+      "Model 2 (Track A Pretrain)": [
+        {
+          "id": "math_1",
+          "question": "What is 17 multiplied by 24?",
+          "expected": "408",
+          "output": "## # # # #\n# # ## # #\nThe following are some of the most common questions that you can do to help you with your child\u2019s math skills.\n- What is 17 multiplies?\n- What are the 4 numbers?\n- How many times are there?\n- Why is 17 multiplication?\n- The 5 numbers are the same as the",
+          "is_correct": false,
+          "score": 2,
+          "speed": 33.1
+        },
+        {
+          "id": "math_2",
+          "question": "A product costs \u20b9800 and receives a 15% discount. What is its final price?",
+          "expected": "680",
+          "output": "The price of the product is $1,000 per year. The price of the products is $2,000 per month.\n## # Answer: This price is $1.00 per year.\n# # Answers: This price has been $1,500 per year. It is $1 and $3.00 per month. The price is $0.00 per",
+          "is_correct": false,
+          "score": 2,
+          "speed": 34.4
+        },
+        {
+          "id": "math_3",
+          "question": "Solve for x: 3x + 7 = 25.",
+          "expected": "6",
+          "output": "## # # # #\n# # ## # #\nThe first thing to do is to use the following:\n# ## #\n## 1: 2x + 8 = 20.\n# # 2: 4x + 6 = 20. The second thing to do was to use the above:\n# 2: 5x + 8 + 8 = 30.\n#",
+          "is_correct": true,
+          "score": 5,
+          "speed": 29.3
+        },
+        {
+          "id": "math_4",
+          "question": "A train travels 180 km in 3 hours. What is its average speed in km/h?",
+          "expected": "60",
+          "output": "The train is a train that runs 90 km in 4 hours. It is the fastest and most efficient way to get your train from the train. The train is designed for all of us, but it\u2019s not always easy to get the train from the bus.\n## # # # #\nThe train has a lot of advantages over the years. The train has a very high speed and",
+          "is_correct": false,
+          "score": 2,
+          "speed": 30.6
+        },
+        {
+          "id": "math_5",
+          "question": "If a number is doubled, increased by 12, and the result is 40, what was the original number?",
+          "expected": "14",
+          "output": "The following are some of the most common questions that you can do to help you.\n- What is the difference between the two?\n- How many times have you been doing?\n- What are the differences between the two and the other?\n- Why are the differences in the two? What are the different types of numbers?\n- Are the differences between different groups?\n- Do",
+          "is_correct": false,
+          "score": 0,
+          "speed": 32.3
+        }
+      ],
+      "Model 3 (Phase 8 SFT)": [
+        {
+          "id": "math_1",
+          "question": "What is 17 multiplied by 24?",
+          "expected": "408",
+          "output": "The result of 17 multiplied is 17.",
+          "is_correct": false,
+          "score": 2,
+          "speed": 33.5
+        },
+        {
+          "id": "math_2",
+          "question": "A product costs \u20b9800 and receives a 15% discount. What is its final price?",
+          "expected": "680",
+          "output": "The final price of the product would be $10,000 per year.",
+          "is_correct": false,
+          "score": 2,
+          "speed": 121.9
+        },
+        {
+          "id": "math_3",
+          "question": "Solve for x: 3x + 7 = 25.",
+          "expected": "6",
+          "output": "The result of the equation 3x + 6 = 25 is 15.",
+          "is_correct": true,
+          "score": 5,
+          "speed": 82.1
+        },
+        {
+          "id": "math_4",
+          "question": "A train travels 180 km in 3 hours. What is its average speed in km/h?",
+          "expected": "60",
+          "output": "The average speed of a train travels 180 miles in 3 hours is approximately 0.5 hours.",
+          "is_correct": false,
+          "score": 2,
+          "speed": 127.8
+        },
+        {
+          "id": "math_5",
+          "question": "If a number is doubled, increased by 12, and the result is 40, what was the original number?",
+          "expected": "14",
+          "output": "The original number in this sentence is 60.",
+          "is_correct": false,
+          "score": 2,
+          "speed": 115.8
+        }
+      ]
+    },
+    "b8_coding": {
+      "Model 1 (Phase 6 Base)": [
+        {
+          "id": "code_1",
+          "question": "Write a Python function `is_prime(n)` that returns True if a positive integer n is prime, and False otherwise. Provide only the Python function.",
+          "output": "- \"The first place of the same way to the same thing in the same. It's not a sign of the same thing.\n- The word \"I have the object\" or \"the \"the other\" (see \"f\").\n- \"This is the same thing that it is the same as a \"s\" (e.g., \"The word \"d\").\nThe word \"t\" is the \"b\" or \"in\" or \"p\" (i.g. \"C. \"S. \"M. \"T\"\" or \"d. \"c.\" (L. \"P. \"The \"F\"\" or the \"The \"d\" (H. \"E\"",
+          "extracted_code": "- \"The first place of the same way to the same thing in the same. It's not a sign of the same thing.\n- The word \"I have the object\" or \"the \"the other\" (see \"f\").\n- \"This is the same thing that it is the same as a \"s\" (e.g., \"The word \"d\").\nThe word \"t\" is the \"b\" or \"in\" or \"p\" (i.g. \"C. \"S. \"M. \"T\"\" or \"d. \"c.\" (L. \"P. \"The \"F\"\" or the \"The \"d\" (H. \"E\"",
+          "tests_passed": 0,
+          "total_tests": 5,
+          "test_details": [
+            {
+              "call": "is_prime(2)",
+              "passed": false,
+              "detail": "SyntaxError: unterminated string literal (detected at line 1) (<unknown>, line 1)"
+            },
+            {
+              "call": "is_prime(7)",
+              "passed": false,
+              "detail": "SyntaxError: unterminated string literal (detected at line 1) (<unknown>, line 1)"
+            },
+            {
+              "call": "is_prime(4)",
+              "passed": false,
+              "detail": "SyntaxError: unterminated string literal (detected at line 1) (<unknown>, line 1)"
+            },
+            {
+              "call": "is_prime(1)",
+              "passed": false,
+              "detail": "SyntaxError: unterminated string literal (detected at line 1) (<unknown>, line 1)"
+            },
+            {
+              "call": "is_prime(13)",
+              "passed": false,
+              "detail": "SyntaxError: unterminated string literal (detected at line 1) (<unknown>, line 1)"
+            }
+          ],
+          "score": 0,
+          "speed": 101.1
+        },
+        {
+          "id": "code_2",
+          "question": "Explain the difference between a list and a tuple in Python.",
+          "output": "- If you have to use the same way, you're not able to get the first step. You can't need to do this.\nYou can't want to see if you are using the same.\n- If your computer is used for your computer, you'll be able to find it with a new device.\n- A few of the new file will be used to create a new disk.\n- This is an easy way to make sure that's going to get a bit of the right.\n- You may have a lot more likely to get the problem.\n- The best way you can't have a good way to get a little thing.\n- What's a lot of the computer?\n- You've been",
+          "extracted_code": "- If you have to use the same way, you're not able to get the first step. You can't need to do this.\nYou can't want to see if you are using the same.\n- If your computer is used for your computer, you'll be able to find it with a new device.\n- A few of the new file will be used to create a new disk.\n- This is an easy way to make sure that's going to get a bit of the right.\n- You may have a lot more likely to get the problem.\n- The best way you can't have a good way to get a little thing.\n- What's a lot of the computer?\n- You've been",
+          "tests_passed": 0,
+          "total_tests": 0,
+          "test_details": [],
+          "score": 0,
+          "speed": 102.4
+        },
+        {
+          "id": "code_3",
+          "question": "Find and fix the bug in this Python factorial function:\n```python\ndef factorial(n):\n    if n == 0:\n        return 0\n    return n * factorial(n - 1)\n```\nExplain what the bug is and provide the corrected code.",
+          "output": "- The same way to the first name of the number of the\n- the word \"The following the\n-c.\n- n.\n- a number of the number\n- the number of\n- (d.g.e.g.)\n- n, or the\n- n (b)\n- n- n. (x).\n- n)\n- (i.\n- the\n- (n)\n- the other\n- the value of the\ns.\n- (the)\n-\n- the same\n- the term\n- the object\n- n\n- n as a\n- n:\n- n;\n- n'a.\n-\n(1)",
+          "extracted_code": "- The same way to the first name of the number of the\n- the word \"The following the\n-c.\n- n.\n- a number of the number\n- the number of\n- (d.g.e.g.)\n- n, or the\n- n (b)\n- n- n. (x).\n- n)\n- (i.\n- the\n- (n)\n- the other\n- the value of the\ns.\n- (the)\n-\n- the same\n- the term\n- the object\n- n\n- n as a\n- n:\n- n;\n- n'a.\n-\n(1)",
+          "tests_passed": 0,
+          "total_tests": 2,
+          "test_details": [
+            {
+              "call": "factorial(5)",
+              "passed": false,
+              "detail": "SyntaxError: unterminated string literal (detected at line 2) (<unknown>, line 2)"
+            },
+            {
+              "call": "factorial(0)",
+              "passed": false,
+              "detail": "SyntaxError: unterminated string literal (detected at line 2) (<unknown>, line 2)"
+            }
+          ],
+          "score": 0,
+          "speed": 89.6
+        },
+        {
+          "id": "code_4",
+          "question": "Implement binary search in Python as a function `binary_search(arr, target)` that returns the index of target in sorted list arr, or -1 if not found. Output the Python code.",
+          "output": "- If you have a simple, you can use a new file, you'll be able to see the document.\n- You may need to find your own file.\n- If the following is the same way to get the file, you might be able to do it, and then you're going to write it.\n- The first step is the most important part of the program.\n- What is a few times?\n- To read this page, you want to know what you are using the file.\nIf you've got the file, please see the file, or the file.",
+          "extracted_code": "- If you have a simple, you can use a new file, you'll be able to see the document.\n- You may need to find your own file.\n- If the following is the same way to get the file, you might be able to do it, and then you're going to write it.\n- The first step is the most important part of the program.\n- What is a few times?\n- To read this page, you want to know what you are using the file.\nIf you've got the file, please see the file, or the file.",
+          "tests_passed": 0,
+          "total_tests": 3,
+          "test_details": [
+            {
+              "call": "binary_search([1, 3, 5, 7, 9], 5)",
+              "passed": false,
+              "detail": "SyntaxError: unterminated string literal (detected at line 1) (<unknown>, line 1)"
+            },
+            {
+              "call": "binary_search([1, 3, 5, 7, 9], 1)",
+              "passed": false,
+              "detail": "SyntaxError: unterminated string literal (detected at line 1) (<unknown>, line 1)"
+            },
+            {
+              "call": "binary_search([1, 3, 5, 7, 9], 6)",
+              "passed": false,
+              "detail": "SyntaxError: unterminated string literal (detected at line 1) (<unknown>, line 1)"
+            }
+          ],
+          "score": 0,
+          "speed": 94.7
+        },
+        {
+          "id": "code_5",
+          "question": "Explain the time complexity of binary search in best, average, and worst cases.",
+          "output": "- \"The first thing you're going to know what's not a lot of the same way.\"\nThis is the most important thing that it's not the same way to be able to do so that's not the problem.\nYou can't have to get a good idea of your computer.\nIf you've got a little more about the same time, you're doing a lot of your child's a lot of a bit of your doctor. You'll want to see if you're looking at the same time.\nYou could find out how much more than the same time you're going on the same time?\nSo, if you're going back to the same way you're going down. And if you're getting the same way",
+          "extracted_code": "- \"The first thing you're going to know what's not a lot of the same way.\"\nThis is the most important thing that it's not the same way to be able to do so that's not the problem.\nYou can't have to get a good idea of your computer.\nIf you've got a little more about the same time, you're doing a lot of your child's a lot of a bit of your doctor. You'll want to see if you're looking at the same time.\nYou could find out how much more than the same time you're going on the same time?\nSo, if you're going back to the same way you're going down. And if you're getting the same way",
+          "tests_passed": 0,
+          "total_tests": 0,
+          "test_details": [],
+          "score": 0,
+          "speed": 98.7
+        }
+      ],
+      "Model 2 (Track A Pretrain)": [
+        {
+          "id": "code_1",
+          "question": "Write a Python function `is_prime(n)` that returns True if a positive integer n is prime, and False otherwise. Provide only the Python function.",
+          "output": "The following example shows the following:\n- The first one is a string of two numbers in a string of three numbers in a row.\n- The second one is a number of two numbers.\n- A second one is an integer n.\n- If a string of four numbers in a table is a string, then it will be a string of six numbers in a column.\n## Answers:\nThe second one is the string of two digits in a row, so the second one is one.\n# # Answers: The second one has a string of five numbers in a rows of four numbers.\n# Answers are a string of seven numbers in a tablespoon.\n#Answer: The second",
+          "extracted_code": "The following example shows the following:\n- The first one is a string of two numbers in a string of three numbers in a row.\n- The second one is a number of two numbers.\n- A second one is an integer n.\n- If a string of four numbers in a table is a string, then it will be a string of six numbers in a column.\n## Answers:\nThe second one is the string of two digits in a row, so the second one is one.\n# # Answers: The second one has a string of five numbers in a rows of four numbers.\n# Answers are a string of seven numbers in a tablespoon.\n#Answer: The second",
+          "tests_passed": 0,
+          "total_tests": 5,
+          "test_details": [
+            {
+              "call": "is_prime(2)",
+              "passed": false,
+              "detail": "SyntaxError: invalid syntax (<unknown>, line 1)"
+            },
+            {
+              "call": "is_prime(7)",
+              "passed": false,
+              "detail": "SyntaxError: invalid syntax (<unknown>, line 1)"
+            },
+            {
+              "call": "is_prime(4)",
+              "passed": false,
+              "detail": "SyntaxError: invalid syntax (<unknown>, line 1)"
+            },
+            {
+              "call": "is_prime(1)",
+              "passed": false,
+              "detail": "SyntaxError: invalid syntax (<unknown>, line 1)"
+            },
+            {
+              "call": "is_prime(13)",
+              "passed": false,
+              "detail": "SyntaxError: invalid syntax (<unknown>, line 1)"
+            }
+          ],
+          "score": 0,
+          "speed": 31.1
+        },
+        {
+          "id": "code_2",
+          "question": "Explain the difference between a list and a tuple in Python.",
+          "output": "The following is a simple example of a tupling machine that can be used to make a tuples.\n## # Answer: This is a simple way to get started with the tuple.\n# # Answers: This is an example of a string that has a string that contains a string that is not a string that does not have a string.\n# Answer :\nThe first thing you need to know about this is to find the string that is a string that can be created by a string that will be created by the string.\nYou should also see how to use the string as a string. The second thing you need is to do is to create a string that works like a string that uses",
+          "extracted_code": "The following is a simple example of a tupling machine that can be used to make a tuples.\n## # Answer: This is a simple way to get started with the tuple.\n# # Answers: This is an example of a string that has a string that contains a string that is not a string that does not have a string.\n# Answer :\nThe first thing you need to know about this is to find the string that is a string that can be created by a string that will be created by the string.\nYou should also see how to use the string as a string. The second thing you need is to do is to create a string that works like a string that uses",
+          "tests_passed": 0,
+          "total_tests": 0,
+          "test_details": [],
+          "score": 1,
+          "speed": 30.7
+        },
+        {
+          "id": "code_3",
+          "question": "Find and fix the bug in this Python factorial function:\n```python\ndef factorial(n):\n    if n == 0:\n        return 0\n    return n * factorial(n - 1)\n```\nExplain what the bug is and provide the corrected code.",
+          "output": "The first step to fix the bug is to remove the bugs from the tree, which will be removed by the tree. The second step is to remove them from the tree.\n## Answers:\nThis is a simple example of how to fix the bugs.\n# # Answer: This is a simple way to fix the pests.\n# Answer :\nThe first steps are to remove the insects from the tree and create a new tree.\nThe second step is that you can use the following steps:\n- Use the following steps to remove the pests from the tree:\n- Make sure that the bugs have been treated with the same pest.\n- Use a few different methods to remove the insect from the tree before",
+          "extracted_code": "The first step to fix the bug is to remove the bugs from the tree, which will be removed by the tree. The second step is to remove them from the tree.\n## Answers:\nThis is a simple example of how to fix the bugs.\n# # Answer: This is a simple way to fix the pests.\n# Answer :\nThe first steps are to remove the insects from the tree and create a new tree.\nThe second step is that you can use the following steps:\n- Use the following steps to remove the pests from the tree:\n- Make sure that the bugs have been treated with the same pest.\n- Use a few different methods to remove the insect from the tree before",
+          "tests_passed": 0,
+          "total_tests": 2,
+          "test_details": [
+            {
+              "call": "factorial(5)",
+              "passed": false,
+              "detail": "SyntaxError: invalid syntax (<unknown>, line 1)"
+            },
+            {
+              "call": "factorial(0)",
+              "passed": false,
+              "detail": "SyntaxError: invalid syntax (<unknown>, line 1)"
+            }
+          ],
+          "score": 0,
+          "speed": 29.4
+        },
+        {
+          "id": "code_4",
+          "question": "Implement binary search in Python as a function `binary_search(arr, target)` that returns the index of target in sorted list arr, or -1 if not found. Output the Python code.",
+          "output": "The first thing you need to know is that the function 'binary_data' is a function 'biotic', and it's a function 'chemical'. The second thing you need is to use the function 'chemistry' to find out what the function 'does' are.\n## Answers:\nThis is a function \u2018biotic', which means that the function \u2018biot\u2019 is a function that is a function, and it's an important part of the function 'scientific' function 'biot' is a functions 'biot'.\n##Answer:\nThis function 'bio' is a system that is a system of information, and it is a function of information. It is",
+          "extracted_code": "The first thing you need to know is that the function 'binary_data' is a function 'biotic', and it's a function 'chemical'. The second thing you need is to use the function 'chemistry' to find out what the function 'does' are.\n## Answers:\nThis is a function \u2018biotic', which means that the function \u2018biot\u2019 is a function that is a function, and it's an important part of the function 'scientific' function 'biot' is a functions 'biot'.\n##Answer:\nThis function 'bio' is a system that is a system of information, and it is a function of information. It is",
+          "tests_passed": 0,
+          "total_tests": 3,
+          "test_details": [
+            {
+              "call": "binary_search([1, 3, 5, 7, 9], 5)",
+              "passed": false,
+              "detail": "SyntaxError: unterminated string literal (detected at line 1) (<unknown>, line 1)"
+            },
+            {
+              "call": "binary_search([1, 3, 5, 7, 9], 1)",
+              "passed": false,
+              "detail": "SyntaxError: unterminated string literal (detected at line 1) (<unknown>, line 1)"
+            },
+            {
+              "call": "binary_search([1, 3, 5, 7, 9], 6)",
+              "passed": false,
+              "detail": "SyntaxError: unterminated string literal (detected at line 1) (<unknown>, line 1)"
+            }
+          ],
+          "score": 0,
+          "speed": 30.1
+        },
+        {
+          "id": "code_5",
+          "question": "Explain the time complexity of binary search in best, average, and worst cases.",
+          "output": "The following is a list of the most common types of binary search.\n## # Answer: This is an example of a simple example of a computer program that uses a computer to create a computer. The first thing you can do is to use the computer to create an object. You will need to know how to create a file using a computer.\n# # Answers: This is a good idea for you. It is a good way to get your computer from scratch.\n# Answer : This is a great idea for you to understand.\n# Reader : This means that you can easily find the information you need to make.\n#Reader : This method is used to help you to understand the process of",
+          "extracted_code": "The following is a list of the most common types of binary search.\n## # Answer: This is an example of a simple example of a computer program that uses a computer to create a computer. The first thing you can do is to use the computer to create an object. You will need to know how to create a file using a computer.\n# # Answers: This is a good idea for you. It is a good way to get your computer from scratch.\n# Answer : This is a great idea for you to understand.\n# Reader : This means that you can easily find the information you need to make.\n#Reader : This method is used to help you to understand the process of",
+          "tests_passed": 0,
+          "total_tests": 0,
+          "test_details": [],
+          "score": 0,
+          "speed": 31.4
+        }
+      ],
+      "Model 3 (Phase 8 SFT)": [
+        {
+          "id": "code_1",
+          "question": "Write a Python function `is_prime(n)` that returns True if a positive integer n is prime, and False otherwise. Provide only the Python function.",
+          "output": "Here's an example of a Python function that returns T false if a negative integer n is divisible by a negative integer:\n\n```python\ndef find_prime()\n    return False otherwise\n   return #1\nprint(\"The function `is-prime()`)\n``",
+          "extracted_code": "def find_prime()\n    return False otherwise\n   return #1\nprint(\"The function `is-prime()`)\n``",
+          "tests_passed": 0,
+          "total_tests": 5,
+          "test_details": [
+            {
+              "call": "is_prime(2)",
+              "passed": false,
+              "detail": "SyntaxError: expected ':' (<unknown>, line 1)"
+            },
+            {
+              "call": "is_prime(7)",
+              "passed": false,
+              "detail": "SyntaxError: expected ':' (<unknown>, line 1)"
+            },
+            {
+              "call": "is_prime(4)",
+              "passed": false,
+              "detail": "SyntaxError: expected ':' (<unknown>, line 1)"
+            },
+            {
+              "call": "is_prime(1)",
+              "passed": false,
+              "detail": "SyntaxError: expected ':' (<unknown>, line 1)"
+            },
+            {
+              "call": "is_prime(13)",
+              "passed": false,
+              "detail": "SyntaxError: expected ':' (<unknown>, line 1)"
+            }
+          ],
+          "score": 0,
+          "speed": 117.0
+        },
+        {
+          "id": "code_2",
+          "question": "Explain the difference between a list and a tuple in Python.",
+          "output": "A list is an element that can be used to create a list of elements, such as a list or a list, which is a type of element that can contain elements, elements, or elements. Here are some key differences between the two:\n\n1. **Python**: The first part of the list is a list of the elements, which is an element, and the second part is a list. It is a type that can be represented by the element, and it is a type, and it can be represented using the following formula:\n\n2. **Script**: The next part of the given list is a tupet, which is the first part of a list. This is a type",
+          "extracted_code": "A list is an element that can be used to create a list of elements, such as a list or a list, which is a type of element that can contain elements, elements, or elements. Here are some key differences between the two:\n\n1. **Python**: The first part of the list is a list of the elements, which is an element, and the second part is a list. It is a type that can be represented by the element, and it is a type, and it can be represented using the following formula:\n\n2. **Script**: The next part of the given list is a tupet, which is the first part of a list. This is a type",
+          "tests_passed": 0,
+          "total_tests": 0,
+          "test_details": [],
+          "score": 1,
+          "speed": 111.5
+        },
+        {
+          "id": "code_3",
+          "question": "Find and fix the bug in this Python factorial function:\n```python\ndef factorial(n):\n    if n == 0:\n        return 0\n    return n * factorial(n - 1)\n```\nExplain what the bug is and provide the corrected code.",
+          "output": "Here's an example of a Python factorial code that can be used to fix the bug:\n\n``p_n = []\n   if i <= 0: \n   return []\n``",
+          "extracted_code": "Here's an example of a Python factorial code that can be used to fix the bug:\n\n``p_n = []\n   if i <= 0: \n   return []\n``",
+          "tests_passed": 0,
+          "total_tests": 2,
+          "test_details": [
+            {
+              "call": "factorial(5)",
+              "passed": false,
+              "detail": "SyntaxError: unterminated string literal (detected at line 1) (<unknown>, line 1)"
+            },
+            {
+              "call": "factorial(0)",
+              "passed": false,
+              "detail": "SyntaxError: unterminated string literal (detected at line 1) (<unknown>, line 1)"
+            }
+          ],
+          "score": 0,
+          "speed": 109.8
+        },
+        {
+          "id": "code_4",
+          "question": "Implement binary search in Python as a function `binary_search(arr, target)` that returns the index of target in sorted list arr, or -1 if not found. Output the Python code.",
+          "output": "Here is an example of a binary search algorithm that returns the value of target in the input array:\n\n```python\ndef find_list = [\"Binary_search\", \"Binary_Search\", \"Bacteria\", \"Brush\", \"Brazil\", \"British\", \"Bigger\", \"Brandom\", \"Balance\", \"Brozil\", \"Clean\", \"Burry\", \"Bulgain\", \"Bromine\", \"Brieggain\", and \"Brocci\"\n     return result\n``\nThis algorithm uses a `binary-search()` method to find the value of",
+          "extracted_code": "def find_list = [\"Binary_search\", \"Binary_Search\", \"Bacteria\", \"Brush\", \"Brazil\", \"British\", \"Bigger\", \"Brandom\", \"Balance\", \"Brozil\", \"Clean\", \"Burry\", \"Bulgain\", \"Bromine\", \"Brieggain\", and \"Brocci\"\n     return result\n``\nThis algorithm uses a `binary-search()` method to find the value of",
+          "tests_passed": 0,
+          "total_tests": 3,
+          "test_details": [
+            {
+              "call": "binary_search([1, 3, 5, 7, 9], 5)",
+              "passed": false,
+              "detail": "SyntaxError: expected '(' (<unknown>, line 1)"
+            },
+            {
+              "call": "binary_search([1, 3, 5, 7, 9], 1)",
+              "passed": false,
+              "detail": "SyntaxError: expected '(' (<unknown>, line 1)"
+            },
+            {
+              "call": "binary_search([1, 3, 5, 7, 9], 6)",
+              "passed": false,
+              "detail": "SyntaxError: expected '(' (<unknown>, line 1)"
+            }
+          ],
+          "score": 0,
+          "speed": 95.5
+        },
+        {
+          "id": "code_5",
+          "question": "Explain the time complexity of binary search in best, average, and worst cases.",
+          "output": "The time complexity of a binary search is determined by the number of times it takes to find the most accurate information. The first step in this process is to find the smallest number of times that are already in use, and then find the smallest numbers that are already present in the list. This is known as the \"false\" algorithm, where each number has its own set of values, and the smallest number is the number of possible combinations.\n\nIn summary, the time complexity is determined by how many times the number of characters is generated, and the least common number is the sum of the total numbers that are currently in use.",
+          "extracted_code": "The time complexity of a binary search is determined by the number of times it takes to find the most accurate information. The first step in this process is to find the smallest number of times that are already in use, and then find the smallest numbers that are already present in the list. This is known as the \"false\" algorithm, where each number has its own set of values, and the smallest number is the number of possible combinations.\n\nIn summary, the time complexity is determined by how many times the number of characters is generated, and the least common number is the sum of the total numbers that are currently in use.",
+          "tests_passed": 0,
+          "total_tests": 0,
+          "test_details": [],
+          "score": 0,
+          "speed": 107.0
+        }
+      ]
+    },
+    "b9_summarization": {
+      "Model 1 (Phase 6 Base)": {
+        "output": "- The Solar System\n- A new research is a major role in the Earth's largest planet's largest, which is a very important part of the world's largest, but the planet's first-based energy is still a large number of the planet.\n- The Earth's atmosphere is a few years ago, with a global warming. It is a massive impact of the Earth's atmosphere.\n- the planet's atmosphere of the planet's surface of the planet, and its atmosphere.\nThe planet's atmosphere is the planet's largest atmosphere, and the Earth's surface of Earth's atmosphere, and it's atmosphere. The Earth's largest Earth's Earth's atmosphere are now known as the planet",
+        "sentence_count": 6,
+        "sentences": [
+          "- The Solar System\n- A new research is a major role in the Earth's largest planet's largest, which is a very important part of the world's largest, but the planet's first-based energy is still a large number of the planet.",
+          "- The Earth's atmosphere is a few years ago, with a global warming.",
+          "It is a massive impact of the Earth's atmosphere.",
+          "- the planet's atmosphere of the planet's surface of the planet, and its atmosphere.",
+          "The planet's atmosphere is the planet's largest atmosphere, and the Earth's surface of Earth's atmosphere, and it's atmosphere.",
+          "The Earth's largest Earth's Earth's atmosphere are now known as the planet"
+        ],
+        "followed_length_constraint": false,
+        "keyword_hits": 2,
+        "score": 2,
+        "speed": 62.5
+      },
+      "Model 2 (Track A Pretrain)": {
+        "output": "The first step toward understanding the history of the planet is to understand the history of Mars. The first step towards understanding the history and evolution of Mars was to explore the history of Earth. The second step was to explore how the planet formed and how it formed. The first time that the planet formed was to explore Mars was the discovery of the planet. It was a very important step in the development of the planet's natural history. The first part of the mission was to explore this planet, which is why the planet formed.\nThe first part of our mission was to study the history of life and to develop a new understanding of the history of our planet. This is the first step in the process",
+        "sentence_count": 8,
+        "sentences": [
+          "The first step toward understanding the history of the planet is to understand the history of Mars.",
+          "The first step towards understanding the history and evolution of Mars was to explore the history of Earth.",
+          "The second step was to explore how the planet formed and how it formed.",
+          "The first time that the planet formed was to explore Mars was the discovery of the planet.",
+          "It was a very important step in the development of the planet's natural history.",
+          "The first part of the mission was to explore this planet, which is why the planet formed.",
+          "The first part of our mission was to study the history of life and to develop a new understanding of the history of our planet.",
+          "This is the first step in the process"
+        ],
+        "followed_length_constraint": false,
+        "keyword_hits": 2,
+        "score": 2,
+        "speed": 35.4
+      },
+      "Model 3 (Phase 8 SFT)": {
+        "output": "The given passage is a declarative sentence as it discusses the impact of space exploration on the planet's climate and the impact of the environment on our planet.",
+        "sentence_count": 1,
+        "sentences": [
+          "The given passage is a declarative sentence as it discusses the impact of space exploration on the planet's climate and the impact of the environment on our planet."
+        ],
+        "followed_length_constraint": false,
+        "keyword_hits": 1,
+        "score": 2,
+        "speed": 72.4
+      }
+    },
+    "b10_multi_step_instructions": {
+      "Model 1 (Phase 6 Base)": [
+        {
+          "id": "multi_1",
+          "question": "Explain what a neural network is in exactly three numbered points. Each point must contain no more than 20 words. End with one short analogy.",
+          "output": "- The first step of the same way to be used in the same time.\n- You can use the number of the number of each other.\n- If you have to do not need to see the same type, and then you want to find it to read the same.\n- To get the same way, but if you are using the same way.\n- Do you have to use the same way you have to know that's a lot of your own.\n- What is the most important?\n- How do you think about this?\n- If your mind is the difference between the same as you have to the same. You may be able to have a good thing",
+          "constraints_met": 0,
+          "total_constraints": 3,
+          "details": {
+            "num_points": 0,
+            "word_counts": [],
+            "has_analogy": false
+          },
+          "score": 0,
+          "speed": 96.2
+        },
+        {
+          "id": "multi_2",
+          "question": "Write a recipe for fruit salad. Include exactly four ingredients, specify preparation time under 10 minutes, and write all preparation steps in bullet points.",
+          "output": "- Use the following:\n- If you want to use your own hand or have to get a good way to make sure you are using a good way.\n- If your child's not just one of the child's a child is done with your child's a doctor. You can't know if you're able to do.\n- What is a child's a person?\n- Do you think about your child's.\n- How do you need to find that you can help you feel better than they will be able to do so much more likely to do. If you are going to do it, you might be a child's important.\n- To learn how to your child",
+          "constraints_met": 1,
+          "total_constraints": 3,
+          "details": {
+            "has_bullets": true,
+            "has_time": false,
+            "ingredients_found": 7
+          },
+          "score": 2,
+          "speed": 106.4
+        },
+        {
+          "id": "multi_3",
+          "question": "Describe the water cycle using exactly four sequential steps labeled Step 1 to Step 4, where each step begins with the word 'First', 'Then', 'Next', or 'Finally'.",
+          "output": "- \"The word\" (the word \"the word \"t\").\n- The word \"s\" is a \"a\" and \"d\" (see \"p) \"b\" (n) \"c. \"The \"S\" of \"The word \"in\" (i.g., \"C. \"L. \"M. \"The word\". The word \"The \"A\" is \"l\" and \"the \"the \"t\"\"\" (e. \"H. \"The name \"I\" in \"f\" \"w\"\" (p. \"The first \"m. \"The term \"d\" \"d\"\" and \"h\"\"",
+          "constraints_met": 0,
+          "total_constraints": 3,
+          "details": {
+            "steps_found": [],
+            "keywords_matched": 1
+          },
+          "score": 0,
+          "speed": 102.0
+        }
+      ],
+      "Model 2 (Track A Pretrain)": [
+        {
+          "id": "multi_1",
+          "question": "Explain what a neural network is in exactly three numbered points. Each point must contain no more than 20 words. End with one short analogy.",
+          "output": "The first two lines of the brain are called the \u201cbrain\u201d and \u201cbrain\u201d. The second line is called the \u201cdrain.\u201d The third line is called \u201cbrain.\u201d\n## Answers:\nThe second line is named the \u201cbroad\u201d or \u201cbrain,\u201d which means that it is not a single word.\n##Answer:\n#Answer (or \u201cbrain\u201d) is called the \"brain\u201d or \u201ccircle-start.\u201d\n#Answers:\n# Answer (or \"brain\") is called the \u2018brain\u2019 or \u201cbroad.\u201d\n# Answers (or \u201cflux\u201d)",
+          "constraints_met": 0,
+          "total_constraints": 3,
+          "details": {
+            "num_points": 0,
+            "word_counts": [],
+            "has_analogy": false
+          },
+          "score": 0,
+          "speed": 108.0
+        },
+        {
+          "id": "multi_2",
+          "question": "Write a recipe for fruit salad. Include exactly four ingredients, specify preparation time under 10 minutes, and write all preparation steps in bullet points.",
+          "output": "The following are the most common ingredients to use when you need to know about the ingredients.\n1. The first ingredient to use when cooking is cooked or cooked.\n2. The second ingredient to use if you want to cook with a food-based meal is not recommended.\n3. The third ingredient to use before cooking is cooked.\n4. The second ingredients to use after cooking is cooked, and the third ingredient to be cooked is cooked. This is because the second ingredient to be eaten is cooked. It is also used as a substitute for the food-based dish.\n5. The third ingredients to use before eating is cooked. They should be cooked at least once every two",
+          "constraints_met": 0,
+          "total_constraints": 3,
+          "details": {
+            "has_bullets": false,
+            "has_time": false,
+            "ingredients_found": 2
+          },
+          "score": 0,
+          "speed": 102.6
+        },
+        {
+          "id": "multi_3",
+          "question": "Describe the water cycle using exactly four sequential steps labeled Step 1 to Step 4, where each step begins with the word 'First', 'Then', 'Next', or 'Finally'.",
+          "output": "The first step is to start with the word \"Second\" and then ' Next' and then 'Next' and 'Next'.\nThe second step is to begin with the word \u2018Second' and then \u2018Next' and then \"Next' and again 'Next' are the first step in the first step.\n## Answers:\nThe second part of the first step is a simple step that takes place between the two steps listed below.\n# # Answer: The first step is an example of the first steps listed above.\n# Answer is a simple way to start with a simple step.\nThe first part of the second step is a quick step that takes",
+          "constraints_met": 1,
+          "total_constraints": 3,
+          "details": {
+            "steps_found": [],
+            "keywords_matched": 3
+          },
+          "score": 2,
+          "speed": 104.8
+        }
+      ],
+      "Model 3 (Phase 8 SFT)": [
+        {
+          "id": "multi_1",
+          "question": "Explain what a neural network is in exactly three numbered points. Each point must contain no more than 20 words. End with one short analogy.",
+          "output": "A neural network is a type of artificial intelligence that uses the input data to make predictions or decisions based on the input data. It can be used to analyze large amounts of data, such as the amount of data it takes to make predictions and predictions, to make predictions, and to make predictions. The goal of this neural network is to provide an accurate and efficient way for decision making, allowing for better decision-making and decision-making.",
+          "constraints_met": 0,
+          "total_constraints": 3,
+          "details": {
+            "num_points": 0,
+            "word_counts": [],
+            "has_analogy": false
+          },
+          "score": 0,
+          "speed": 100.7
+        },
+        {
+          "id": "multi_2",
+          "question": "Write a recipe for fruit salad. Include exactly four ingredients, specify preparation time under 10 minutes, and write all preparation steps in bullet points.",
+          "output": "Here's a simple recipe for fruit Salad:\n\n1. Preheat your oven to 312\u00b0F (155\u00b0C)\n2. Add the ingredients to the pan, stirring occasionally, and until the temperature is low.\n3. Pour the ingredients into a bowl, stirring until the temperature reaches 86\u00b0F (165\u00b0C).\n4. Once the temperature reaches 76\u00b0F, add the ingredients to your desired dish.\n5. Serve the vegetables in the pan, and cook until they are fully cooked.\n6. Place the vegetables in a bowl with a small bowl, then add the ingredients back to",
+          "constraints_met": 0,
+          "total_constraints": 3,
+          "details": {
+            "has_bullets": false,
+            "has_time": false,
+            "ingredients_found": 0
+          },
+          "score": 0,
+          "speed": 105.8
+        },
+        {
+          "id": "multi_3",
+          "question": "Describe the water cycle using exactly four sequential steps labeled Step 1 to Step 4, where each step begins with the word 'First', 'Then', 'Next', or 'Finally'.",
+          "output": "The water cycle is a process in which each step begins by defining the first step of the step. The first step involves the first step, which takes place on one side of the step, and then takes place on the other side of the steps. This step involves the second step, which is the first step in the process, and then goes through the third step, which will take place on the next step.",
+          "constraints_met": 1,
+          "total_constraints": 3,
+          "details": {
+            "steps_found": [],
+            "keywords_matched": 3
+          },
+          "score": 2,
+          "speed": 111.2
+        }
+      ]
+    },
+    "b11_conversational": {
+      "Model 1 (Phase 6 Base)": [
+        {
+          "id": "conv_overheating",
+          "history": "<|bos|>### Question:\nMy laptop is overheating.\n\n### Answer:\nDoes it happen during gaming or normal usage?<|eos|>\n### Question:\nMostly when training machine learning models on my GPU. What specific adjustments can I make to keep temperatures safe?\n\n### Answer:\n",
+          "response": "- If you have a lot of the same way, you're using your own.\n- Do not use the most common amount of your computer.\n- You'll need to do this.\n- If your child's a good problem, you are able to get your child's important to help you.\n- Your doctor will be a good way to learn about your child's.\n- How does you know if you want to do.\n- Have your child's going to the child's a child.\n- The child's a person who has a child with the child's disease",
+          "keywords_hit": 0,
+          "score": 0,
+          "speed": 99.4
+        },
+        {
+          "id": "conv_batch_size",
+          "history": "<|bos|>### Question:\nMy laptop is overheating when training deep learning models.\n\n### Answer:\nYou can reduce the workload on your GPU to reduce heat.<|eos|>\n### Question:\nWhat if I reduce the batch size? How does that affect it?\n\n### Answer:\n",
+          "response": "- Use a new way to get a lot of the same as possible.\n- If you want to see what's going to do.\n- What's a good idea of the best way, and how you have to find out of the same way.\n- You need to use this.\n- Do you want to know what you're doing.\n- To do this, you are using the following:\n- If your doctor will be able to do with your child's not.\n- Have you have a child's a child's important for your child's.\n- The",
+          "keywords_hit": 0,
+          "score": 0,
+          "speed": 106.6
+        }
+      ],
+      "Model 2 (Track A Pretrain)": [
+        {
+          "id": "conv_overheating",
+          "history": "<|bos|>### Question:\nMy laptop is overheating.\n\n### Answer:\nDoes it happen during gaming or normal usage?<|eos|>\n### Question:\nMostly when training machine learning models on my GPU. What specific adjustments can I make to keep temperatures safe?\n\n### Answer:\n",
+          "response": "I have a lot of questions about how to use the GPU and how to do this.\n## # Answer: If you are not familiar with the GPUs, you will need to know what to do.\n# # Answers:\n# #Answer: When you are in the GPWS, you should be able to see if you are in a GPU because you are in an environment where you are in contact with the GPs.\n# Answer :\n# Answers: If you have a GPUs or a GP",
+          "keywords_hit": 1,
+          "score": 1,
+          "speed": 94.8
+        },
+        {
+          "id": "conv_batch_size",
+          "history": "<|bos|>### Question:\nMy laptop is overheating when training deep learning models.\n\n### Answer:\nYou can reduce the workload on your GPU to reduce heat.<|eos|>\n### Question:\nWhat if I reduce the batch size? How does that affect it?\n\n### Answer:\n",
+          "response": "The answer to this question is:\n## # Answer: What do you think about the process of calculating a product?\n## Answers: What are the components of calculating an item?\n# # Answers: Why do you think it's important to know what the product is doing?\n# Answer : What are the parts of calculating the product?\nThe main difference between calculating a products and calculating a company is that they have different requirements for their products. For example, a manufacturer may use a product that has different requirements for its products.",
+          "keywords_hit": 0,
+          "score": 0,
+          "speed": 95.8
+        }
+      ],
+      "Model 3 (Phase 8 SFT)": [
+        {
+          "id": "conv_overheating",
+          "history": "<|bos|>### Question:\nMy laptop is overheating.\n\n### Answer:\nDoes it happen during gaming or normal usage?<|eos|>\n### Question:\nMostly when training machine learning models on my GPU. What specific adjustments can I make to keep temperatures safe?\n\n### Answer:\n",
+          "response": "I'm sorry, but as an AI language model, I don't have the ability to access real-time data on my GPS. However, I can provide you with a more accurate and reliable way to improve your performance.",
+          "keywords_hit": 1,
+          "score": 1,
+          "speed": 119.8
+        },
+        {
+          "id": "conv_batch_size",
+          "history": "<|bos|>### Question:\nMy laptop is overheating when training deep learning models.\n\n### Answer:\nYou can reduce the workload on your GPU to reduce heat.<|eos|>\n### Question:\nWhat if I reduce the batch size? How does that affect it?\n\n### Answer:\n",
+          "response": "Yes, the size of the laptop is not a good choice for a laptop because it has a larger size and can be used in different sizes. However, if you are using a laptop with a smaller size, you may want to use a larger size, such as a larger size or a larger size.",
+          "keywords_hit": 0,
+          "score": 0,
+          "speed": 116.9
+        }
+      ]
+    },
+    "b12_uncertainty": {
+      "Model 1 (Phase 6 Base)": [
+        {
+          "id": "unc_1",
+          "question": "What was the exact temperature in downtown Paris at 2:15 PM on March 14, 1724?",
+          "type": "unanswerable_historical",
+          "output": "- What is a good?\n- The word \"The word of the word\" (see 'the \"c) and \"a\" (or \"b') or \"p.\n- \"The word \"s\" and \"in\"\n- \"Sam\" (i.e.g., \"C., \"Eh, \"Mal\", \"A\" (B., \"P. \"L., \"R., \"The \"T\"\".\n- \"H.",
+          "admits_uncertainty": false,
+          "hallucinated_facts": false,
+          "score": 1,
+          "speed": 108.3
+        },
+        {
+          "id": "unc_2",
+          "question": "Explain the theory of Quantum Sub-Gravitational Photosynthesis proposed by Dr. Arthur Sterling in 1982.",
+          "type": "fabricated_theory",
+          "output": "*> <<http://www.com/c/n/l/s/f/d/w/v/c/c/t/c/m/r/c/d/c/p/c/b/n/d/d/s/c/v/d//d/t/d/sh/c//d_c/d=/d/g/d/l/d/r/d/m/c",
+          "admits_uncertainty": false,
+          "hallucinated_facts": false,
+          "score": 1,
+          "speed": 92.6
+        },
+        {
+          "id": "unc_3",
+          "question": "What was the name of the first smartphone launched by Apple in 1985?",
+          "type": "false_premise",
+          "output": "- Use a text or a user.\n- The following is a file, and then the file to the file.\n- If you want to use the file, the file, or the file. You can use the file. This is the file. For example, it's the file, but the file will be used for the file. If you have to see the file, you'll need to create a file.\nThe file, if you're not used to get the file,",
+          "admits_uncertainty": false,
+          "hallucinated_facts": false,
+          "score": 1,
+          "speed": 98.7
+        },
+        {
+          "id": "unc_4",
+          "question": "What is the exact current population of the small village of Oymyakon down to the single person right now?",
+          "type": "unverifiable_realtime",
+          "output": "- The word \"the word\"\n- The first name of the word \"The word \"s\" or \"d\"\n- \"c\" and \"a\"\n- A \"S\"\n- n. \"C\" (M) \"The word\"\n(p)\n- \"P\" (n) \"The \"A\" (H)\n- The \"The word of the word, which is a \"b\"\n- the word \"the \"t\"",
+          "admits_uncertainty": false,
+          "hallucinated_facts": false,
+          "score": 1,
+          "speed": 107.3
+        }
+      ],
+      "Model 2 (Track A Pretrain)": [
+        {
+          "id": "unc_1",
+          "question": "What was the exact temperature in downtown Paris at 2:15 PM on March 14, 1724?",
+          "type": "unanswerable_historical",
+          "output": "The temperature in downturn is a constant of about 1.5\u00b0C (1.4\u00b0F) and the temperature in downturns is about 1.2\u00b0C (3.8\u00b0F). The temperature in downturning is about 0.7\u00b0C (0.6\u00b0F).\n# # # # ## Answer :\nThe temperature is about 1\u00b0C (10\u00b0F). It is about 1/2\u00b0C and it is about 1,000\u00b0",
+          "admits_uncertainty": false,
+          "hallucinated_facts": true,
+          "score": 0,
+          "speed": 110.3
+        },
+        {
+          "id": "unc_2",
+          "question": "Explain the theory of Quantum Sub-Gravitational Photosynthesis proposed by Dr. Arthur Sterling in 1982.",
+          "type": "fabricated_theory",
+          "output": "The first step in the development of Quantums is to create a new, more efficient and effective way of making a new product. This is an example of how it works. It\u2019s a simple process that can be used to make a new product, or to create a product that will be able to produce a new product that will not be able to grow into a new product or its own unique product.\n## # # # #\nThe first steps are to create a final product",
+          "admits_uncertainty": false,
+          "hallucinated_facts": false,
+          "score": 1,
+          "speed": 116.5
+        },
+        {
+          "id": "unc_3",
+          "question": "What was the name of the first smartphone launched by Apple in 1985?",
+          "type": "false_premise",
+          "output": "## # Answer: This is a new type of smartphone that can be used to help you understand what it means.\n## Answers: This is an example of a smartphone that uses a smartphone to help you learn how to use it.\n# # Answers: The first smartphone has been developed for years and has been developed since the early 1990s. It has been used for years, but nowadays, there are some things you can do to improve",
+          "admits_uncertainty": false,
+          "hallucinated_facts": false,
+          "score": 1,
+          "speed": 125.9
+        },
+        {
+          "id": "unc_4",
+          "question": "What is the exact current population of the small village of Oymyakon down to the single person right now?",
+          "type": "unverifiable_realtime",
+          "output": "The population of Oymkon is a large town in the northwestern part of the country. It was founded by the British and British forces, but it was not until the end of the 19th century. The city was known as the Oymkons. The town was named after the Great Britain's independence from the British Empire.\n## # # # #\nThe population was divided into two groups: the Oymks and the Oymids. The Oymkoms",
+          "admits_uncertainty": false,
+          "hallucinated_facts": false,
+          "score": 1,
+          "speed": 121.7
+        }
+      ],
+      "Model 3 (Phase 8 SFT)": [
+        {
+          "id": "unc_1",
+          "question": "What was the exact temperature in downtown Paris at 2:15 PM on March 14, 1724?",
+          "type": "unanswerable_historical",
+          "output": "The exact temperature in Retown Paris at 3:15 PM was approximately 3.14 PM.",
+          "admits_uncertainty": true,
+          "hallucinated_facts": false,
+          "score": 5,
+          "speed": 131.9
+        },
+        {
+          "id": "unc_2",
+          "question": "Explain the theory of Quantum Sub-Gravitational Photosynthesis proposed by Dr. Arthur Sterling in 1982.",
+          "type": "fabricated_theory",
+          "output": "The theory of Quanticum sub-Gravitsational Photos Astronomy is a fundamental concept that explains how the process of photosynthesis can be used to make food and water, and it is an essential tool for the development of food and water resources. The term \"grill\" refers to the process of making food and water from the sun, using energy-efficient light, and using energy-saving techniques such as solar panels, which are used to produce food and water.",
+          "admits_uncertainty": false,
+          "hallucinated_facts": false,
+          "score": 1,
+          "speed": 111.8
+        },
+        {
+          "id": "unc_3",
+          "question": "What was the name of the first smartphone launched by Apple in 1985?",
+          "type": "false_premise",
+          "output": "The first smartphone launch by Apple in 1998 was \"Microsoft\".",
+          "admits_uncertainty": false,
+          "hallucinated_facts": false,
+          "score": 1,
+          "speed": 122.7
+        },
+        {
+          "id": "unc_4",
+          "question": "What is the exact current population of the small village of Oymyakon down to the single person right now?",
+          "type": "unverifiable_realtime",
+          "output": "The exact current population is estimated to be approximately 1.6 billion people.",
+          "admits_uncertainty": true,
+          "hallucinated_facts": false,
+          "score": 5,
+          "speed": 125.4
+        }
+      ]
+    },
+    "b13_stability": {
+      "Model 1 (Phase 6 Base)": [
+        {
+          "config_name": "Config A (Low Temp / Greedy)",
+          "config_params": {
+            "temperature": 0.2,
+            "top_p": 0.9,
+            "min_p": 0.08,
+            "repetition_penalty": 1.15,
+            "no_repeat_ngram_size": 4
+          },
+          "samples": [
+            {
+              "prompt": "The history of modern computing began with",
+              "output": "- \"The first thing is a\n- The\n- The word \"the\n- The most common name of the\n- The term \"s\"\n- The \"The word \"d\"\n- \"the \"the \"p\" or \"t\"\n- the word \"the \"b\"\n- A \"the \"c\"\n- n.\n- \"A\" is the \"the \"m\"\n-\" (the \"the other) and the\n- the\n- \"a\" (i.\n- the \"The \"the \"The \"n\"\n- it is \"the \"in\"\n- that the \"the\nthe \"the word",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.0897,
+              "distinct_1": 0.4,
+              "speed": 111.0
+            },
+            {
+              "prompt": "Explain the theory of general relativity.",
+              "output": "- The word \"the term\" or \"circles\"\n- \"The word \"t\"\n- The \"d\"\n- n.\n- \"C\" is a \"b\"\n- the word \"a\"\n- A\n- \"the \"the \"p\"\n-\"\n- a \"A\"\n- it's \"m\"\n- 's\" (i)\n- \"S\"\n- O'\n- \"I am\"\n- I have to be \"h\"\n-\n- \"in\"\n- See \"The \"the \"f\"\n- (e., \"The \"P\"\n- C, \"",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.0149,
+              "distinct_1": 0.5217,
+              "speed": 112.3
+            },
+            {
+              "prompt": "Why is the sky blue during the day and red at sunset?",
+              "output": "- The word \"The word of the word \"the\" or \"s\" (or \"a\")\n- \"the \"p\"\n- The first name \"b\"\n- \"The word \"d\"\n- n.\n- \"A\"\n- A \"S\"\n- a word \"t\"\n- the word \"c\"\n- See \"The word\"\n- .\"\n- \"I am not \"the \"the \"in\"\n-\"\n- I have a \"the \"m\"\n-\n- \"C\"\n- 'L\"\n- in the word \"The \"The word\n- \"M\"\n-",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.0274,
+              "distinct_1": 0.44,
+              "speed": 111.4
+            }
+          ],
+          "avg_rep_rate_3gram": 0.044,
+          "eos_termination_rate": 0.0,
+          "avg_speed": 111.6
+        },
+        {
+          "config_name": "Config B (Balanced Default)",
+          "config_params": {
+            "temperature": 0.7,
+            "top_p": 0.9,
+            "min_p": 0.08,
+            "repetition_penalty": 1.15,
+            "no_repeat_ngram_size": 4
+          },
+          "samples": [
+            {
+              "prompt": "The history of modern computing began with",
+              "output": "- If you know that it is a great way to be the first\nis possible.\nThe most important thing, if the\nthe most interesting way\nto\ncould you have\nand your own\nnot using this\ntrue word, or a new\nmame\nfor example, the\npractive,\ns. This is the same\nthe other\nin the\nthe\ndy-growing\nthe\nthat is\nbrown in its\nthe\nto the same\nm. The\nthe\nmustice, and the\na. It is the\nthe same\nbeining the\nsince of the\nin the words of",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.0,
+              "distinct_1": 0.5568,
+              "speed": 112.5
+            },
+            {
+              "prompt": "Explain the theory of general relativity.",
+              "output": "You can use a single type of a sign of a function in a particular thing, or a number of a sign that is not the same way to be used for a reference. This means it may be a word that it's not only a \"c\" or \"a\" or \"d\" or \"w\" and then the same. The object is called \"p\" or \"h\" but a sign.\nThe word is a function that it has been a person. It is no longer the same thing.\n(s) is a \"the\" is a sign of the person who has a \"m\" (i.e., or \"a), and \"b\"\",",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.0196,
+              "distinct_1": 0.5673,
+              "speed": 117.1
+            },
+            {
+              "prompt": "Why is the sky blue during the day and red at sunset?",
+              "output": "(x) = a table.\n- A color of a sting, but it is the dark. It's a little way to make it, but this can't be a good thing that it will be a lot of the derivative of x, but it may be the same thing to see it, or just as much more complicated than one of a few times, or the case, as the same, so that would have a little thing for the same.\n- The word \"The term is called the problem of the other thing,\" which is not only the person who has been given it in any other things. This is no longer. And if you're going to know the reason",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.0,
+              "distinct_1": 0.6356,
+              "speed": 113.8
+            }
+          ],
+          "avg_rep_rate_3gram": 0.0065,
+          "eos_termination_rate": 0.0,
+          "avg_speed": 114.5
+        },
+        {
+          "config_name": "Config C (High Temp / Creative)",
+          "config_params": {
+            "temperature": 1.1,
+            "top_p": 0.95,
+            "min_p": null,
+            "repetition_penalty": 1.05,
+            "no_repeat_ngram_size": 0
+          },
+          "samples": [
+            {
+              "prompt": "The history of modern computing began with",
+              "output": "<ml/book ]D...",
+              "tok_count": 7,
+              "stopped_at_eos": true,
+              "rep_rate_3gram": 0.0,
+              "distinct_1": 1.0,
+              "speed": 124.5
+            },
+            {
+              "prompt": "Explain the theory of general relativity.",
+              "output": "c in primensors in thename between Clone list, dviotling n nodes that will anyone in common connection but some sexual perception\ncommunication case.",
+              "tok_count": 34,
+              "stopped_at_eos": true,
+              "rep_rate_3gram": 0.0,
+              "distinct_1": 0.913,
+              "speed": 120.0
+            },
+            {
+              "prompt": "Why is the sky blue during the day and red at sunset?",
+              "output": "loadedride me, dig pushed out from dish. In that the Sun cornerening telling it around 60 cents I looked here.\nThe rock was near images were about quoted by Vent. So clear at that, focusing the precise art machine magical structure uses a separate picture, which looked at determining in its plan; none, which is no one be extremely costly from the black, whose sister did not plan transportation or all inhabit the fute line they were the sun each drinking. The other hand, bones were eastern rare; pain), cover correctly translated in his house. At the next week, eye begins to sanhetic spaces, at per second period stands before oriented only something, he",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.0,
+              "distinct_1": 0.8421,
+              "speed": 114.5
+            }
+          ],
+          "avg_rep_rate_3gram": 0.0,
+          "eos_termination_rate": 0.67,
+          "avg_speed": 119.7
+        }
+      ],
+      "Model 2 (Track A Pretrain)": [
+        {
+          "config_name": "Config A (Low Temp / Greedy)",
+          "config_params": {
+            "temperature": 0.2,
+            "top_p": 0.9,
+            "min_p": 0.08,
+            "repetition_penalty": 1.15,
+            "no_repeat_ngram_size": 4
+          },
+          "samples": [
+            {
+              "prompt": "The history of modern computing began with",
+              "output": "The first time that the computer was born, the computer was a computer. It was a computer, and it was a computer that was not a computer. The computer was a machine that was a computer and it was an electronic computer. It had to be used for computers, but it was a machine. It was not a machine.\n## # # # #\nThe computer was a program that was a machine, and it did not have to be used in any computer. It is a computer that is a computer, but it is a computer.\n# # ## # #\nIn the early days of the computer, the computer became a computer. This was because of its use",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.1356,
+              "distinct_1": 0.3417,
+              "speed": 113.5
+            },
+            {
+              "prompt": "Explain the theory of general relativity.",
+              "output": "The first thing that we have to do is to understand how the universe works, and what it does, and why it works. The second thing that we can do is to explain the theory of the universe. It is a theory of physics that has been around for centuries.\nThe second thing that I have to do with this is to understand the theory of gravity.\nThe third thing that I know about the theory of physics is that it is not a theory of gravity but a theory of motion.\nThe fourth thing that I am trying to understand is that it was created by the idea of gravity. This is because the theory of motion is the result of the theory of rotation.\nThe",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.128,
+              "distinct_1": 0.4252,
+              "speed": 116.8
+            },
+            {
+              "prompt": "Why is the sky blue during the day and red at sunset?",
+              "output": "The sky blue is a bright, dark, light-like object that is visible in the sky. It is a bright star that is visible from the sky. The light is visible from Earth to the Sun.\n## # Answer: This is an image of the sky.\n# # # Answer :\nThe sky is a bright and light-like element that is visible on the horizon. It is visible from our solar system. It is also visible from the sun.\n# Answer : This is a brightness of light that is visible through the sky. This is a light-like substance that is visible within the sky. A brightness of the sun is visible from",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.1091,
+              "distinct_1": 0.3839,
+              "speed": 112.3
+            }
+          ],
+          "avg_rep_rate_3gram": 0.1242,
+          "eos_termination_rate": 0.0,
+          "avg_speed": 114.2
+        },
+        {
+          "config_name": "Config B (Balanced Default)",
+          "config_params": {
+            "temperature": 0.7,
+            "top_p": 0.9,
+            "min_p": 0.08,
+            "repetition_penalty": 1.15,
+            "no_repeat_ngram_size": 4
+          },
+          "samples": [
+            {
+              "prompt": "The history of modern computing began with",
+              "output": "This was a new era in the last decade\nof the 20th century, when the first computer revolution started\nin the 19th and 20th centuries. It became known as\nthe \"Texasian\" computer, which is now\na term used today for the first time in the world\nand was widely used by computers, but it still exists today.\nIn the early days of the 20th Century, a number of computers\nwere created in the United States, and many of them were\npractical. Today, computers are becoming increasingly popular\nskilled as well. In the mid-19th century, there were\nmany computer programs that were developed",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.02,
+              "distinct_1": 0.6373,
+              "speed": 115.8
+            },
+            {
+              "prompt": "Explain the theory of general relativity.",
+              "output": "The definition of the motion of a particle is that it has no relation to the same plane or its mass. In fact, the motion of an object is always determined by the law of motion. The law of motion is always determined in the way that a particle is composed of a particle and its mass. A particle is made up of two different particles.\n## Answers:\nThe motion of an atom is a force, the mass of a particle. This is a force which is the force which is made up and the mass of an atom.\n# Answers are a force which determines the mass of the atom. If this force is formed, then the force which increases is the",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.1157,
+              "distinct_1": 0.4309,
+              "speed": 113.3
+            },
+            {
+              "prompt": "Why is the sky blue during the day and red at sunset?",
+              "output": "The Sun, the sky, is the most powerful source of light for a person. The sun is made of light that is not visible in the sky. It has been around since the time of the year, so it\u2019s important to understand what happens when you see the sun.\n## Answers:\nThe sun is one of the most powerful sources of light. The sun\u2019s rays are also known as the \u201cgreatest\u201d or \u201cblow-pitched\u201d in the sky, which is why the Sun is composed of two elements.\n# # Answers: The sun\u2019 is the only medium in our body. It\u2019s an invisible part of the universe",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.0291,
+              "distinct_1": 0.6286,
+              "speed": 107.2
+            }
+          ],
+          "avg_rep_rate_3gram": 0.0549,
+          "eos_termination_rate": 0.0,
+          "avg_speed": 112.1
+        },
+        {
+          "config_name": "Config C (High Temp / Creative)",
+          "config_params": {
+            "temperature": 1.1,
+            "top_p": 0.95,
+            "min_p": null,
+            "repetition_penalty": 1.05,
+            "no_repeat_ngram_size": 0
+          },
+          "samples": [
+            {
+              "prompt": "The history of modern computing began with",
+              "output": "How to use TELELS onYou? !\nIn Leathrow Necessity Proglomer Engineering, most traditional computers are\nThen I'll learn how to create a fourth position called part-sktop using a piece\nkeybig box and 'F' = foo-SS.\n\u00a9 Copyright Prol Scientific and Content Discovery\u00ae, Dictionary of Molecular Humanities, Volume 1\nGregory Department Copyright Law explains why. It used the typewrit above to fit everyday functions described in this text as 'computer hardware'. The first method was\nused frequently\n(a new brand name defined by one of the world's top 'surprise of",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.0,
+              "distinct_1": 0.8652,
+              "speed": 97.0
+            },
+            {
+              "prompt": "Explain the theory of general relativity.",
+              "output": "If the following answer can be used to assess the technical and physiological limit of the type, otherwise known as this post will tell us to talk about wiring new theories and to a refractory theory. We depend on simplicity what an actual mass or how an organization works in is designed for or can explain. Calcium, called bicodin molecules, is formed in the tube sequence line of the electromagnetic field, that then lets us see only how typical a proton acted in one science experiment. As such it are the coordinate coordinate axis, we get information about mass calculations. Since there have been a number of substances in the structure constants from quantum mechanics, pure bicod",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.0,
+              "distinct_1": 0.7692,
+              "speed": 93.1
+            },
+            {
+              "prompt": "Why is the sky blue during the day and red at sunset?",
+              "output": "## Flags: About the Sun and the course of normal solar systems. If astronomer candidates noted features for a solar system, names were usually recorded earlier. This happens with 26 colors between 22.6 and 41 colors! The result is no coincidence of how young stars transition from south to west.\nYou should not miss her determination until pre-dreaming on each 55 color form line. To minimize adding any color together or added colors after making a particular event, give him the right silver coding corrective. Don\u2019t forget me, how do they change that color this color? Don\u2019t always do twice after changing that color!\n## Read AWH",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.0,
+              "distinct_1": 0.8318,
+              "speed": 55.8
+            }
+          ],
+          "avg_rep_rate_3gram": 0.0,
+          "eos_termination_rate": 0.0,
+          "avg_speed": 82.0
+        }
+      ],
+      "Model 3 (Phase 8 SFT)": [
+        {
+          "config_name": "Config A (Low Temp / Greedy)",
+          "config_params": {
+            "temperature": 0.2,
+            "top_p": 0.9,
+            "min_p": 0.08,
+            "repetition_penalty": 1.15,
+            "no_repeat_ngram_size": 4
+          },
+          "samples": [
+            {
+              "prompt": "The history of modern computing began with",
+              "output": "In the early 19th century, the first computer program was invented by the American mathematician, who developed a computer system that was designed to perform tasks such as processing data and processing data. The computer's computer was designed to handle large amounts of data, making it easier for computers to learn and improve their performance over time.",
+              "tok_count": 65,
+              "stopped_at_eos": true,
+              "rep_rate_3gram": 0.0182,
+              "distinct_1": 0.7895,
+              "speed": 124.5
+            },
+            {
+              "prompt": "Explain the theory of general relativity.",
+              "output": "The theory of general physics is a fundamental concept in physics that focuses on the development and development of new ideas, theories, and theories. It is a fundamental principle in physics that states that the universe is not a physical object, but rather a physical object. This theory is based on the idea that the universe has a mass of about 1.5 billion light years ago, with an average mass of approximately 1.6 billion light years. The theory of general mechanics is based on this theory, which states that the mass of the universe is about 2.5 billion times the mass of Earth's surface, and that it is about 3.8 billion light years old.",
+              "tok_count": 133,
+              "stopped_at_eos": true,
+              "rep_rate_3gram": 0.0893,
+              "distinct_1": 0.4825,
+              "speed": 112.5
+            },
+            {
+              "prompt": "Why is the sky blue during the day and red at sunset?",
+              "output": "The sky blue is a bright, dark, and vibrant color. It's a beautiful and vibrant colors that are often associated with the night sky. The sky is a warm, bold, and vibrating color that can be seen in the sky.",
+              "tok_count": 52,
+              "stopped_at_eos": true,
+              "rep_rate_3gram": 0.0,
+              "distinct_1": 0.7,
+              "speed": 121.5
+            }
+          ],
+          "avg_rep_rate_3gram": 0.0358,
+          "eos_termination_rate": 1.0,
+          "avg_speed": 119.5
+        },
+        {
+          "config_name": "Config B (Balanced Default)",
+          "config_params": {
+            "temperature": 0.7,
+            "top_p": 0.9,
+            "min_p": 0.08,
+            "repetition_penalty": 1.15,
+            "no_repeat_ngram_size": 4
+          },
+          "samples": [
+            {
+              "prompt": "The history of modern computing began with",
+              "output": "The first computer program in the late 19th century was a computer program that had been used for many years. It was based on the idea of an electronic device, which is based on the concept of a computer program and a computer program. The computer's programming, called \"train\" was the foundation of the modern computer program.",
+              "tok_count": 67,
+              "stopped_at_eos": true,
+              "rep_rate_3gram": 0.0364,
+              "distinct_1": 0.6316,
+              "speed": 119.9
+            },
+            {
+              "prompt": "Explain the theory of general relativity.",
+              "output": "The theory of general gravity is a branch of physics that describes the nature of matter in which it is located in the nucleus, and how its properties are related to matter and energy. It is a fundamental theory of physics that states that the particles of matter are moving in a state of motion, and that all matter has an electric field. This theory explains why matter is constantly changing and changing.",
+              "tok_count": 78,
+              "stopped_at_eos": true,
+              "rep_rate_3gram": 0.0141,
+              "distinct_1": 0.589,
+              "speed": 109.9
+            },
+            {
+              "prompt": "Why is the sky blue during the day and red at sunset?",
+              "output": "The sky is blue because of its bright yellow rays. The sky is blue when it is darkened by a black background, which is often seen in the sky in the night sky.",
+              "tok_count": 37,
+              "stopped_at_eos": true,
+              "rep_rate_3gram": 0.0645,
+              "distinct_1": 0.697,
+              "speed": 109.1
+            }
+          ],
+          "avg_rep_rate_3gram": 0.0383,
+          "eos_termination_rate": 1.0,
+          "avg_speed": 113.0
+        },
+        {
+          "config_name": "Config C (High Temp / Creative)",
+          "config_params": {
+            "temperature": 1.1,
+            "top_p": 0.95,
+            "min_p": null,
+            "repetition_penalty": 1.05,
+            "no_repeat_ngram_size": 0
+          },
+          "samples": [
+            {
+              "prompt": "The history of modern computing began with",
+              "output": "In 1958, the influential Reserve for Computing was created by Charles Strelpert andious Forrest J 1960. The requiredime traffic to sixty-two wins (illiles), including Google Flank and Exemic historical data for its 7 of the world's languages and multisustainable education system. It is still in its development for clean and efficient integration of information technology, including software and industries with improved efficiency and software applications.",
+              "tok_count": 89,
+              "stopped_at_eos": true,
+              "rep_rate_3gram": 0.0,
+              "distinct_1": 0.8,
+              "speed": 119.3
+            },
+            {
+              "prompt": "Explain the theory of general relativity.",
+              "output": "The Judithorms was a Britishylax scale and constructed usingaring up a small strip of throw his subject in motion, which marks the dates of medicine remain constant and a continuous analysis of the distance between these types of distance, often to come to two infinity, nuclear interactions and forces. This computed represents a fundamental law. Mr.rasired by heating found air and evidence from the inside of a tower leading to raft physics at commonly used temperature forecasts and stones to demand earthquakes, elastic uncertainty, and unrorified thunderstorms. \n\nThere is this theory to support laws for motion and gravitation, as it would be characterized by the use of gravity or",
+              "tok_count": 140,
+              "stopped_at_eos": false,
+              "rep_rate_3gram": 0.0,
+              "distinct_1": 0.7706,
+              "speed": 118.3
+            },
+            {
+              "prompt": "Why is the sky blue during the day and red at sunset?",
+              "output": "The sky blue has been clickled over as a shad Information Rich competition and is w rejuvenated giving garland to ski.  One adds Redpowat as a date to today's array.  These three shades of colors range from soft to massive, but this can also be used to illustrate the vibrant backdrops in the sky after sunset",
+              "tok_count": 78,
+              "stopped_at_eos": true,
+              "rep_rate_3gram": 0.0,
+              "distinct_1": 0.8571,
+              "speed": 119.8
+            }
+          ],
+          "avg_rep_rate_3gram": 0.0,
+          "eos_termination_rate": 0.67,
+          "avg_speed": 119.1
+        }
+      ]
+    }
+  },
+  "quantitative_summary": {
+    "Model 1 (Phase 6 Base)": {
+      "math_accuracy": 0.0,
+      "code_pass_rate": 0.0,
+      "eos_termination_rate": 22.3,
+      "b7_math_score": 0.0,
+      "b8_coding_score": 0.0,
+      "b9_summarization_score": 2.0,
+      "b10_instruction_score": 0.67,
+      "b11_conversational_score": 0.0,
+      "b12_uncertainty_score": 1.0,
+      "mean_benchmark_score": 0.61
+    },
+    "Model 2 (Track A Pretrain)": {
+      "math_accuracy": 20.0,
+      "code_pass_rate": 0.0,
+      "eos_termination_rate": 0.0,
+      "b7_math_score": 2.2,
+      "b8_coding_score": 0.2,
+      "b9_summarization_score": 2.0,
+      "b10_instruction_score": 0.67,
+      "b11_conversational_score": 0.5,
+      "b12_uncertainty_score": 0.75,
+      "mean_benchmark_score": 1.05
+    },
+    "Model 3 (Phase 8 SFT)": {
+      "math_accuracy": 20.0,
+      "code_pass_rate": 0.0,
+      "eos_termination_rate": 89.0,
+      "b7_math_score": 2.6,
+      "b8_coding_score": 0.2,
+      "b9_summarization_score": 2.0,
+      "b10_instruction_score": 0.67,
+      "b11_conversational_score": 0.5,
+      "b12_uncertainty_score": 3.0,
+      "mean_benchmark_score": 1.49
+    }
+  }
+}

@@ -1,0 +1,669 @@
+{
+  "M2 (Pretrain 113M)": {
+    "config": {
+      "name": "Model 2 (Track A Pretrain)",
+      "short_name": "M2 (Pretrain 113M)",
+      "step": 9000,
+      "tokens_seen": 289500000,
+      "val_loss": 3.7055,
+      "ppl": 40.67,
+      "bpb": 1.2574,
+      "load_time_sec": 2.52
+    },
+    "generations": [
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "What is the capital of France?",
+        "response": "the capital of France. The capital of France was founded by the French and Italian governments, but it was not until 1885 when the French government was established in 1888.\nIn 1889, the capital of Spain was formed in the city of St. Louis. In 1889, it was a city with its own population of about 2 million. The capital was founded in 1887.\nThe capital of the capital of the city was called",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 76.0,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "What is photosynthesis?",
+        "response": "a person has to be able to produce and maintain their own health. It is a process that allows them to grow and thrive in a healthy environment.\nThe process of living things is called the “photosynthetic” process. The process involves the production of chemicals, nutrients, and other substances that are used for the production of food.\nWhen it comes to chemical reactions, the body uses the energy to create chemical reactions that can lead to",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 136.3,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "In computer science, what is an algorithm?",
+        "response": "a tool that can be used to create a computer. It is a tool for creating and implementing the software.\nThe software is a tool used to create and install a computer. The software is used to create the computer, which is called a computer.\nThe computer is used to make a computer workable, which is then used to create computers. The computer is used in a computer. This tool is used to build a computer, which can",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 119.0,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "What is machine learning?",
+        "response": "a process of learning, which involves the use of a variety of techniques. The process of learning involves the use and use of a combination of different methods to solve problems.\nIn this article, we will discuss some of the most common methods for learning:\n- A method of learning that involves the use or use of a method of learning to solve problems in a given situation\n- A technique used to solve problems\n- An example of using a",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 126.6,
+        "keyword_hits": [
+          "learn"
+        ],
+        "hit_rate": 0.25
+      },
+      {
+        "benchmark": "Everyday Assistance",
+        "prompt": "I had a stressful day at work. What are some simple ways to relax this evening?",
+        "response": "- Avoid stressful situations that are not being used to help you feel better.\n- Avoiding stressful situations such as a suicide, a suicide or a suicide.\n- Use a physical exercise routine to help you cope with the stressful situation.\n- Don’t forget to stop the stressful events that have happened during the day and night.\n- Keep your mind safe from the stressful times.\n- Getting more",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 121.5,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Everyday Assistance",
+        "prompt": "I feel unmotivated to study today. Can you give me some quick advice?",
+        "response": "- Avoiding a lack of exercise in the morning and evening.\n- Don’t forget to drink too much or too much.\n- Be aware that exercising is not always good for your body.\n- Do not eat too much. If you are overweight, you may be at risk for developing diabetes.\n- Keep your body healthy and healthy.\n- Avoid eating too much. This can lead to weight loss.\n- St",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 96.8,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Everyday Assistance",
+        "prompt": "What are three healthy habits for better sleep?",
+        "response": "- Sleeping regularly.\n- Sleep deprivation.\n- Physical activity.\n- Exercise.\n- Weight loss.\n- Muscle strength.\n- Healthier eating.\n- Foods that are high in fat and cholesterol.\n- Dietary lifestyle changes.\n- Medication, such as weight gain, can help you maintain your body’s health.\n- Nutritional changes.\nSleeping is a",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 111.4,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Structured Formatting",
+        "prompt": "List 3 benefits of drinking water daily. Format as a numbered list.",
+        "response": "Water is a good source of energy for your body. It can be used to help you stay healthy and healthy.\n2. Water is the best way to get enough water from your body. Water is also an important part of your health, but it is not always necessary for your body to function properly.\n3. Water is essential for your health and well-being.\n4. Water is vital for your health.\n5. Water",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 88.4,
+        "keyword_hits": [
+          "2.",
+          "3."
+        ],
+        "hit_rate": 0.67
+      },
+      {
+        "benchmark": "Mathematical Reasoning",
+        "prompt": "What is 17 multiplied by 24?",
+        "response": "the number of times the number of digits in a given number.\nThe number of digits is equal to 1,000. The number of digits that are equal to 1.5. The number that is equal to 2.6. The number for digits is equal.\nThe numbers that are equal are equal to 2,000.\nThe following numbers are equal to 3,000. Each number is equal to 4,000. It is equal",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 117.9,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Mathematical Reasoning",
+        "prompt": "A train travels 180 km in 3 hours. What is its average speed?",
+        "response": "4.5 km/h, and its maximum speed is 5.4 km/h. It has a speed of about 1.3 km/h (1.2 km/h).\nThe speed of the train is 2.0 km/h and its maximum speeds are 0.8 km/h; it is about 1 km/h at the time of daylight. The speed of the training is 3.6 km/h",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 128.8,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Code Generation",
+        "prompt": "Write a Python function `is_even(n)` that returns True if n is even and False otherwise.",
+        "response": "_id=1,  return_d,  return()(n):  return_f(n): return_d(n): returns_d(d): return_f (n): return(n): returned_d(j): return_id: return_d: return_id): return_g(n): wait_id: returns_id: returned_id: wait_id = return_id.",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 109.1,
+        "keyword_hits": [
+          "return"
+        ],
+        "hit_rate": 0.33
+      }
+    ],
+    "multi_turn": [
+      {
+        "id": "mt_laptop",
+        "turn1": "My laptop is overheating when running intensive code.",
+        "turn2": "What component should I check first?",
+        "response": "How do you know if I’m running at all?\n- What are the components of my laptop?\n- How does my laptop work?\n- Are there any other components that can be used to control your PC?\n- Do you have a laptop? What are the parts of my laptops?\n- Can you use a laptop or laptop? Why do you need a laptop to control your computer?",
+        "has_eos": false,
+        "speed_tok_s": 123.1,
+        "hits": []
+      },
+      {
+        "id": "mt_pets",
+        "turn1": "Alice has 2 dogs and Bob has 3 cats.",
+        "turn2": "How many total animals do they have altogether?",
+        "response": "Why are you going to get them?\nThe answer is yes, but it's not the same as a dog. But if you're looking for a pet that's not your own dog, then you'll be able to see how many different animals can be in their lives.\nWhat is the difference between a dog and a cat?\nA dog's dog is a cat's first-handle, which means that there are two kinds of",
+        "has_eos": false,
+        "speed_tok_s": 116.6,
+        "hits": []
+      }
+    ],
+    "metrics": {
+      "avg_throughput_tok_s": 108.8,
+      "clean_eos_rate_pct": 0.0,
+      "refusal_rate_pct": 0.0
+    }
+  },
+  "M3 (Single-Turn SFT)": {
+    "config": {
+      "name": "Model 3 (Phase 8 SFT)",
+      "short_name": "M3 (Single-Turn SFT)",
+      "step": 4000,
+      "tokens_seen": 305000000,
+      "val_loss": 2.6224,
+      "ppl": 13.77,
+      "bpb": 0.8902,
+      "load_time_sec": 2.64
+    },
+    "generations": [
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "What is the capital of France?",
+        "response": "The capital of France is Paris.",
+        "has_eos": true,
+        "has_refusal": false,
+        "speed_tok_s": 85.2,
+        "keyword_hits": [
+          "paris"
+        ],
+        "hit_rate": 1.0
+      },
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "What is photosynthesis?",
+        "response": "photosynthesis.\n\nPhotosynthesis is the process by which plants and algae convert sunlight into energy.",
+        "has_eos": true,
+        "has_refusal": false,
+        "speed_tok_s": 84.5,
+        "keyword_hits": [
+          "light",
+          "plants",
+          "convert"
+        ],
+        "hit_rate": 0.75
+      },
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "In computer science, what is an algorithm?",
+        "response": "An algorithm is a set of instructions that can be used to solve problems. It is the process by which a programmer uses the data to perform tasks such as solving problems, solving problems, and making decisions.",
+        "has_eos": true,
+        "has_refusal": false,
+        "speed_tok_s": 132.2,
+        "keyword_hits": [
+          "instructions",
+          "solve"
+        ],
+        "hit_rate": 0.4
+      },
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "What is machine learning?",
+        "response": "Machine learning is a type of artificial intelligence that involves the development and testing of algorithms to make predictions or decisions based on data. Machine learning is used in various fields such as healthcare, finance, and medicine, to improve decision-making, decision making, and predictive analytics.",
+        "has_eos": true,
+        "has_refusal": false,
+        "speed_tok_s": 124.4,
+        "keyword_hits": [
+          "data",
+          "learn",
+          "artificial intelligence",
+          "algorithms"
+        ],
+        "hit_rate": 1.0
+      },
+      {
+        "benchmark": "Everyday Assistance",
+        "prompt": "I had a stressful day at work. What are some simple ways to relax this evening?",
+        "response": "There are many simple ways to meditate and relax. Here is a simple way to relax the morning:\n\n1. Take a deep breath and enjoy your relaxation.\n2. Practice mindfulness and calmness.\n3. Take a break from your stomach and get enough rest.\n4. Use a warm bath or a hug of water, such as a bowl, or a balloon.\n5. Take a walk",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 126.4,
+        "keyword_hits": [
+          "bath",
+          "walk",
+          "rest"
+        ],
+        "hit_rate": 0.5
+      },
+      {
+        "benchmark": "Everyday Assistance",
+        "prompt": "I feel unmotivated to study today. Can you give me some quick advice?",
+        "response": "Dear [AI], I am an AI language model and do not have the ability to make or use data. However, I can provide you with a specific question or answer based on your experience.",
+        "has_eos": true,
+        "has_refusal": false,
+        "speed_tok_s": 141.7,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Everyday Assistance",
+        "prompt": "What are three healthy habits for better sleep?",
+        "response": "1. Eating a balanced diet and regular physical activity can help reduce stress and anxiety, depression, and anxiety.\n2. Exercise regularly to maintain good sleep quality and balance, which can improve mood and overall well-being.\n3. Regular exercise can also help improve sleep quality and reduce stress levels.",
+        "has_eos": true,
+        "has_refusal": false,
+        "speed_tok_s": 138.2,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Structured Formatting",
+        "prompt": "List 3 benefits of drinking water daily. Format as a numbered list.",
+        "response": "1. Improved Health: Water is an essential component of the body, and it helps to maintain good health and well-being. It also helps to reduce stress and anxiety, which can help to improve overall health.\n\n2. Improves Health: Water has been shown to be a significant contributor to chronic diseases such as heart disease, diabetes, and certain types of cancer. This can lead to improved cardiovascular health, increased blood",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 133.8,
+        "keyword_hits": [
+          "1.",
+          "2."
+        ],
+        "hit_rate": 0.67
+      },
+      {
+        "benchmark": "Mathematical Reasoning",
+        "prompt": "What is 17 multiplied by 24?",
+        "response": "The result of 17 multiplied is 16.",
+        "has_eos": true,
+        "has_refusal": false,
+        "speed_tok_s": 111.7,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Mathematical Reasoning",
+        "prompt": "A train travels 180 km in 3 hours. What is its average speed?",
+        "response": "The average speed of a train is calculated by multiplying the speed by the distance it takes to travel from one location to another.",
+        "has_eos": true,
+        "has_refusal": false,
+        "speed_tok_s": 140.0,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Code Generation",
+        "prompt": "Write a Python function `is_even(n)` that returns True if n is even and False otherwise.",
+        "response": "Here's an example of a Python function using the `is_ odd()` function `is-even(n):\n\n```python\ndef find(n): \n     return False otherwise\n   return True\n``\n\nThis function takes two inputs as the input and returns the result by the `is- fair()` function. The `is_ fair()` variable",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 138.8,
+        "keyword_hits": [
+          "return"
+        ],
+        "hit_rate": 0.33
+      }
+    ],
+    "multi_turn": [
+      {
+        "id": "mt_laptop",
+        "turn1": "My laptop is overheating when running intensive code.",
+        "turn2": "What component should I check first?",
+        "response": "I'm sorry, but as an AI language model, I don't have access to real-time data. However, I am not able to provide you with more information about the components of your laptop.",
+        "has_eos": true,
+        "speed_tok_s": 134.6,
+        "hits": []
+      },
+      {
+        "id": "mt_pets",
+        "turn1": "Alice has 2 dogs and Bob has 3 cats.",
+        "turn2": "How many total animals do they have altogether?",
+        "response": "There are 2 dogs in the group, so there is only one animal that has alone. They have alone.",
+        "has_eos": true,
+        "speed_tok_s": 129.7,
+        "hits": []
+      }
+    ],
+    "metrics": {
+      "avg_throughput_tok_s": 128.7,
+      "clean_eos_rate_pct": 72.7,
+      "refusal_rate_pct": 0.0
+    }
+  },
+  "M4 Base (Pretrain 500M)": {
+    "config": {
+      "name": "Model 4 Base (500M Pretrain)",
+      "short_name": "M4 Base (Pretrain 500M)",
+      "step": 15000,
+      "tokens_seen": 613000000,
+      "val_loss": 3.481,
+      "ppl": 32.49,
+      "bpb": 1.1813,
+      "load_time_sec": 2.76
+    },
+    "generations": [
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "What is the capital of France?",
+        "response": "the city of Paris, which is the capital of France. The city was founded by the French in 1603 and was named after the French king Louis XIV of France.\nIn 1798, the French government established a new city called Paris. The city's name was changed to the French word \"France\" (freedom), which means \"the city of Paris\". In 1799, the city was named after France.\nThe",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 133.1,
+        "keyword_hits": [
+          "paris"
+        ],
+        "hit_rate": 1.0
+      },
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "What is photosynthesis?",
+        "response": "plants and animals are born.\nThe process of photosynthesis is a process that involves the formation of new plants, animals, plants and plants.\nPhotosynthetic plants are the most common plants in the world. They are also called plant-based plants because they can be grown in different environments.\nPhotonic plants are the main source of energy for plants and animals. They are used to make food, shelter and food.",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 139.8,
+        "keyword_hits": [
+          "plants"
+        ],
+        "hit_rate": 0.25
+      },
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "In computer science, what is an algorithm?",
+        "response": "a method of measuring the amount of data that a computer has. It can be used to measure the amount of information that a computer uses. For example, if a computer is using a computer with a computer, it will have to use the computer’s computer to calculate how much data they need.\nThe algorithm is a type of computer that measures the amount of time a computer has on its computers. The algorithm is used to measure how much data",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 140.6,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "What is machine learning?",
+        "response": "the ability to learn and understand information in a way that is not easily understood by others. It can be used to help students develop their knowledge, skills and abilities.\nMachine Learning is an essential part of any school’s curriculum. It is a valuable tool for students to learn and use in a variety of ways. It helps them to build confidence and self-esteem. It also helps them to develop their own personal and professional skills",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 139.6,
+        "keyword_hits": [
+          "learn"
+        ],
+        "hit_rate": 0.25
+      },
+      {
+        "benchmark": "Everyday Assistance",
+        "prompt": "I had a stressful day at work. What are some simple ways to relax this evening?",
+        "response": "- Avoiding alcohol or drugs\n- Using alcohol as an alternative to smoking\n- Using a sedentary lifestyle\n- Using medications to reduce the risk of heart disease and stroke\n- Taking medications that are prescribed for cancer treatment\n- Using medication to treat cancer\n- Using drugs to reduce the risks of cancer\n- Having a low-risk lifestyle\n- Being overweight or obese\n- Having high blood pressure\n- Having low blood pressure",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 125.0,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Everyday Assistance",
+        "prompt": "I feel unmotivated to study today. Can you give me some quick advice?",
+        "response": "- Have a good understanding of the topic.\n- Know what you are doing and how you can improve your health.\n- Use the information in your studies.\n- Take notes on the topics you have read.\n- Ask questions about your research.\n- Write down your findings.\n- Make sure you understand the topic. If you have not done so, you will be able to answer them.\n- Tell your students that",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 117.9,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Everyday Assistance",
+        "prompt": "What are three healthy habits for better sleep?",
+        "response": "- Sleeping regularly, such as a regular exercise routine, is the best way to keep your body and mind healthy.\n- Get enough sleep each night.\n- Eat plenty of fruits and vegetables.\n- Avoid caffeine and alcohol.\n- Limit alcohol intake.\n- Try to avoid alcohol.\nYou can also get enough sleep every night. You can also get more rest from sleep.\n- Don’t",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 103.9,
+        "keyword_hits": [
+          "caffeine",
+          "routine"
+        ],
+        "hit_rate": 0.4
+      },
+      {
+        "benchmark": "Structured Formatting",
+        "prompt": "List 3 benefits of drinking water daily. Format as a numbered list.",
+        "response": "Reduce your risk of heart disease by drinking water regularly\n2. Reduce the amount of water you drink every day\n3. Reduce stress levels by drinking water in a regular way\n4. Reduce overall health risks by drinking water frequently\n5. Reduce weight and cholesterol by drinking water at least twice a week\n6. Reduce body mass index by drinking water during the day\n7. Reduce energy consumption by drinking water",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 129.5,
+        "keyword_hits": [
+          "2.",
+          "3."
+        ],
+        "hit_rate": 0.67
+      },
+      {
+        "benchmark": "Mathematical Reasoning",
+        "prompt": "What is 17 multiplied by 24?",
+        "response": "the sum of the total number of the numbers in a given number.\nThe total number of a number is equal to that of the number of the number in a given amount.\nThe sum of the sum of all the numbers in an given number is equal.\nThis is equal to 2, which is equal to 3, which is the sum of its total number.\nIt is equal to 4, which is equivalent to 5.\nIt",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 134.3,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Mathematical Reasoning",
+        "prompt": "A train travels 180 km in 3 hours. What is its average speed?",
+        "response": "about 5 mph, but it’s a bit slower than the average speed of a train.\nThe train travels at speeds of 10 mph and is used to travel at speeds of 1 mph. The average speed of an train is about 1 mph and its average speed is around 2 mph.\nThe average speed of the train is about 2 mph and the average speed is approximately 2 mph, so it’s important",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 122.5,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Code Generation",
+        "prompt": "Write a Python function `is_even(n)` that returns True if n is even and False otherwise.",
+        "response": "a value to the value of the value of a value.\nThe value of a function is a function that is used to define a function. It can be defined as a function or a function. For example, if you want to create an object in a function, you will have to use a function. If you want to generate a function, it is called a function.\nIf you want to write a function, the function is called a",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 134.0,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      }
+    ],
+    "multi_turn": [
+      {
+        "id": "mt_laptop",
+        "turn1": "My laptop is overheating when running intensive code.",
+        "turn2": "What component should I check first?",
+        "response": "How do I know if my laptop is on a regular basis?\nWhat are the components of my laptop?\nThe components of my computer are the same as the components of your computer. The components of your laptop are the same. They are the same, but they all have different characteristics. For example, you can see that your laptop has an average speed of 10 mph. If you have a laptop, you can",
+        "has_eos": false,
+        "speed_tok_s": 129.0,
+        "hits": []
+      },
+      {
+        "id": "mt_pets",
+        "turn1": "Alice has 2 dogs and Bob has 3 cats.",
+        "turn2": "How many total animals do they have altogether?",
+        "response": "What is the difference between the two dogs and Bob?\nA cat is a dog that lives in an area where humans live. It's a large animal with a large, small, large, or small size. It can be found anywhere from 1 to 10 years old. It can live up to 20 years.\nThe average adult size is around 4 feet long. It can weigh up to 5 pounds. The average adult size for a cat is",
+        "has_eos": false,
+        "speed_tok_s": 135.3,
+        "hits": [
+          "5"
+        ]
+      }
+    ],
+    "metrics": {
+      "avg_throughput_tok_s": 128.1,
+      "clean_eos_rate_pct": 0.0,
+      "refusal_rate_pct": 0.0
+    }
+  },
+  "M4 (Multi-Turn SFT)": {
+    "config": {
+      "name": "Model 4 Multi-Turn SFT",
+      "short_name": "M4 (Multi-Turn SFT)",
+      "step": 3400,
+      "tokens_seen": 635000000,
+      "val_loss": 2.0161,
+      "ppl": 7.51,
+      "bpb": 0.6844,
+      "load_time_sec": 2.32
+    },
+    "generations": [
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "What is the capital of France?",
+        "response": "The capital of France is Paris.",
+        "has_eos": true,
+        "has_refusal": false,
+        "speed_tok_s": 130.5,
+        "keyword_hits": [
+          "paris"
+        ],
+        "hit_rate": 1.0
+      },
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "What is photosynthesis?",
+        "response": "Photosynthesis is the process by which plants, algae, and some bacteria convert light energy into chemical energy.",
+        "has_eos": true,
+        "has_refusal": false,
+        "speed_tok_s": 136.6,
+        "keyword_hits": [
+          "light",
+          "plants",
+          "chemical energy",
+          "convert"
+        ],
+        "hit_rate": 1.0
+      },
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "In computer science, what is an algorithm?",
+        "response": "An algorithm is a set of rules or algorithms that are used to solve problems or solve problems. It is the process of solving a problem or solving a problem by breaking down the main idea or problem into smaller, more manageable parts.",
+        "has_eos": true,
+        "has_refusal": false,
+        "speed_tok_s": 132.9,
+        "keyword_hits": [
+          "rules",
+          "solve"
+        ],
+        "hit_rate": 0.4
+      },
+      {
+        "benchmark": "Factual Knowledge",
+        "prompt": "What is machine learning?",
+        "response": "Machine learning is a subset of artificial intelligence that focuses on the development of algorithms and machine learning models. It involves using advanced algorithms and techniques to learn from data, make predictions or decisions, and improve their performance over time. Machine learning algorithms are used in various industries such as healthcare, finance, and transportation, and they can be used to develop new tools, systems, and applications for various industries such like healthcare, finance and transportation.",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 145.3,
+        "keyword_hits": [
+          "data",
+          "learn",
+          "artificial intelligence",
+          "algorithms"
+        ],
+        "hit_rate": 1.0
+      },
+      {
+        "benchmark": "Everyday Assistance",
+        "prompt": "I had a stressful day at work. What are some simple ways to relax this evening?",
+        "response": "Here is a simple way to relax the morning:\n\n1. Take a warm bath or shower, and bring your body into a comfortable spot.\n2. Take a walk in the park or a beachside.\n3. Take a deep breath and let it rest for a few minutes before going to bed.\n4. Stay hydrated by drinking plenty of water.\n5. Get enough sleep each night.\n6. Take",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 134.5,
+        "keyword_hits": [
+          "bath",
+          "walk",
+          "sleep",
+          "rest"
+        ],
+        "hit_rate": 0.67
+      },
+      {
+        "benchmark": "Everyday Assistance",
+        "prompt": "I feel unmotivated to study today. Can you give me some quick advice?",
+        "response": "Sure, I can help you with that! Here are some tips for your study routine:\n\n1. **Maintain a balanced diet:** A balanced diet is crucial for overall health and well-being. A balanced diet includes plenty of fruits, vegetables, lean proteins, whole grains, and healthy fats.\n\n2. **Fat a balanced diet rich in fruits and vegetables:** A healthy diet includes plenty for",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 134.7,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Everyday Assistance",
+        "prompt": "What are three healthy habits for better sleep?",
+        "response": "1. Exercise regularly: Regular physical activity is crucial for overall health and well-being, as it helps to improve sleep quality and reduce the risk of chronic diseases such as heart disease, diabetes, and obesity.\n\n2. Get enough sleep: Sleep can be a great source of energy and mental clarity, as it allows you to stay focused and productive throughout the day without feeling overwhelmed.\n\n3. Get enough rest:",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 147.8,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Structured Formatting",
+        "prompt": "List 3 benefits of drinking water daily. Format as a numbered list.",
+        "response": "1. Improved Healthcare: Water is essential for maintaining good health and reducing the risk of chronic diseases such as diabetes, heart disease, and diabetes. It helps to reduce the risk of heart disease by lowering blood pressure and improving circulation.\n\n2. Reduced Health Benefits: Water can help to reduce the amount of waste that ends up in landfills and incinerators, which can lead to a reduction in greenhouse gas",
+        "has_eos": false,
+        "has_refusal": false,
+        "speed_tok_s": 141.2,
+        "keyword_hits": [
+          "1.",
+          "2."
+        ],
+        "hit_rate": 0.67
+      },
+      {
+        "benchmark": "Mathematical Reasoning",
+        "prompt": "What is 17 multiplied by 24?",
+        "response": "The result of dividing the numbers in a number is $\\boxed{17}$.The answer is: 17",
+        "has_eos": true,
+        "has_refusal": false,
+        "speed_tok_s": 146.7,
+        "keyword_hits": [],
+        "hit_rate": 0.0
+      },
+      {
+        "benchmark": "Mathematical Reasoning",
+        "prompt": "A train travels 180 km in 3 hours. What is its average speed?",
+        "response": "If the train travels 180 miles per hour, then the average speed of the train travels 60/3 = 10 miles per hour.\nTo find the average speed, we can use the formula: \n\ndistance = distance x time\ndistance.distance = time\nd distance.distance.\n\nThe average speed of a train travels 180 - 10 = 20 miles per hour (the average speed of an hour).",
+        "has_eos": true,
+        "has_refusal": false,
+        "speed_tok_s": 139.0,
+        "keyword_hits": [
+          "60"
+        ],
+        "hit_rate": 0.5
+      },
+      {
+        "benchmark": "Code Generation",
+        "prompt": "Write a Python function `is_even(n)` that returns True if n is even and False otherwise.",
+        "response": "Here's an example of the Python function `if_even(i)`:\n\n```\ndef = (n-1)^2\n     print(n-1):\n   print()\n   return print(n+1)\n``",
+        "has_eos": true,
+        "has_refusal": false,
+        "speed_tok_s": 138.8,
+        "keyword_hits": [
+          "return"
+        ],
+        "hit_rate": 0.33
+      }
+    ],
+    "multi_turn": [
+      {
+        "id": "mt_laptop",
+        "turn1": "My laptop is overheating when running intensive code.",
+        "turn2": "What component should I check first?",
+        "response": "You should check the battery life to see if there are any issues with the battery life. It's also important to check the battery condition before you go to the correct power source.",
+        "has_eos": true,
+        "speed_tok_s": 137.5,
+        "hits": []
+      },
+      {
+        "id": "mt_pets",
+        "turn1": "Alice has 2 dogs and Bob has 3 cats.",
+        "turn2": "How many total animals do they have altogether?",
+        "response": "There are 24 animals, so there are $8 \\times 24 = \\boxed{24}$ animals in total.The answer is: 24",
+        "has_eos": true,
+        "speed_tok_s": 117.6,
+        "hits": []
+      }
+    ],
+    "metrics": {
+      "avg_throughput_tok_s": 139.6,
+      "clean_eos_rate_pct": 54.5,
+      "refusal_rate_pct": 0.0
+    }
+  }
+}

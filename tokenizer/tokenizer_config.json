@@ -1,0 +1,19 @@
+{
+  "tokenizer_type": "byte-level-bpe",
+  "vocab_size": 16384,
+  "target_vocab_size": 16384,
+  "special_tokens": [
+    "<|pad|>",
+    "<|bos|>",
+    "<|eos|>"
+  ],
+  "special_token_map": {
+    "<|pad|>": 0,
+    "<|bos|>": 1,
+    "<|eos|>": 2
+  },
+  "training_corpus": "D:\\pytorch\\gpt_pretraining\\data\\processed\\train.jsonl",
+  "training_documents": 4500,
+  "training_duration_seconds": 2.11,
+  "created_at": "2026-11-02T13:41:18.118113"
+}

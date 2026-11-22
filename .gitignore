@@ -1,0 +1,30 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+venv/
+.venv/
+
+# Large data and models
+*.pt
+*.bin
+*.parquet
+*.jsonl
+data/raw/
+data/processed/
+data/tokenized/
+data/sft/
+data/sft_multi_turn/
+data/dpo/cache/
+data/dpo/*.jsonl
+checkpoints/
+logs/
+experiments/
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

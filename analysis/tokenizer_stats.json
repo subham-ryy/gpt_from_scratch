@@ -1,0 +1,188 @@
+{
+  "timestamp": "2026-11-02T13:42:35.332645",
+  "tokenizer_file": "D:\\pytorch\\gpt_pretraining\\tokenizer\\tokenizer.json",
+  "vocab_size": 16384,
+  "train_metrics": {
+    "split": "train",
+    "documents": 4500,
+    "total_characters": 21449471,
+    "total_bytes": 21523293,
+    "total_tokens": 5009269,
+    "chars_per_token": 4.282,
+    "bytes_per_token": 4.297,
+    "encode_duration_sec": 0.997,
+    "encode_tokens_per_sec": 5023898.6,
+    "encode_bytes_per_sec": 21586151.9,
+    "decode_tokens_per_sec": 6005933.9
+  },
+  "validation_metrics": {
+    "split": "val",
+    "documents": 500,
+    "total_characters": 2399477,
+    "total_bytes": 2409117,
+    "total_tokens": 565663,
+    "chars_per_token": 4.242,
+    "bytes_per_token": 4.259,
+    "encode_duration_sec": 0.24,
+    "encode_tokens_per_sec": 2358338.3,
+    "encode_bytes_per_sec": 10043988.8,
+    "decode_tokens_per_sec": 5823704.8
+  },
+  "vocabulary_statistics": {
+    "vocab_size": 16384,
+    "token_length_stats": {
+      "min": 0,
+      "max": 19,
+      "mean": 6.08,
+      "median": 6
+    },
+    "rare_tokens": {
+      "singletons_count_1": 47,
+      "tokens_count_lte_5": 212,
+      "tokens_count_lte_10": 424,
+      "unused_tokens_count_0": 143
+    },
+    "top_20_tokens": [
+      {
+        "token_id": 264,
+        "raw_token": "\u0120the",
+        "decoded_representation": "' the'",
+        "count": 193870,
+        "percentage": 3.87
+      },
+      {
+        "token_id": 14,
+        "raw_token": ",",
+        "decoded_representation": "','",
+        "count": 189888,
+        "percentage": 3.791
+      },
+      {
+        "token_id": 16,
+        "raw_token": ".",
+        "decoded_representation": "'.'",
+        "count": 177059,
+        "percentage": 3.535
+      },
+      {
+        "token_id": 281,
+        "raw_token": "\u0120of",
+        "decoded_representation": "' of'",
+        "count": 119802,
+        "percentage": 2.392
+      },
+      {
+        "token_id": 291,
+        "raw_token": "\u0120and",
+        "decoded_representation": "' and'",
+        "count": 98324,
+        "percentage": 1.963
+      },
+      {
+        "token_id": 201,
+        "raw_token": "\u010a",
+        "decoded_representation": "'\\n'",
+        "count": 93947,
+        "percentage": 1.875
+      },
+      {
+        "token_id": 292,
+        "raw_token": "\u0120to",
+        "decoded_representation": "' to'",
+        "count": 86782,
+        "percentage": 1.732
+      },
+      {
+        "token_id": 260,
+        "raw_token": "\u0120a",
+        "decoded_representation": "' a'",
+        "count": 66560,
+        "percentage": 1.329
+      },
+      {
+        "token_id": 285,
+        "raw_token": "\u0120in",
+        "decoded_representation": "' in'",
+        "count": 65519,
+        "percentage": 1.308
+      },
+      {
+        "token_id": 15,
+        "raw_token": "-",
+        "decoded_representation": "'-'",
+        "count": 51721,
+        "percentage": 1.033
+      },
+      {
+        "token_id": 315,
+        "raw_token": "\u0120is",
+        "decoded_representation": "' is'",
+        "count": 40780,
+        "percentage": 0.814
+      },
+      {
+        "token_id": 334,
+        "raw_token": "\u0120that",
+        "decoded_representation": "' that'",
+        "count": 33792,
+        "percentage": 0.675
+      },
+      {
+        "token_id": 329,
+        "raw_token": "\u0120for",
+        "decoded_representation": "' for'",
+        "count": 29561,
+        "percentage": 0.59
+      },
+      {
+        "token_id": 355,
+        "raw_token": "\u0120(",
+        "decoded_representation": "' ('",
+        "count": 24646,
+        "percentage": 0.492
+      },
+      {
+        "token_id": 346,
+        "raw_token": "\u0120as",
+        "decoded_representation": "' as'",
+        "count": 21928,
+        "percentage": 0.438
+      },
+      {
+        "token_id": 358,
+        "raw_token": "\u0120are",
+        "decoded_representation": "' are'",
+        "count": 21554,
+        "percentage": 0.43
+      },
+      {
+        "token_id": 357,
+        "raw_token": "\u0120with",
+        "decoded_representation": "' with'",
+        "count": 21289,
+        "percentage": 0.425
+      },
+      {
+        "token_id": 333,
+        "raw_token": "\u0120on",
+        "decoded_representation": "' on'",
+        "count": 20498,
+        "percentage": 0.409
+      },
+      {
+        "token_id": 311,
+        "raw_token": "\u0120be",
+        "decoded_representation": "' be'",
+        "count": 19354,
+        "percentage": 0.386
+      },
+      {
+        "token_id": 85,
+        "raw_token": "s",
+        "decoded_representation": "'s'",
+        "count": 19171,
+        "percentage": 0.383
+      }
+    ]
+  }
+}

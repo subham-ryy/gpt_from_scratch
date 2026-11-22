@@ -1,0 +1,260 @@
+{
+  "rep_1.15": {
+    "sequential_history": [
+      {
+        "prompt": "what is a planet",
+        "response": "A planet is a gas or gas that is made up of several different types of gases. Some of the most common gases in our solar system are hydrogen and helium.",
+        "speed": 60.7
+      },
+      {
+        "prompt": "i love you",
+        "response": "You're welcome! I hope you find a planet that's not evenly distributed like Earth. It's a great place to live and work, and it's a great location for people to stay connected.",
+        "speed": 140.4
+      },
+      {
+        "prompt": "what is evaporation",
+        "response": "Evaporation is when water vapor cools down into space, creating a liquid that rises into space. This process is called evaporation, where water from oceans, lakes, and rivers turns into vapor.",
+        "speed": 122.8
+      },
+      {
+        "prompt": "what is condensation",
+        "response": "Climate change refers to the release of greenhouse gases into the atmosphere through photosynthesis, which helps mitigate climate change.",
+        "speed": 97.9
+      },
+      {
+        "prompt": "what is the capital of india",
+        "response": "The capital of indiania is Paris, a city renowned for its rich history and culture.",
+        "speed": 81.8
+      },
+      {
+        "prompt": "what is the capital of britain",
+        "response": "Britain is also known as the capital of cuisine, with a population of about 3,000,000 people.",
+        "speed": 74.9
+      },
+      {
+        "prompt": "what is the capital of germany",
+        "response": "It's a large city, with a large population of about 4,500,000 people living in the United States each year.",
+        "speed": 66.7
+      },
+      {
+        "prompt": "what is an algorithm",
+        "response": "An algorithm is a set of algorithms that can be used to make predictions on a given topic.",
+        "speed": 56.5
+      }
+    ],
+    "fresh_single_turn": [
+      {
+        "prompt": "what is a planet",
+        "response": "A planet is a planet that has an atmosphere and is known for its orbit around the sun.",
+        "speed": 171.0
+      },
+      {
+        "prompt": "i love you",
+        "response": "I am a student. I have a strong understanding of the subject matter and how it can be used to make informed decisions about future events.",
+        "speed": 172.3
+      },
+      {
+        "prompt": "what is evaporation",
+        "response": "Evaporation is the process of condensation in water. It is a process where water vapor cools and condenses into tiny droplets, forming clouds. This process is known as evaporation.",
+        "speed": 173.8
+      },
+      {
+        "prompt": "what is condensation",
+        "response": "Digestion is the process of condensation. It occurs when two or more particles are added to a solution, forming a condensation reaction.",
+        "speed": 174.4
+      },
+      {
+        "prompt": "what is the capital of india",
+        "response": "The capital of indias is Paris.",
+        "speed": 164.4
+      },
+      {
+        "prompt": "what is the capital of britain",
+        "response": "The capital of b Britain is Paris.",
+        "speed": 166.2
+      },
+      {
+        "prompt": "what is the capital of germany",
+        "response": "The capital of germania is Kosovo.",
+        "speed": 168.5
+      },
+      {
+        "prompt": "what is an algorithm",
+        "response": "An algorithm is a set of rules or algorithms that are used to solve problems. It is a set or set of rules that are used in a system, and it can be used to solve a problem. The goal of an algorithm is to find the best possible solution to a problem, and to make sure it meets all the specified requirements.",
+        "speed": 168.8
+      }
+    ]
+  },
+  "rep_1.0": {
+    "sequential_history": [
+      {
+        "prompt": "what is a planet",
+        "response": "A planet is a planet that is not directly connected to the sun. It is a planet with a mass of approximately 2.5 billion years old.",
+        "speed": 159.7
+      },
+      {
+        "prompt": "i love you",
+        "response": "You're welcome. I hope you have a great time.",
+        "speed": 149.0
+      },
+      {
+        "prompt": "what is evaporation",
+        "response": "Evaporation is the process of condensation, where water vapor cools and condenses into clouds.",
+        "speed": 146.7
+      },
+      {
+        "prompt": "what is condensation",
+        "response": "evaporation is a process where water vapor condenses into tiny droplets, forming clouds. This process is called condensation.",
+        "speed": 121.4
+      },
+      {
+        "prompt": "what is the capital of india",
+        "response": "The capital of indias is Paris.",
+        "speed": 89.5
+      },
+      {
+        "prompt": "what is the capital of britain",
+        "response": "It's a city known for its historical landmarks and cultural significance.",
+        "speed": 93.4
+      },
+      {
+        "prompt": "what is the capital of germany",
+        "response": "The capital is britain, located in the northern part of the country, and is known for its cultural landmarks and historical landmarks.",
+        "speed": 78.6
+      },
+      {
+        "prompt": "what is an algorithm",
+        "response": "An algorithm is a set of rules to make predictions, which are based on the inputs of the algorithm.",
+        "speed": 65.4
+      }
+    ],
+    "fresh_single_turn": [
+      {
+        "prompt": "what is a planet",
+        "response": "A planet is a planet that is orbiting the sun. It is a gas giant and has a mass of approximately 1.8 times the mass of Earth.",
+        "speed": 174.6
+      },
+      {
+        "prompt": "i love you",
+        "response": "i can do that.",
+        "speed": 139.1
+      },
+      {
+        "prompt": "what is evaporation",
+        "response": "Evaporation is the process by which plants, algae, and some bacteria convert sunlight into chemical energy. The process is a fundamental process in which plants, bacteria, and some other organisms convert sunlight into energy.",
+        "speed": 169.9
+      },
+      {
+        "prompt": "what is condensation",
+        "response": "condensation.\n\nDesertion is a condensation that occurs when the body is not properly condensed.",
+        "speed": 147.3
+      },
+      {
+        "prompt": "what is the capital of india",
+        "response": "The capital of indias is Paris.",
+        "speed": 165.4
+      },
+      {
+        "prompt": "what is the capital of britain",
+        "response": "The capital of b Britain is Paris.",
+        "speed": 167.5
+      },
+      {
+        "prompt": "what is the capital of germany",
+        "response": "The capital of germanelles is the city of germany.",
+        "speed": 175.2
+      },
+      {
+        "prompt": "what is an algorithm",
+        "response": "An algorithm is a set of rules or rules that can be used to solve a problem or solve a problem. It is a set or set of rules that can help a computer learn and improve its performance. An algorithm is a series of rules that are used to solve problems and solve problems.",
+        "speed": 158.0
+      }
+    ]
+  },
+  "rep_0.8": {
+    "sequential_history": [
+      {
+        "prompt": "what is a planet",
+        "response": "A planet is a planet that is not a planet. It is a planet.",
+        "speed": 176.2
+      },
+      {
+        "prompt": "i love you",
+        "response": "i can't help you. It's a planet. Just like a planet is a gas.",
+        "speed": 160.1
+      },
+      {
+        "prompt": "what is evaporation",
+        "response": "evaporation is a planet's temperature. It's like a gas. It's the temperature at the surface.",
+        "speed": 144.6
+      },
+      {
+        "prompt": "what is condensation",
+        "response": "Evaporation is the temperature at a temperature that is around 6.5 degrees Celsius.",
+        "speed": 121.5
+      },
+      {
+        "prompt": "what is the capital of india",
+        "response": "The capital of indias is the capital.",
+        "speed": 94.1
+      },
+      {
+        "prompt": "what is the capital of britain",
+        "response": "It's the capital of a britain.",
+        "speed": 90.6
+      },
+      {
+        "prompt": "what is the capital of germany",
+        "response": "The capital is britain, a city in the United States.",
+        "speed": 77.2
+      },
+      {
+        "prompt": "what is an algorithm",
+        "response": "An algorithm is a step-by-step algorithm that can be used in a wide range of applications, from automation, to automation, and to automation.",
+        "speed": 74.1
+      }
+    ],
+    "fresh_single_turn": [
+      {
+        "prompt": "what is a planet",
+        "response": "A planet is a planet that is a planet. It is a planet with a mass of approximately 2.5 billion years. It is the largest planet in the solar system. It is also the largest planet on the planet.",
+        "speed": 176.3
+      },
+      {
+        "prompt": "i love you",
+        "response": "i can help you with that.",
+        "speed": 154.1
+      },
+      {
+        "prompt": "what is evaporation",
+        "response": "evaporation is the process of evaporation. It is the process by which plants, algae, and some bacteria convert light energy into chemical energy.\n\nThe process of evaporation is the process in which plants, bacteria, and some other organisms convert light energy, into chemical energy, which is then used to convert the energy of the light energy into energy.\nThe process is the process where plants, algae and some bacteria, convert light energy to chemical energy. This process is called evaporation, and the process is called condensation.\n\nIn the process of condensation, plants and other organisms convert the light energy to energy. This energy is then used by plants to convert the light into chemical energy in the form of chemical energy.",
+        "speed": 148.8
+      },
+      {
+        "prompt": "what is condensation",
+        "response": "condensation.\n\n condensate.\n\nD condensation is a condensation that is a condensed form of condensation . condensation occurs when a condensate is condensed.",
+        "speed": 166.2
+      },
+      {
+        "prompt": "what is the capital of india",
+        "response": "india is the capital city of india.",
+        "speed": 163.0
+      },
+      {
+        "prompt": "what is the capital of britain",
+        "response": "The capital of bricain is Paris.",
+        "speed": 172.8
+      },
+      {
+        "prompt": "what is the capital of germany",
+        "response": "The capital of german is the capital.\n\nThe capital is the capital, also known as the capital of the german.\n\nIt is known for landmarks such as the Eiffel Tower, the Eiffels Tower, and the Eiffles Tower.",
+        "speed": 172.1
+      },
+      {
+        "prompt": "what is an algorithm",
+        "response": "An algorithm is an algorithm that is designed to solve a problem or solve a problem that is difficult or difficult to solve. It is a type of algorithm that is used to solve a specific problem or solve an problem. It is used to develop a problem or to solve a particular problem.\n\nAn algorithm, or a set of rules, is a type that is used for a specific problem to solve a certain problem. It involves a set of instructions, rules, or rules that are used to solve the problem. It can be used to solve an problem or to develop a new problem.\nAn algorithm can be used for a wide range of problem-solving, including problem-solve, problem-solver, problem-focus, problem-shape, problem-based, problem-proof, problem-and-solve. It is an algorithm used to solve problems, solve problems, or solve problems.\n\nIn a set of problems, an algorithm is a set of steps that are used for a problem to solve. The rules are used to develop the problem, to solve the problems, to solve problems. The rules can be used in a range of problems, to develop a solution, to solve a solution, or to develop an algorithm",
+        "speed": 119.6
+      }
+    ]
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "dataset_name": "HuggingFaceFW/fineweb-edu",
+  "dataset_config": "sample-10BT",
+  "total_documents": 5000,
+  "empty_or_anomalous": 0,
+  "total_characters": 23848948,
+  "total_words": 3860595,
+  "char_length": {
+    "min": 264,
+    "max": 124276,
+    "mean": 4769.79,
+    "median": 2756,
+    "std": 7402.68
+  },
+  "word_length": {
+    "min": 45,
+    "max": 19686,
+    "mean": 772.12,
+    "median": 448
+  },
+  "educational_score": {
+    "mean": 3.02,
+    "int_score_distribution": {
+      "3": 4319,
+      "4": 679,
+      "5": 2
+    }
+  },
+  "language_distribution": {
+    "en": 5000
+  },
+  "common_crawl_dumps": {
+    "CC-MAIN-2013-20": 5000
+  },
+  "character_stats": {
+    "unique_chars_sampled": 441,
+    "ascii_percentage": 99.81,
+    "top_10_chars": [
+      {
+        "char": "' '",
+        "count": 759992
+      },
+      {
+        "char": "'e'",
+        "count": 462702
+      },
+      {
+        "char": "'t'",
+        "count": 329204
+      },
+      {
+        "char": "'a'",
+        "count": 309729
+      },
+      {
+        "char": "'o'",
+        "count": 286926
+      },
+      {
+        "char": "'i'",
+        "count": 281810
+      },
+      {
+        "char": "'n'",
+        "count": 273647
+      },
+      {
+        "char": "'s'",
+        "count": 253530
+      },
+      {
+        "char": "'r'",
+        "count": 246406
+      },
+      {
+        "char": "'h'",
+        "count": 166226
+      }
+    ]
+  },
+  "samples": [
+    {
+      "id": "<urn:uuid:0d8a309d-25c5-405d-a08a-c11239f0d717>",
+      "url": "http://austenauthors.net/the-independent-jane",
+      "score": 2.75,
+      "chars": 3665,
+      "words": 633,
+      "preview": "The Independent Jane\nFor all the love, romance and scandal in Jane Austen’s books, what they are really about is freedom and independence. Independence of thought and the freedom to choose.\nElizabeth’s refusal of Mr. Collins offer of marriage showed an independence seldom seen in heroines of the day..."
+    },
+    {
+      "id": "<urn:uuid:316c7af5-14e1-4d0b-9576-753e17ef2cc5>",
+      "url": "http://query.nytimes.com/gst/fullpage.html?res=9404E7DA1339F934A25751C0A96E9C8B63&scp=2&sq=taking%20play%20seriously&st=cse",
+      "score": 2.5625,
+      "chars": 5255,
+      "words": 860,
+      "preview": "Taking Play Seriously\nBy ROBIN MARANTZ HENIG\nPublished: February 17, 2008\nOn a drizzly Tuesday night in late January, 200 people came out to hear a psychiatrist talk rhapsodically about play -- not just the intense, joyous play of children, but play for all people, at all ages, at all times. (All sp..."
+    },
+    {
+      "id": "<urn:uuid:a3e140cd-7f25-48c9-a2f0-a7d0b1954e0d>",
+      "url": "http://www.childline.org.uk/Explore/SexRelationships/Pages/HIVAIDS.aspx",
+      "score": 3.125,
+      "chars": 628,
+      "words": 111,
+      "preview": "How do you get HIV?\nHIV can be passed on when infected bodily fluid, such as blood or semen, is passed into an uninfected person. Semen is the liquid which is released from a man's penis during sex which carries sperm. It can be infected with HIV or AIDS when someone is HIV positive or is carrying t..."
+    }
+  ]
+}

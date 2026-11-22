@@ -1,0 +1,192 @@
+{
+  "timestamp": "2026-11-06 14:14:20",
+  "models": {
+    "Model 1 (Phase 6 Base)": {
+      "path": "D:\\pytorch\\gpt_pretraining\\experiments\\20261104_211024_gpt_pretrain\\checkpoints\\best.pt",
+      "step": 1200,
+      "val_loss": 5.2793,
+      "ppl": 196.23,
+      "bpb": 1.7915,
+      "type": "pretrain_base"
+    },
+    "Model 2 (Track A Pretrained)": {
+      "path": "D:\\pytorch\\gpt_pretraining\\experiments\\20261106_032904_gpt_continued_pretrain\\checkpoints\\best.pt",
+      "step": 9000,
+      "val_loss": 3.7055,
+      "ppl": 40.67,
+      "bpb": 1.2574,
+      "type": "continued_pretrain"
+    },
+    "Model 3 (Phase 8 SFT Assistant)": {
+      "path": "D:\\pytorch\\gpt_pretraining\\experiments\\20261106_115736_gpt_sft\\checkpoints\\best.pt",
+      "step": 4000,
+      "val_loss": 2.6224,
+      "ppl": 13.77,
+      "bpb": 0.8902,
+      "type": "sft_assistant"
+    }
+  },
+  "prompts": [
+    {
+      "id": "france",
+      "category": "Factual Geography",
+      "raw_prompt": "The capital of France is",
+      "qa_prompt": "What is the capital of France?",
+      "completions": {
+        "Model 1 (Phase 6 Base)": {
+          "prompt_used": "The capital of France is",
+          "text": "The capital of France is a new state of the country. The city of the country's government has been the country in the country, but it is not only one of the government to be the country. It is the most important for the nation's government and its owns.\nThe government has become an internationally-based government, which is not only the government to have the government.\nIn the United States, the United States has been a long-term government",
+          "speed": 113.2
+        },
+        "Model 2 (Track A Pretrained)": {
+          "prompt_used": "The capital of France is",
+          "text": "The capital of France is the capital of France. The capital is the capital city of France, which was founded in 1879 and is the capital capital of France, with the capital of the French Empire.\nIn the second half of the 20th century, the capital of Paris was the capital of Italy. In 1848, the capital was the capital city, with the city of the capital of Spain. In 1855, the city of France was the capital capital city",
+          "speed": 157.1
+        },
+        "Model 3 (Phase 8 SFT Assistant)": {
+          "prompt_used": "What is the capital of France?",
+          "text": "The capital of France is Paris.",
+          "speed": 129.5
+        }
+      }
+    },
+    {
+      "id": "photosynthesis",
+      "category": "Science / Biology",
+      "raw_prompt": "Photosynthesis is the process by which",
+      "qa_prompt": "What is photosynthesis?",
+      "completions": {
+        "Model 1 (Phase 6 Base)": {
+          "prompt_used": "Photosynthesis is the process by which",
+          "text": "Photosynthesis is the process by which it is not possible to be able to be used as a specific function.\nThe first step is an important to be used to be used in order to be used for the same type of the application. The result is to be used and therefore, but it can be used to use the system.\nThe following:\n- The value of the data is used for the application of the application, or the data.\n- The number of the",
+          "speed": 163.4
+        },
+        "Model 2 (Track A Pretrained)": {
+          "prompt_used": "Photosynthesis is the process by which",
+          "text": "Photosynthesis is the process by which the cells are able to produce a variety of chemical reactions, such as oxidation.\nThe process involves the formation of an enzyme called a catalyst (CaP) that is used in the production of the enzyme and is used to create a stable compound called CaP. The catalyst is then applied to the enzyme, where it is used for the production of enzymes.\nThe catalyst is also used in the manufacturing of enzymes,",
+          "speed": 167.9
+        },
+        "Model 3 (Phase 8 SFT Assistant)": {
+          "prompt_used": "What is photosynthesis?",
+          "text": "Photosynthesis is the process by which plants and algae convert sunlight into energy.",
+          "speed": 169.8
+        }
+      }
+    },
+    {
+      "id": "algorithm",
+      "category": "Computer Science",
+      "raw_prompt": "In computer science, an algorithm is defined as",
+      "qa_prompt": "In computer science, what is an algorithm?",
+      "completions": {
+        "Model 1 (Phase 6 Base)": {
+          "prompt_used": "In computer science, an algorithm is defined as",
+          "text": "In computer science, an algorithm is defined as the new technology. The technology is to create a new technology that's technology is the technology can be used in a computer, and it can be able to use a technology for the technology.\nThe technology has been designed to provide a computer-based technology to develop a computer and technology, which is the technology to be used to make a way of technology, and other technology, and the technology, and it will be done in the technology. It",
+          "speed": 169.2
+        },
+        "Model 2 (Track A Pretrained)": {
+          "prompt_used": "In computer science, an algorithm is defined as",
+          "text": "In computer science, an algorithm is defined as a set of parameters that are used to determine the accuracy of the data. The data is then processed in the same way as the data, and the data is processed in the form of the data, which is then processed into the form of a set of variables.\nThe data is processed by the data. It is processed in a form of the following functions:\n- The data is processed with the data;\n- The output is processed in",
+          "speed": 170.6
+        },
+        "Model 3 (Phase 8 SFT Assistant)": {
+          "prompt_used": "In computer science, what is an algorithm?",
+          "text": "An algorithm is a set of instructions that are used to solve problems or solve problems. It is the process of solving problems and making predictions. In this case, it is the first step in solving problems or solving problems.",
+          "speed": 161.2
+        }
+      }
+    },
+    {
+      "id": "machine_learning",
+      "category": "Artificial Intelligence",
+      "raw_prompt": "Machine learning is a field of",
+      "qa_prompt": "What is machine learning?",
+      "completions": {
+        "Model 1 (Phase 6 Base)": {
+          "prompt_used": "Machine learning is a field of",
+          "text": "Machine learning is a field of the environment. The design of the environment, and the environment, which are not only a way to be able to use the environment.\nThe process of the environment is to be used in the environment, but it is not a good for the development of the environment and the environment. It is a better way that you can see what you need to find out how to do.\nWhat does this? What is the most important?\nThe best",
+          "speed": 183.6
+        },
+        "Model 2 (Track A Pretrained)": {
+          "prompt_used": "Machine learning is a field of",
+          "text": "Machine learning is a field of study. It is a very important part of the study process and it is a great way to get students involved in the study process.\nThe course is based on the results of the course. The course will be conducted with a number of questions, including the student\u2019s questionnaires, the teacher\u2019s question, and the teacher\u2019ll have the opportunity to answer questions that are not relevant. The course is designed for the purpose of the",
+          "speed": 180.8
+        },
+        "Model 3 (Phase 8 SFT Assistant)": {
+          "prompt_used": "What is machine learning?",
+          "text": "Machine learning is a type of artificial intelligence that involves the development and implementation of algorithms to improve the performance of human systems. Machine learning algorithms are used in various applications, including computer vision, speech recognition, and language translation, among others.",
+          "speed": 171.9
+        }
+      }
+    },
+    {
+      "id": "brain",
+      "category": "Neuroscience",
+      "raw_prompt": "The human brain consists of",
+      "qa_prompt": "What are the main functions of the human brain?",
+      "completions": {
+        "Model 1 (Phase 6 Base)": {
+          "prompt_used": "The human brain consists of",
+          "text": "The human brain consists of the body. The first group of the brain, is a new study of the study of the researchers at the University of Medicine and the University of the University of Sciences and the University in the University of Health Center for the University of California.\nIn this study, the research has been found that the study was published in the University in 2007.\nThe study shows that the researchers are being able to be able to learn about the brain cells.",
+          "speed": 171.3
+        },
+        "Model 2 (Track A Pretrained)": {
+          "prompt_used": "The human brain consists of",
+          "text": "The human brain consists of two parts: the brain and the brain. The brain is composed of three parts: the cortex, the brain and brain.\n- The brain is made up of four parts: the hippocampus, the brain, the brain (the brain), and the brain (brain). The brain is also composed of three components: the brain, which are the brain cells, and the brain; the brain is composed mainly of two parts.\n- A",
+          "speed": 173.6
+        },
+        "Model 3 (Phase 8 SFT Assistant)": {
+          "prompt_used": "What are the main functions of the human brain?",
+          "text": "cortical.\n\nThe central nervous system is the central nervous system, which consists of a large number of neurons that are connected to each other through the body. The central nervous system includes the brain and the brain.",
+          "speed": 181.6
+        }
+      }
+    },
+    {
+      "id": "habits",
+      "category": "Instruction Following",
+      "raw_prompt": "Three healthy habits for better sleep are",
+      "qa_prompt": "List three healthy habits for better sleep.",
+      "completions": {
+        "Model 1 (Phase 6 Base)": {
+          "prompt_used": "Three healthy habits for better sleep are",
+          "text": "Three healthy habits for better sleep are not only if they are more likely to be a child's doctor.\nThe study is the most common in the study of the first study that the study found that the study was found at the study of children with the study. The study suggests that women who were diagnosed with the researchers said.\n\"It's not just how much more likely to do so that they're going to be able to get the same time,\" says, \"We have",
+          "speed": 167.4
+        },
+        "Model 2 (Track A Pretrained)": {
+          "prompt_used": "Three healthy habits for better sleep are",
+          "text": "Three healthy habits for better sleep are all good choices.\n- Stress can help you feel more comfortable and less comfortable with your body.\n- Keep your mind safe while you're not in the right place.\n- Don't be afraid to drink or drink.\n- Avoid smoking.\n- Be aware of any changes in your diet, including exercise, exercise, and other activities.\n- Make sure that you have a healthy lifestyle and are well prepared for your health.",
+          "speed": 165.3
+        },
+        "Model 3 (Phase 8 SFT Assistant)": {
+          "prompt_used": "List three healthy habits for better sleep.",
+          "text": "1. Eating a balanced and nutritious diet: Regular exercise is essential to maintain good health, including regular physical activity, maintaining a healthy weight, and improving overall health.\n\n2. Exercise regularly: Exercise helps to reduce stress and anxiety, improve mood, and increase the risk of chronic diseases such as heart disease, diabetes, and type 2 diabetes.\n\n3. Get enough sleep: Exercise can help you stay",
+          "speed": 166.3
+        }
+      }
+    },
+    {
+      "id": "story",
+      "category": "Narrative Prose",
+      "raw_prompt": "Once upon a time",
+      "qa_prompt": "Tell me a short story starting with: Once upon a time",
+      "completions": {
+        "Model 1 (Phase 6 Base)": {
+          "prompt_used": "Once upon a time",
+          "text": "Once upon a time of the state. The government was not only to be a new government in the law, but it was the law of the government's rights.\nThe government is that the government has been the government's government's government and its government's rights in the government. In fact, the government has the government has had a government's rights of the government. It was a government's government, which is a government's first-term policy, but also",
+          "speed": 174.9
+        },
+        "Model 2 (Track A Pretrained)": {
+          "prompt_used": "Once upon a time",
+          "text": "Once upon a time when the sun was not in the middle of the night, it was not until the end of the day.\nThe sun was not only a matter of time but a few days after the sun was over. It was not until a few months later that the sun was still in the middle. The sun was not a matter of light and a little more than a hundred years before the sun was in the middle, so it was not a good idea",
+          "speed": 175.1
+        },
+        "Model 3 (Phase 8 SFT Assistant)": {
+          "prompt_used": "Tell me a short story starting with: Once upon a time",
+          "text": "Once upon a time, in a small village nestled in the heart of a mountain range, there lived a young girl named Sarah. She had always been a kind and lover who had never seen her way back from her family. Her parents were often called out to her and her parents were not as kind as she was.\n\nOne day, Sarah was on the edge of a mountain, where she decided to go for a walk",
+          "speed": 146.6
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "timestamp": "2026-11-06 10:05:14",
+  "models": {
+    "gpt_v1": {
+      "checkpoint": "D:\\pytorch\\gpt_pretraining\\experiments\\20261104_211024_gpt_pretrain\\checkpoints\\best.pt",
+      "step": 1200,
+      "val_loss": 5.2793,
+      "perplexity": 196.23,
+      "bpb": 1.7915
+    },
+    "track_a": {
+      "checkpoint": "D:\\pytorch\\gpt_pretraining\\experiments\\20261106_032904_gpt_continued_pretrain\\checkpoints\\best.pt",
+      "step": 9000,
+      "val_loss": 3.7055,
+      "perplexity": 40.67,
+      "bpb": 1.2574,
+      "val_loss_improvement": 1.5738,
+      "perplexity_reduction_factor": 4.82,
+      "bpb_improvement": 0.5341
+    }
+  },
+  "default_decoding_controls": {
+    "temperature": 0.8,
+    "top_p": 0.9,
+    "top_k": null,
+    "min_p": 0.05,
+    "repetition_penalty": 1.15,
+    "no_repeat_ngram_size": 3
+  },
+  "generation_comparison": [
+    {
+      "prompt": "The capital of France is",
+      "gpt_v1": {
+        "text": "The capital of France is an important part of the Roman Empire.\nThe Ottoman Empire, the Soviet Union, the Middle Ages and the French, but was a central name for the French Republic. It was known as the late 1755 and its most of the East. The king of the border was in the empire.\nAs the South Vietnam, it was called the name",
+        "speed_tok_s": 40.8
+      },
+      "track_a": {
+        "text": "The capital of France is the capital of Paris, and in 1872 it was the largest city in the world.\nThe capital is a capital of the Netherlands and the capital, with the capital being the capital capital of Italy. The capital is known as the City of the French Empire (1886\u20131912), and is one of the most populous cities in the",
+        "speed_tok_s": 118.9
+      }
+    },
+    {
+      "prompt": "Photosynthesis is the process by which",
+      "gpt_v1": {
+        "text": "Photosynthesis is the process by which it has a set of a problem.\nThe process was created from a piece of the concept that can be used to be used in the same time, but there are several years.\nIn order to find a model that can include the data that, the analysis is not just been used in a system.\nWhen a solution, it is required",
+        "speed_tok_s": 121.0
+      },
+      "track_a": {
+        "text": "Photosynthesis is the process by which an organic substance can be formed in a liquid form. This process is known as \"silicon\" or \"sicroblasts\".\nThe chemical process is based on the amount of chemical material required to produce energy. The process is called \"saltification.\" The chemical process uses a specific type of chemical reaction. This chemical process involves",
+        "speed_tok_s": 119.8
+      }
+    },
+    {
+      "prompt": "In computer science, an algorithm is defined as",
+      "gpt_v1": {
+        "text": "In computer science, an algorithm is defined as \"in\" of the best-based computer that is to be the technology, but also the same and other than it's a program. This has been able to read the technology.\nThe user will be done in the program for the data that the device will help you take the time:\nIf you've been done by the screen, you",
+        "speed_tok_s": 118.5
+      },
+      "track_a": {
+        "text": "In computer science, an algorithm is defined as a machine that can perform a machine with the same physical properties.\nThe software program is the only user who can perform an experiment with the data, and it can execute the algorithm by doing so. This can be done at any time of day or night, even in the future. It can be performed on any other day.\nThis is not",
+        "speed_tok_s": 88.1
+      }
+    },
+    {
+      "prompt": "Machine learning is a field of",
+      "gpt_v1": {
+        "text": "Machine learning is a field of an essential resource for the best-based and other students.\nIn addition, a list of this book in a student with a program to make it for students' teachers with the Internet-making skills:\nThe study provides a child's own skills, and students will learn more about what they are able to identify their children. This makes students in",
+        "speed_tok_s": 127.3
+      },
+      "track_a": {
+        "text": "Machine learning is a field of study, and it\u2019s not only the same thing to be said about, but also the way we are able to focus on our understanding of what\u2019s happening.\nWhen we talk about what\u2019d like in the classroom, they\u2019re still trying to learn how to handle these problems. But if you\u2019re looking for some basic information",
+        "speed_tok_s": 173.7
+      }
+    },
+    {
+      "prompt": "The human brain consists of",
+      "gpt_v1": {
+        "text": "The human brain consists of the brain and the body. The study was also published in the American Institute, by the University of Science.\nThe study of a gene called the disease in the first protein that may be identified as well as a drug-like medicine or genes that have been found in the brain. It is a few people who are already known for their own eye",
+        "speed_tok_s": 151.5
+      },
+      "track_a": {
+        "text": "The human brain consists of three components:\n- The brain is the most powerful and the most important component.\n- Brain functions are the key to a person\u2019s brain functioning.\nHow does the brain work?\nThe brain uses its own brains to act as well, but it is not just the main source of information about how we can make things that we need",
+        "speed_tok_s": 133.6
+      }
+    },
+    {
+      "prompt": "Once upon a time",
+      "gpt_v1": {
+        "text": "Once upon a time and a more than 100 years.\nThe second time was that the most popular, as the same year's largest state had been replaced by the United States. It is the number of its main regions in the country of the United Kingdom of the state, the country is known as well-making between the world. The state has been called an Indian",
+        "speed_tok_s": 110.4
+      },
+      "track_a": {
+        "text": "Once upon a time when the New York Times had been so daunted to tell.\nThe New York Post was sent in honor of the American Revolutionary Army, which would be read on the grounds that they could not find themselves in any other country or any other nation or country. The New York News Service, which is now called \"New York\" in its",
+        "speed_tok_s": 134.9
+      }
+    }
+  ],
+  "sampling_ablation": [
+    {
+      "config_name": "Config 1 (T=0.8, p=0.90, k=None)",
+      "samples": [
+        {
+          "prompt": "In computer science, an algorithm is defined as",
+          "text": "In computer science, an algorithm is defined as a function of the user.\nThe term \u201cscience\u201d has been used to describe how people view information in a way that they are viewed as being \u201ca common language.\u201d The term \u201cScience\u201d is defined by the name of a person who is considered a person of different age or ethnicity, but this does not mean that there are",
+          "speed": 127.6
+        },
+        {
+          "prompt": "The human brain consists of",
+          "text": "The human brain consists of a system of cells that are responsible for the development of these cells. The human brain is responsible for making connections between different parts of the brain and its functioning, while maintaining function as well.\nSensory, Issue 2, Brain, Neuroscience, Neurobiology, Neurology, Neurological Disorders, Neuromuscular disorders,",
+          "speed": 140.4
+        }
+      ]
+    },
+    {
+      "config_name": "Config 2 (T=0.8, p=0.95, k=None)",
+      "samples": [
+        {
+          "prompt": "In computer science, an algorithm is defined as",
+          "text": "In computer science, an algorithm is defined as a function of the user.\nThe term \u201cmodel\u201d has been used to describe how it works and how it can be applied to the computer.\nA common problem with machine learning is that there are many different methods for learning a computer. For example, you might need to learn about the concepts from different systems in different languages and learn how",
+          "speed": 159.2
+        },
+        {
+          "prompt": "The human brain consists of",
+          "text": "The human brain consists of a system of cells that are responsible for the development of these cells. They include the nucleus, the nucleus and the nucleus. The nucleus is also responsible for other functions such as memory, coordination, control, or even the ability to function properly.\nIn this article we will explore the role of the human brain in the process of regulating and controlling the",
+          "speed": 143.7
+        }
+      ]
+    },
+    {
+      "config_name": "Config 3 (T=0.8, p=0.95, k=50)",
+      "samples": [
+        {
+          "prompt": "In computer science, an algorithm is defined as",
+          "text": "In computer science, an algorithm is defined as a function of the user.\nThe term \u201cmodel\u201d has been used to describe how it works and how it can be applied to the computer.\nA common problem with machine learning is that there are many different methods for learning a computer. For example, you might need to learn about the concepts from different systems in different languages and learn how",
+          "speed": 115.0
+        },
+        {
+          "prompt": "The human brain consists of",
+          "text": "The human brain consists of a system of cells that are responsible for the development of these cells. They include the nucleus, the nucleus and the nucleus. The nucleus is also responsible for other functions such as memory, coordination, control, or even the ability to function properly.\nIn this article we will explore the role of the human brain in the process of regulating and controlling the",
+          "speed": 119.6
+        }
+      ]
+    }
+  ]
+}

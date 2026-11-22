@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FineWeb-Edu Byte-Level BPE Tokenizer Report</title>
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 24px; line-height: 1.6; }
+    .container { max-width: 1040px; margin: 0 auto; background: #ffffff; padding: 36px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    h1 { color: #0f172a; margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; }
+    h2 { color: #1e3a8a; margin-top: 30px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin: 20px 0; }
+    .card { background: #f1f5f9; padding: 14px 18px; border-radius: 8px; border-left: 4px solid #2563eb; }
+    .card h3 { margin: 0 0 4px 0; font-size: 11px; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px; }
+    .card p { margin: 0; font-size: 22px; font-weight: 700; color: #0f172a; }
+    table { width: 100%; border-collapse: collapse; margin: 18px 0; }
+    th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+    th { background: #f8fafc; color: #475569; font-weight: 600; }
+    .plot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 18px; margin: 20px 0; }
+    .plot-card img { width: 100%; border-radius: 8px; border: 1px solid #e2e8f0; }
+    .badge { display: inline-block; background: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 4px; font-weight: 600; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Byte-Level BPE Tokenizer Research Report</h1>
+    <p>Trained strictly on FineWeb-Edu training documents with <span class="badge">16,384 Vocabulary</span> and <span class="badge">Hugging Face Tokenizers</span>.</p>
+
+    <div class="grid">
+        <div class="card"><h3>Vocabulary Size</h3><p>16,384</p></div>
+        <div class="card"><h3>Training Documents</h3><p>4,500</p></div>
+        <div class="card"><h3>Training Tokens</h3><p>5,009,269</p></div>
+        <div class="card"><h3>Train Compression</h3><p>4.28 chars/tok</p></div>
+        <div class="card"><h3>Val Compression</h3><p>4.24 chars/tok</p></div>
+        <div class="card"><h3>Encode Throughput</h3><p>5,023,899 tok/s</p></div>
+    </div>
+
+    <h2>Corpus Compression & Throughput Performance</h2>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Training Split (4,500 docs)</th>
+            <th>Validation Split (500 docs, Held-out)</th>
+        </tr>
+        <tr><td>Total Characters</td><td>21,449,471</td><td>2,399,477</td></tr>
+        <tr><td>Total UTF-8 Bytes</td><td>21,523,293</td><td>2,409,117</td></tr>
+        <tr><td>Total Tokens</td><td>5,009,269</td><td>565,663</td></tr>
+        <tr><td><strong>Characters per Token</strong></td><td><strong>4.282</strong></td><td><strong>4.242</strong></td></tr>
+        <tr><td><strong>Bytes per Token</strong></td><td><strong>4.297</strong></td><td><strong>4.259</strong></td></tr>
+        <tr><td>Encoding Throughput</td><td>5,023,899 tokens/s (20.6 MB/s)</td><td>2,358,338 tokens/s</td></tr>
+        <tr><td>Decoding Throughput</td><td>6,005,934 tokens/s</td><td>-</td></tr>
+    </table>
+
+    <h2>Token Distribution & Zipfian Characteristics</h2>
+    <div class="plot-grid">
+        <div class="plot-card"><img src="plots/tokenizer_token_freq_histogram.png" alt="tokenizer_token_freq_histogram"></div><div class="plot-card"><img src="plots/tokenizer_rank_freq_plot.png" alt="tokenizer_rank_freq_plot"></div><div class="plot-card"><img src="plots/tokenizer_token_length_dist.png" alt="tokenizer_token_length_dist"></div><div class="plot-card"><img src="plots/tokenizer_compression_stats.png" alt="tokenizer_compression_stats"></div>
+    </div>
+
+    <h2>Vocabulary Frequency & Rare Tokens</h2>
+    <table>
+        <tr><th>Category</th><th>Count</th><th>Notes</th></tr>
+        <tr><td>Singletons (occurred once)</td><td>47</td><td>Rare words/stems</td></tr>
+        <tr><td>Tokens with count &le; 5</td><td>212</td><td>Low-frequency merges</td></tr>
+        <tr><td>Tokens with count &le; 10</td><td>424</td><td>Infrequent tokens</td></tr>
+        <tr><td>Unused tokens (count = 0)</td><td>143</td><td>Reserved special tokens (<|pad|>, <|bos|>, <|eos|>)</td></tr>
+        <tr><td>Average Token Length</td><td>6.08 chars</td><td>Median: 6 chars (Range: 0 - 19 chars)</td></tr>
+    </table>
+
+    <h2>Top 20 Most Frequent Tokens</h2>
+    <table>
+        <tr><th>Token ID</th><th>Raw Representation</th><th>Decoded</th><th>Corpus Frequency</th><th>% of Total Tokens</th></tr>
+        <tr><td><code>264</code></td><td><code>Ġthe</code></td><td>' the'</td><td>193,870</td><td>3.87%</td></tr><tr><td><code>14</code></td><td><code>,</code></td><td>','</td><td>189,888</td><td>3.791%</td></tr><tr><td><code>16</code></td><td><code>.</code></td><td>'.'</td><td>177,059</td><td>3.535%</td></tr><tr><td><code>281</code></td><td><code>Ġof</code></td><td>' of'</td><td>119,802</td><td>2.392%</td></tr><tr><td><code>291</code></td><td><code>Ġand</code></td><td>' and'</td><td>98,324</td><td>1.963%</td></tr><tr><td><code>201</code></td><td><code>Ċ</code></td><td>'\n'</td><td>93,947</td><td>1.875%</td></tr><tr><td><code>292</code></td><td><code>Ġto</code></td><td>' to'</td><td>86,782</td><td>1.732%</td></tr><tr><td><code>260</code></td><td><code>Ġa</code></td><td>' a'</td><td>66,560</td><td>1.329%</td></tr><tr><td><code>285</code></td><td><code>Ġin</code></td><td>' in'</td><td>65,519</td><td>1.308%</td></tr><tr><td><code>15</code></td><td><code>-</code></td><td>'-'</td><td>51,721</td><td>1.033%</td></tr><tr><td><code>315</code></td><td><code>Ġis</code></td><td>' is'</td><td>40,780</td><td>0.814%</td></tr><tr><td><code>334</code></td><td><code>Ġthat</code></td><td>' that'</td><td>33,792</td><td>0.675%</td></tr><tr><td><code>329</code></td><td><code>Ġfor</code></td><td>' for'</td><td>29,561</td><td>0.59%</td></tr><tr><td><code>355</code></td><td><code>Ġ(</code></td><td>' ('</td><td>24,646</td><td>0.492%</td></tr><tr><td><code>346</code></td><td><code>Ġas</code></td><td>' as'</td><td>21,928</td><td>0.438%</td></tr><tr><td><code>358</code></td><td><code>Ġare</code></td><td>' are'</td><td>21,554</td><td>0.43%</td></tr><tr><td><code>357</code></td><td><code>Ġwith</code></td><td>' with'</td><td>21,289</td><td>0.425%</td></tr><tr><td><code>333</code></td><td><code>Ġon</code></td><td>' on'</td><td>20,498</td><td>0.409%</td></tr><tr><td><code>311</code></td><td><code>Ġbe</code></td><td>' be'</td><td>19,354</td><td>0.386%</td></tr><tr><td><code>85</code></td><td><code>s</code></td><td>'s'</td><td>19,171</td><td>0.383%</td></tr>
+    </table>
+</div>
+</body>
+</html>

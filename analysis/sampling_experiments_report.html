@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT Pretraining: Sampling Experiments & Evaluation</title>
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-bg: #EFF6FF;
+            --text-main: #1F2937;
+            --text-muted: #6B7280;
+            --card-bg: #FFFFFF;
+            --bg: #F9FAFB;
+            --border: #E5E7EB;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 30px 20px;
+            line-height: 1.6;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header {
+            background: linear-gradient(135deg, #1E3A8A, #2563EB);
+            color: white;
+            padding: 28px 36px;
+            border-radius: 12px;
+            margin-bottom: 28px;
+        }
+        .header h1 { margin: 0 0 8px 0; font-size: 26px; }
+        .header p { margin: 0; opacity: 0.9; font-size: 14px; }
+        .prompt-section { margin-bottom: 40px; }
+        .prompt-section h2 { font-size: 20px; margin-bottom: 16px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+        .category-tag { font-size: 13px; font-weight: normal; background: #E0E7FF; color: #3730A3; padding: 3px 8px; border-radius: 4px; margin-left: 10px; }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 16px;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .cfg-badge { font-weight: 700; color: #1E3A8A; font-size: 14px; }
+        .stats-badge { font-size: 12px; background: #F3F4F6; padding: 2px 6px; border-radius: 4px; color: var(--text-muted); }
+        .params { margin-bottom: 8px; }
+        .params code { background: #F3F4F6; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-right: 4px; }
+        .hypothesis { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
+        .output-box {
+            background: #FAFAFA;
+            border: 1px solid #E5E7EB;
+            border-left: 4px solid var(--primary);
+            padding: 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>GPT Pretraining: Sampling Experiments & Analysis</h1>
+        <p>Testing Temperature, Top-K, and Nucleus Top-P Variations on Pretrained GPT (98.4M Parameters)</p>
+    </div>
+
+    
+        <div class="prompt-section">
+            <h2>Prompt: &ldquo;The law of gravity states that&rdquo; <span class="category-tag">Science / Physics</span></h2>
+            <div class="cards-grid">
+                
+            <div class="card">
+                <div class="card-header">
+                    <span class="cfg-badge">Baseline Balanced</span>
+                    <span class="stats-badge">56.7 tok/s &middot; Div: 0.5</span>
+                </div>
+                <div class="params">
+                    <code>temp=0.8</code>
+                    <code>top_k=50</code>
+                    <code>top_p=0.95</code>
+                </div>
+                <div class="hypothesis"><em>Hypothesis:</em> Balanced fluency with moderate diversity; standard LLM default.</div>
+                <div class="output-box">
+                    <strong>The law of gravity states that</strong> could be more than 100 years later than the same time was that the possibility of us.
+The two other than half of people have been the possibility that those who had been the very large and more than the same period of the same year.
+The first time, the average rate of the amount of the average rate, and the rate was in place.
+In fact, one period of the total number of the year. The rate was the
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="cfg-badge">Low Temperature (Exploitative)</span>
+                    <span class="stats-badge">94.5 tok/s &middot; Div: 0.089</span>
+                </div>
+                <div class="params">
+                    <code>temp=0.2</code>
+                    <code>top_k=50</code>
+                    <code>top_p=0.95</code>
+                </div>
+                <div class="hypothesis"><em>Hypothesis:</em> Near-deterministic; highly focused but susceptible to repetitive loops.</div>
+                <div class="output-box">
+                    <strong>The law of gravity states that</strong> the law of the law of the law of the law of the law.
+The law of the law of the law of the law of the law, the law, the law of the law, and the law of the law of the law, the law, the law of the law, and the law of the law, the law, and the law, the law, and the law, and the law, and the law, and the
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="cfg-badge">High Temperature (High Entropy)</span>
+                    <span class="stats-badge">100.3 tok/s &middot; Div: 0.678</span>
+                </div>
+                <div class="params">
+                    <code>temp=1.3</code>
+                    <code>top_k=50</code>
+                    <code>top_p=0.95</code>
+                </div>
+                <div class="hypothesis"><em>Hypothesis:</em> Increased lexical variety; risk of grammatical degradation or hallucinations.</div>
+                <div class="output-box">
+                    <strong>The law of gravity states that</strong> for a more powerful force on the right by the same body that of a mass by the atmosphere can go down than half a day in the same body for those point. That the rate of times, not as a certain impact of light of light at the same time. The average rate will gain between two feet in all, such things are in their days are known, or to one period of the total number. In one-to-dimensional level
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="cfg-badge">Strict Top-K (K=5)</span>
+                    <span class="stats-badge">110.9 tok/s &middot; Div: 0.289</span>
+                </div>
+                <div class="params">
+                    <code>temp=0.8</code>
+                    <code>top_k=5</code>
+                    <code>top_p=1.0</code>
+                </div>
+                <div class="hypothesis"><em>Hypothesis:</em> Severe tail pruning; safe conservative vocabulary choices without rare tokens.</div>
+                <div class="output-box">
+                    <strong>The law of gravity states that</strong> it has a sign of a state of the same time to be the state's own.
+The state's state, the state of the state, which has the law is the state of the state. The state is the state of the law that the state is the law of the state's state of the state's state.
+The state of its state of the country is one of the state. It is the state. It is the state
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="cfg-badge">Pure Nucleus (P=0.90)</span>
+                    <span class="stats-badge">126.8 tok/s &middot; Div: 0.533</span>
+                </div>
+                <div class="params">
+                    <code>temp=0.8</code>
+                    <code>top_k=None</code>
+                    <code>top_p=0.9</code>
+                </div>
+                <div class="hypothesis"><em>Hypothesis:</em> Dynamic candidate pool adapting to prediction confidence distribution.</div>
+                <div class="output-box">
+                    <strong>The law of gravity states that</strong> could be more than 100 years later than the planet's body of the universe, by the atmosphere of the Earth, and indeed, but the Curiosity, for those point.
+The area of the Mars will appear to be supposed to the planet.
+The satellite will be known in the universe that the mission will be all the Earth's surface of Earth, but it will take to move the image of the Earth.
+The South Carolina's previous level
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="cfg-badge">Strict Nucleus (P=0.50)</span>
+                    <span class="stats-badge">111.4 tok/s &middot; Div: 0.433</span>
+                </div>
+                <div class="params">
+                    <code>temp=0.8</code>
+                    <code>top_k=None</code>
+                    <code>top_p=0.5</code>
+                </div>
+                <div class="hypothesis"><em>Hypothesis:</em> Only top 50% cumulative mass considered; suppresses all speculative continuations.</div>
+                <div class="output-box">
+                    <strong>The law of gravity states that</strong> the law, the government's only one of the country's law.
+The government has the right to be a state's plan for the government's office. The government is the court's government's goal of the government's court. The government has the government's efforts to take the court's office's security.
+The Constitution has not an immediate political officials who has been given the government.
+The law has a separate court, but the government
+                </div>
+            </div>
+            
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <h2>Prompt: &ldquo;In computer science, an algorithm is&rdquo; <span class="category-tag">Computer Science</span></h2>
+            <div class="cards-grid">
+                
+            <div class="card">
+                <div class="card-header">
+                    <span class="cfg-badge">Baseline Balanced</span>
+                    <span class="stats-badge">117.8 tok/s &middot; Div: 0.511</span>
+                </div>
+                <div class="params">
+                    <code>temp=0.8</code>
+                    <code>top_k=50</code>
+                    <code>top_p=0.95</code>
+                </div>
+                <div class="hypothesis"><em>Hypothesis:</em> Balanced fluency with moderate diversity; standard LLM default.</div>
+                <div class="output-box">
+                    <strong>In computer science, an algorithm is</strong> for a study of the best-day computer that is to be at a better-mail the same time.
+The study of the program is to be able to read the technology.
+In the fact, the study, the test of data will be used for the new brain-term problems, including the device, which will be used in their data.
+In fact, one year, the research is a new and to look at the best
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="cfg-badge">Low Temperature (Exploitative)</span>
+                    <span class="stats-badge">111.6 tok/s &middot; Div: 0.211</span>
+                </div>
+                <div class="params">
+                    <code>temp=0.2</code>
+                    <code>top_k=50</code>
+                    <code>top_p=0.95</code>
+                </div>
+                <div class="hypothesis"><em>Hypothesis:</em> Near-deterministic; highly focused but susceptible to repetitive loops.</div>
+                <div class="output-box">
+                    <strong>In computer science, an algorithm is</strong> an important for the same way.
+The new technology is the first step of the best way to be able to be able to be able to be able to be able to be able to be able to be able to be able to be able to be able to be able to be able to be able to be able to be able to be able to be able to be able to be able to be able to be able to be able to be
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="cfg-badge">High Temperature (High Entropy)</span>
+                    <span class="stats-badge">99.4 tok/s &middot; Div: 0.678</span>
+                </div>
+                <div class="params">
+                    <code>temp=1.3</code>
+                    <code>top_k=50</code>
+                    <code>top_p=0.95</code>
+                </div>
+                <div class="hypothesis"><em>Hypothesis:</em> Increased lexical variety; risk of grammatical degradation or hallucinations.</div>
+                <div class="output-box">
+                    <strong>In computer science, an algorithm is</strong> for a study of mathematics (I) by Science Center to the researchers.
+The research group can help be provided, "strial to make any data," D.RU.D and scientists were found in a major group of the data that included the analysis. The study of information was published by the scientists from a student of researchers' in its science of the scientists to develop and to the research projects. In both findings at the National Park
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="cfg-badge">Strict Top-K (K=5)</span>
+                    <span class="stats-badge">116.4 tok/s &middot; Div: 0.311</span>
+                </div>
+                <div class="params">
+                    <code>temp=0.8</code>
+                    <code>top_k=5</code>
+                    <code>top_p=1.0</code>
+                </div>
+                <div class="hypothesis"><em>Hypothesis:</em> Severe tail pruning; safe conservative vocabulary choices without rare tokens.</div>
+                <div class="output-box">
+                    <strong>In computer science, an algorithm is</strong> an object that the same is the same as an object is the same. This is the same way that this is not an object of the same, and it is the object.
+The term is not a sign of the same thing, but the object is the object is in the same way, but the sign of a sign of it is not a sign of the object, which the same is the Interpretant. In the same way, the other
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="cfg-badge">Pure Nucleus (P=0.90)</span>
+                    <span class="stats-badge">117.6 tok/s &middot; Div: 0.678</span>
+                </div>
+                <div class="params">
+                    <code>temp=0.8</code>
+                    <code>top_k=None</code>
+                    <code>top_p=0.9</code>
+                </div>
+                <div class="hypothesis"><em>Hypothesis:</em> Dynamic candidate pool adapting to prediction confidence distribution.</div>
+                <div class="output-box">
+                    <strong>In computer science, an algorithm is</strong> for a study of good computer-day computer that is to tell.
+The NAMD can help your test, "stamewart" for those applications.
+The area of the PHFT servers from the basics of the data will be used for the other types of information.
+The second sequence of a device will cause an eye from one of the following times to be used for your Microsoft. You can also look at the level
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="cfg-badge">Strict Nucleus (P=0.50)</span>
+                    <span class="stats-badge">138.4 tok/s &middot; Div: 0.411</span>
+                </div>
+                <div class="params">
+                    <code>temp=0.8</code>
+                    <code>top_k=None</code>
+                    <code>top_p=0.5</code>
+                </div>
+                <div class="hypothesis"><em>Hypothesis:</em> Only top 50% cumulative mass considered; suppresses all speculative continuations.</div>
+                <div class="output-box">
+                    <strong>In computer science, an algorithm is</strong> an object that the same is in the most important thing.
+In a way, the concept of the other ways of the user is the same, the user is the fact that it is that the fact that the other function of the software is the most important for the object.
+The first thing is the device is a solution for the same. The following steps, the same idea of the program is the same way to do the same thing,
+                </div>
+            </div>
+            
+            </div>
+        </div>
+        
+</div>
+</body>
+</html>

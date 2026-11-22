@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FineWeb-Edu Dataset Exploration Report</title>
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #1e293b; background: #f8fafc; margin: 0; padding: 24px; }
+    .container { max-width: 960px; margin: 0 auto; background: #ffffff; padding: 32px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    h1 { color: #0f172a; margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; }
+    h2 { color: #1e3a8a; margin-top: 28px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 20px 0; }
+    .card { background: #f1f5f9; padding: 16px; border-radius: 8px; border-left: 4px solid #2563eb; }
+    .card h3 { margin: 0 0 4px 0; font-size: 13px; text-transform: uppercase; color: #64748b; }
+    .card p { margin: 0; font-size: 24px; font-weight: bold; color: #0f172a; }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid #e2e8f0; }
+    th { background: #f8fafc; color: #475569; }
+    .plot-img { width: 100%; max-width: 800px; border-radius: 8px; border: 1px solid #e2e8f0; margin: 12px 0; }
+    .sample-box { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px; margin-bottom: 12px; }
+    .preview { background: #ffffff; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0; font-size: 13px; white-space: pre-wrap; word-break: break-word; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>FineWeb-Edu Dataset Exploration Report</h1>
+    <p><strong>Dataset:</strong> <code>HuggingFaceFW/fineweb-edu</code> (config: <code>sample-10BT</code>)</p>
+
+    <div class="grid">
+        <div class="card"><h3>Total Documents</h3><p>5,000</p></div>
+        <div class="card"><h3>Total Characters</h3><p>23,848,948</p></div>
+        <div class="card"><h3>Total Words</h3><p>3,860,595</p></div>
+        <div class="card"><h3>Mean Doc Length</h3><p>4770 chars</p></div>
+        <div class="card"><h3>Median Doc Length</h3><p>2,756 chars</p></div>
+        <div class="card"><h3>Mean Edu Score</h3><p>3.02 / 5.0</p></div>
+    </div>
+
+    <h2>Document Length Statistics</h2>
+    <table>
+        <tr><th>Metric</th><th>Characters</th><th>Words</th></tr>
+        <tr><td>Minimum</td><td>264</td><td>45</td></tr>
+        <tr><td>Mean</td><td>4,769.79</td><td>772.12</td></tr>
+        <tr><td>Median</td><td>2,756</td><td>448</td></tr>
+        <tr><td>Maximum</td><td>124,276</td><td>19,686</td></tr>
+        <tr><td>Standard Deviation</td><td>7,402.68</td><td>-</td></tr>
+    </table>
+
+    <img class="plot-img" src="plots/doc_length_histogram.png" alt="Document Length Distribution">
+
+    <h2>Educational Quality Score Distribution</h2>
+    <p>Educational scores generated via classification models on FineWeb documents:</p>
+    <table>
+        <tr><th>Integer Score (Bucket)</th><th>Document Count</th></tr>
+        <tr><td>Score 3</td><td>4,319</td></tr><tr><td>Score 4</td><td>679</td></tr><tr><td>Score 5</td><td>2</td></tr>
+    </table>
+
+    <img class="plot-img" src="plots/educational_score_distribution.png" alt="Educational Score Distribution">
+
+    <h2>Character & Vocabulary Characteristics</h2>
+    <p>Sampled ASCII character representation: <strong>99.81%</strong> (clean, standard English educational content).</p>
+
+    <h2>Document Samples</h2>
+    <div class="sample-box">
+            <p><strong>ID:</strong> <code><urn:uuid:0d8a309d-25c5-405d-a08a-c11239f0d717></code> | <strong>Score:</strong> 2.75 | <strong>Length:</strong> 3,665 chars (633 words)</p>
+            <p><strong>URL:</strong> <a href="http://austenauthors.net/the-independent-jane" target="_blank">http://austenauthors.net/the-independent-jane</a></p>
+            <pre class="preview">The Independent Jane
+For all the love, romance and scandal in Jane Austen’s books, what they are really about is freedom and independence. Independence of thought and the freedom to choose.
+Elizabeth’s refusal of Mr. Collins offer of marriage showed an independence seldom seen in heroines of the day...</pre>
+        </div><div class="sample-box">
+            <p><strong>ID:</strong> <code><urn:uuid:316c7af5-14e1-4d0b-9576-753e17ef2cc5></code> | <strong>Score:</strong> 2.5625 | <strong>Length:</strong> 5,255 chars (860 words)</p>
+            <p><strong>URL:</strong> <a href="http://query.nytimes.com/gst/fullpage.html?res=9404E7DA1339F934A25751C0A96E9C8B63&scp=2&sq=taking%20play%20seriously&st=cse" target="_blank">http://query.nytimes.com/gst/fullpage.html?res=9404E7DA1339F934A25751C0A96E9C8B63&scp=2&sq=taking%20play%20seriously&st=cse</a></p>
+            <pre class="preview">Taking Play Seriously
+By ROBIN MARANTZ HENIG
+Published: February 17, 2008
+On a drizzly Tuesday night in late January, 200 people came out to hear a psychiatrist talk rhapsodically about play -- not just the intense, joyous play of children, but play for all people, at all ages, at all times. (All sp...</pre>
+        </div><div class="sample-box">
+            <p><strong>ID:</strong> <code><urn:uuid:a3e140cd-7f25-48c9-a2f0-a7d0b1954e0d></code> | <strong>Score:</strong> 3.125 | <strong>Length:</strong> 628 chars (111 words)</p>
+            <p><strong>URL:</strong> <a href="http://www.childline.org.uk/Explore/SexRelationships/Pages/HIVAIDS.aspx" target="_blank">http://www.childline.org.uk/Explore/SexRelationships/Pages/HIVAIDS.aspx</a></p>
+            <pre class="preview">How do you get HIV?
+HIV can be passed on when infected bodily fluid, such as blood or semen, is passed into an uninfected person. Semen is the liquid which is released from a man's penis during sex which carries sperm. It can be infected with HIV or AIDS when someone is HIV positive or is carrying t...</pre>
+        </div>
+</div>
+</body>
+</html>

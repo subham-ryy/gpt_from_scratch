@@ -1,0 +1,210 @@
+{
+  "hardware": {
+    "device": "cuda",
+    "gpu_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "total_vram_gb": 6.0,
+    "bf16_supported": true
+  },
+  "model_architecture": {
+    "parameters": 98425344,
+    "layers": 12,
+    "heads": 12,
+    "embedding_dim": 768,
+    "context_length": 1024,
+    "vocab_size": 16384
+  },
+  "records": [
+    {
+      "precision": "FP32",
+      "mode": "Inference (Fwd)",
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens": 1024,
+      "latency_ms": 41.19,
+      "throughput_tok_sec": 24861.9,
+      "allocated_mb": 501.85,
+      "reserved_mb": 578.0,
+      "status": "PASS"
+    },
+    {
+      "precision": "FP32",
+      "mode": "Inference (Fwd)",
+      "batch_size": 2,
+      "seq_len": 1024,
+      "tokens": 2048,
+      "latency_ms": 78.54,
+      "throughput_tok_sec": 26076.5,
+      "allocated_mb": 568.87,
+      "reserved_mb": 686.0,
+      "status": "PASS"
+    },
+    {
+      "precision": "FP32",
+      "mode": "Inference (Fwd)",
+      "batch_size": 4,
+      "seq_len": 1024,
+      "tokens": 4096,
+      "latency_ms": 159.39,
+      "throughput_tok_sec": 25697.6,
+      "allocated_mb": 702.9,
+      "reserved_mb": 902.0,
+      "status": "PASS"
+    },
+    {
+      "precision": "FP32",
+      "mode": "Inference (Fwd)",
+      "batch_size": 8,
+      "seq_len": 1024,
+      "tokens": 8192,
+      "latency_ms": 318.01,
+      "throughput_tok_sec": 25760.4,
+      "allocated_mb": 970.96,
+      "reserved_mb": 1334.0,
+      "status": "PASS"
+    },
+    {
+      "precision": "FP32",
+      "mode": "Training (Fwd+Bwd)",
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens": 1024,
+      "latency_ms": 133.27,
+      "throughput_tok_sec": 7683.9,
+      "allocated_mb": 1303.5,
+      "reserved_mb": 1346.0,
+      "status": "PASS"
+    },
+    {
+      "precision": "FP32",
+      "mode": "Training (Fwd+Bwd)",
+      "batch_size": 2,
+      "seq_len": 1024,
+      "tokens": 2048,
+      "latency_ms": 260.7,
+      "throughput_tok_sec": 7855.7,
+      "allocated_mb": 2170.14,
+      "reserved_mb": 2190.0,
+      "status": "PASS"
+    },
+    {
+      "precision": "FP32",
+      "mode": "Training (Fwd+Bwd)",
+      "batch_size": 4,
+      "seq_len": 1024,
+      "tokens": 4096,
+      "latency_ms": 520.31,
+      "throughput_tok_sec": 7872.3,
+      "allocated_mb": 3877.07,
+      "reserved_mb": 4190.0,
+      "status": "PASS"
+    },
+    {
+      "precision": "FP32",
+      "mode": "Training (Fwd+Bwd)",
+      "batch_size": 8,
+      "seq_len": 1024,
+      "tokens": 8192,
+      "latency_ms": 2759.76,
+      "throughput_tok_sec": 2968.4,
+      "allocated_mb": 7303.16,
+      "reserved_mb": 7544.0,
+      "status": "PASS"
+    },
+    {
+      "precision": "AMP-BF16",
+      "mode": "Inference (Fwd)",
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens": 1024,
+      "latency_ms": 15.14,
+      "throughput_tok_sec": 67652.6,
+      "allocated_mb": 1339.69,
+      "reserved_mb": 1846.0,
+      "status": "PASS"
+    },
+    {
+      "precision": "AMP-BF16",
+      "mode": "Inference (Fwd)",
+      "batch_size": 2,
+      "seq_len": 1024,
+      "tokens": 2048,
+      "latency_ms": 26.79,
+      "throughput_tok_sec": 76445.4,
+      "allocated_mb": 1096.49,
+      "reserved_mb": 1334.0,
+      "status": "PASS"
+    },
+    {
+      "precision": "AMP-BF16",
+      "mode": "Inference (Fwd)",
+      "batch_size": 4,
+      "seq_len": 1024,
+      "tokens": 4096,
+      "latency_ms": 51.13,
+      "throughput_tok_sec": 80104.3,
+      "allocated_mb": 1170.77,
+      "reserved_mb": 1334.0,
+      "status": "PASS"
+    },
+    {
+      "precision": "AMP-BF16",
+      "mode": "Inference (Fwd)",
+      "batch_size": 8,
+      "seq_len": 1024,
+      "tokens": 8192,
+      "latency_ms": 104.51,
+      "throughput_tok_sec": 78385.9,
+      "allocated_mb": 1316.83,
+      "reserved_mb": 1590.0,
+      "status": "PASS"
+    },
+    {
+      "precision": "AMP-BF16",
+      "mode": "Training (Fwd+Bwd)",
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens": 1024,
+      "latency_ms": 53.2,
+      "throughput_tok_sec": 19249.6,
+      "allocated_mb": 1178.5,
+      "reserved_mb": 1610.0,
+      "status": "PASS"
+    },
+    {
+      "precision": "AMP-BF16",
+      "mode": "Training (Fwd+Bwd)",
+      "batch_size": 2,
+      "seq_len": 1024,
+      "tokens": 2048,
+      "latency_ms": 97.83,
+      "throughput_tok_sec": 20934.1,
+      "allocated_mb": 1721.02,
+      "reserved_mb": 1742.0,
+      "status": "PASS"
+    },
+    {
+      "precision": "AMP-BF16",
+      "mode": "Training (Fwd+Bwd)",
+      "batch_size": 4,
+      "seq_len": 1024,
+      "tokens": 4096,
+      "latency_ms": 193.62,
+      "throughput_tok_sec": 21154.8,
+      "allocated_mb": 2802.19,
+      "reserved_mb": 2888.0,
+      "status": "PASS"
+    },
+    {
+      "precision": "AMP-BF16",
+      "mode": "Training (Fwd+Bwd)",
+      "batch_size": 8,
+      "seq_len": 1024,
+      "tokens": 8192,
+      "latency_ms": 390.14,
+      "throughput_tok_sec": 20997.5,
+      "allocated_mb": 4959.66,
+      "reserved_mb": 5074.0,
+      "status": "PASS"
+    }
+  ]
+}
